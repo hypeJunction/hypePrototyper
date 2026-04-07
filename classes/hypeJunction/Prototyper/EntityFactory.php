@@ -76,7 +76,7 @@ class EntityFactory
         if (!$entity instanceof \ElggEntity) {
             return array();
         }
-        $default = array('guid', 'type', 'subtype', 'owner_guid', 'container_guid', 'site_guid', 'access_id', 'time_created', 'time_updated', 'last_action', 'enabled');
+        $default = array('guid', 'type', 'subtype', 'owner_guid', 'container_guid', 'access_id', 'time_created', 'time_updated', 'last_action', 'enabled');
         switch ($entity->getType()) {
             case 'user':
                 $attributes = array('name', 'username', 'email', 'language', 'banned', 'admin', 'password', 'salt');
