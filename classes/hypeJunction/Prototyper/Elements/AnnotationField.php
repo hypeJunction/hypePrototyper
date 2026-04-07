@@ -130,7 +130,7 @@ class AnnotationField extends Field {
 			$name = $future_annotations['name'][$i];
 			$value = $future_annotations['value'][$i];
 			if ($this->getValueType() == 'tags') {
-				$value = string_to_tag_array($value);
+				$value = elgg_string_to_array($value);
 			}
 			$access_id = $future_annotations['access_id'][$i];
 			$owner_guid = $future_annotations['owner_guid'][$i];

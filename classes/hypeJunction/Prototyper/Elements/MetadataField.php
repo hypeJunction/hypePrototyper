@@ -140,7 +140,7 @@ class MetadataField extends Field {
 			$value_type = $this->getValueType();
 			$input_type = $this->getType();
 			if ($value_type == 'tags' || (!$value_type && $input_type == 'tags')) {
-				$value = string_to_tag_array($value);
+				$value = elgg_string_to_array($value);
 			}
 			$access_id = $future_metadata['access_id'][$i];
 			$owner_guid = $future_metadata['owner_guid'][$i];
