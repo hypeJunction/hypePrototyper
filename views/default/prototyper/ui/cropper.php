@@ -10,12 +10,7 @@ if (empty($icon_sizes)) {
 
 elgg_load_css('jquery.cropper');
 
-if (\hypeJunction\Integration::isElggVersionBelow('1.9.0')) {
-	elgg_load_js('jquery.cropper');
-	elgg_load_js('prototyper_cropper');
-} else {
-	elgg_require_js('framework/prototyper_cropper');
-}
+elgg_require_js('framework/prototyper_cropper');
 
 $ratios = array();
 foreach ($icon_sizes as $icon_size) {
