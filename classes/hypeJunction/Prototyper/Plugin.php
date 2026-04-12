@@ -69,7 +69,7 @@ final class Plugin extends \hypeJunction\Plugin {
 	 */
 	public static function factory() {
 		if (null === self::$instance) {
-			$plugin = elgg_get_plugin_from_id('hypePrototyper');
+			$plugin = elgg_get_plugin_from_id('hypeprototyper');
 			self::$instance = new self($plugin);
 		}
 		return self::$instance;
