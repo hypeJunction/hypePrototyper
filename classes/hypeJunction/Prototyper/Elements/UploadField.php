@@ -4,6 +4,7 @@ namespace hypeJunction\Prototyper\Elements;
 
 use ElggEntity;
 use ElggFile;
+use Elgg\Filesystem\MimeTypeDetector;
 class UploadField extends Field
 {
     const CLASSNAME = __CLASS__;
@@ -30,7 +31,7 @@ class UploadField extends Field
                 $validation->setFail(elgg_echo('prototyper:validate:error:required', array($this->getLabel())));
             }
         } else {
-            $error = hypeApps()->uploader->getFriendlyUploadError($error_type);
+            $error = elgg_get_friendly_upload_error($error_type);
             if ($error) {
                 $validation->setFail($error);
             } else {
@@ -61,7 +62,37 @@ class UploadField extends Field
         if ($previous_upload instanceof ElggFile) {
             $previous_upload->delete();
         }
-        $result = hypeApps()->uploader->handle($shortname, array('container_guid' => $entity->guid, 'origin' => 'prototyper', 'prototyper_field' => $shortname, 'access_id' => $entity->access_id));
+        $uploaded_files = elgg()->uploads->getFiles($shortname);
+        $result = [];
+        foreach ($uploaded_files as $uploaded_file) {
+            if (!$uploaded_file->isValid()) {
+                continue;
+            }
+
+            $file = new ElggFile();
+            $file->container_guid = $entity->guid;
+            $file->access_id = $entity->access_id;
+            $file->origin = 'prototyper';
+            $file->prototyper_field = $shortname;
+            $file->title = $uploaded_file->getClientOriginalName();
+            $file->originalfilename = $uploaded_file->getClientOriginalName();
+            $file->open('write');
+            $file->close();
+            $file->acceptUploadedFile($uploaded_file);
+
+            $mime = (new MimeTypeDetector())->getType($file->getFilenameOnFilestore(), $uploaded_file->getClientMimeType());
+            $file->setMimeType($mime);
+            $file->simpletype = elgg_get_file_simple_type($mime);
+
+            if ($file->save()) {
+                $result[] = $file;
+            }
+        }
+
+        if (empty($result)) {
+            return $entity;
+        }
+
         /* @var $result ElggFile[] */
         $future_value = $result[0];
         $params = array('field' => $this, 'entity' => $entity, 'upload_name' => $shortname, 'value' => $future_value);
