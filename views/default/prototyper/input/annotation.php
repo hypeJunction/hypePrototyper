@@ -95,7 +95,7 @@ foreach ($annotations as $ann) {
 		$access_id = $show_access;
 		$access_type = 'hidden';
 	} else {
-		$access_id = ($ann->access_id) ? $ann->access_id : ($entity->guid) ? $entity->access_id : get_default_access();
+		$access_id = ($ann->access_id) ? $ann->access_id : (($entity->guid) ? $entity->access_id : get_default_access());
 		if ($show_access === true && $type !== 'hidden') {
 			$access_type = 'access';
 		} else {

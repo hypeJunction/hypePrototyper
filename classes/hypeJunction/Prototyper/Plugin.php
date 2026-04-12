@@ -79,7 +79,7 @@ final class Plugin extends \hypeJunction\Plugin {
 	 * {@inheritdoc}
 	 */
 	public function boot() {
-		elgg_register_event_handler('init', 'system', array($this, 'init'));
+		\elgg_register_event_handler('init', 'system', array($this, 'init'));
 	}
 
 	/**
@@ -87,19 +87,9 @@ final class Plugin extends \hypeJunction\Plugin {
 	 */
 	public function init() {
 
-		elgg_extend_view('css/elgg', 'css/framework/prototyper/stylesheet');
-		elgg_extend_view('css/admin', 'css/framework/prototyper/stylesheet');
-
-		elgg_register_css('jquery.cropper', '/mod/hypePrototyper/vendors/jquery.cropper/cropper.min.css');
-
-		elgg_extend_view('prototyper/input/before', 'prototyper/elements/js');
-
-		elgg_define_js('cropper', array(
-			'src' => '/mod/hypePrototyper/vendors/jquery.cropper/cropper.min.js',
-			'deps' => array('jquery'),
-		));
-
-		elgg_extend_view('input/file', 'prototyper/ui/cropper');
+		// View extensions and asset definitions are declared in elgg-plugin.php for 4.x.
+		// Field type registrations remain here because they populate the plugin's
+		// internal Config DI state rather than Elgg core registries.
 
 		hypePrototyper()->config->registerType('title', Elements\AttributeField::CLASSNAME, array(
 			'shortname' => 'title',

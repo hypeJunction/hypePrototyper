@@ -8,7 +8,7 @@ echo '<div>';
 echo '<label>' . elgg_echo("prototyper:settings:default_language") . '</label>';
 echo elgg_view('input/dropdown', array(
 	'name' => "params[default_language]",
-	'options_values' => get_installed_translations(),
+	'options_values' => elgg()->translator->getInstalledTranslations(),
 	'value' => $entity->default_language
 ));
 echo '</div>';

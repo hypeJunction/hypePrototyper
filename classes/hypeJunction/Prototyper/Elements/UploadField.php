@@ -12,7 +12,7 @@ class UploadField extends Field
      */
     public function getValues(ElggEntity $entity)
     {
-        $files = elgg_get_entities(array('types' => 'object', 'subtypes' => 'file', 'container_guids' => (int) $entity->guid, 'metadata_name_value_pairs' => array('name' => 'prototyper_field', 'value' => $this->getShortname()), 'limit' => 1));
+        $files = elgg_get_entities(array('type' => 'object', 'subtype' => 'file', 'container_guids' => (int) $entity->guid, 'metadata_name_value_pairs' => array('name' => 'prototyper_field', 'value' => $this->getShortname()), 'limit' => 1));
         return $files ? $files[0] : false;
     }
     /**

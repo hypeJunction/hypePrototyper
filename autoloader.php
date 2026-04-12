@@ -1,12 +1,12 @@
 <?php
 
-$path = __DIR__;
-if (file_exists("{$path}vendor/autoload.php")) {
-	require_once "{$path}vendor/autoload.php";
+$plugin_root = __DIR__;
+if (file_exists("{$plugin_root}/vendor/autoload.php")) {
+	require_once "{$plugin_root}/vendor/autoload.php";
 }
 
 /**
- * Plugin container
+ * Plugin DI Container
  * @return \hypeJunction\Prototyper\Plugin
  */
 function hypePrototyper() {

@@ -8,7 +8,7 @@ if (empty($icon_sizes)) {
 	return;
 }
 
-elgg_load_css('jquery.cropper');
+elgg_load_css('jquery.cropper.css');
 
 elgg_require_js('framework/prototyper_cropper');
 

@@ -46,15 +46,15 @@ class EntityFactory
             switch ($type) {
                 case 'object':
                     $entity = new \ElggObject();
-                    $entity->subtype = $subtype;
+                    $entity->setSubtype($subtype);
                     break;
                 case 'user':
                     $entity = new \ElggUser();
-                    $entity->subtype = $subtype;
+                    $entity->setSubtype($subtype);
                     break;
                 case 'group':
                     $entity = new \ElggGroup();
-                    $entity->subtype = $subtype;
+                    $entity->setSubtype($subtype);
                     break;
             }
         }
