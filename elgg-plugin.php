@@ -2,6 +2,12 @@
 
 return [
 	'bootstrap' => \hypeJunction\Prototyper\Bootstrap::class,
+	'plugin' => [
+		'dependencies' => [
+			'hypeapps' => [],
+			'hypelists' => [],
+		],
+	],
 	'views' => [
 		'default' => [
 			'jquery.cropper.css' => __DIR__ . '/vendors/jquery.cropper/cropper.min.css',

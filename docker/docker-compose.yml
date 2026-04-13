@@ -27,6 +27,9 @@ services:
       # Plugin source is mounted read-write so composer install and test
       # artifacts written inside the container land back in the repo.
       - ..:/var/www/html/mod/${PLUGIN_ID}
+      # Dep plugins from deps.local.txt (read-only — not under test here).
+      - ../../hypeapps:/var/www/html/mod/hypeapps:ro
+      - ../../hypelists:/var/www/html/mod/hypelists:ro
     environment:
       PLUGIN_ID: ${PLUGIN_ID}
       ELGG_DB_HOST: db
