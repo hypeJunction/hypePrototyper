@@ -147,9 +147,21 @@ class MetadataField extends Field {
 
 			if (!is_array($value)) {
 				if ($id) {
-					update_metadata($id, $name, $value, '', $owner_guid, $access_id);
+					$md = _elgg_services()->metadataTable->get((int) $id);
+					if ($md) {
+						$md->value = $value;
+						$md->owner_guid = (int) $owner_guid;
+						$md->access_id = (int) $access_id;
+						$md->save();
+					}
 				} else {
-					$id = create_metadata($entity->guid, $name, $value, '', $owner_guid, $access_id, true);
+					$md = new \ElggMetadata();
+					$md->entity_guid = (int) $entity->guid;
+					$md->name = $name;
+					$md->value = $value;
+					$md->owner_guid = (int) $owner_guid;
+					$md->access_id = (int) $access_id;
+					$id = _elgg_services()->metadataTable->create($md, true);
 				}
 				$ids[] = $id;
 			} else {
@@ -157,7 +169,13 @@ class MetadataField extends Field {
 					elgg_delete_metadata_by_id($id);
 				}
 				foreach ($value as $val) {
-					$ids[] = create_metadata($entity->guid, $name, $val, '', $owner_guid, $access_id, true);
+					$md = new \ElggMetadata();
+					$md->entity_guid = (int) $entity->guid;
+					$md->name = $name;
+					$md->value = $val;
+					$md->owner_guid = (int) $owner_guid;
+					$md->access_id = (int) $access_id;
+					$ids[] = _elgg_services()->metadataTable->create($md, true);
 				}
 			}
 		}

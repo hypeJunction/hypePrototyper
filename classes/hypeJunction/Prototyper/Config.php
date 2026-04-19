@@ -5,7 +5,7 @@ namespace hypeJunction\Prototyper;
 /**
  * Config
  */
-class Config extends \hypeJunction\Config {
+class Config {
 
 	/**
 	 * Input type definitions

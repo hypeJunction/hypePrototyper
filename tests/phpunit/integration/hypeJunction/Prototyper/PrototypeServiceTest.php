@@ -41,8 +41,9 @@ class PrototypeServiceTest extends IntegrationTestCase {
 		$prototype = \hypePrototyper()->prototype;
 
 		$fired = false;
-		$handler = function ($hook, $type, $return, $params) use (&$fired) {
+		$handler = function (\Elgg\Hook $hook) use (&$fired) {
 			$fired = true;
+			$return = $hook->getValue();
 			$return['title'] = ['type' => 'title', 'data_type' => 'attribute'];
 			return $return;
 		};

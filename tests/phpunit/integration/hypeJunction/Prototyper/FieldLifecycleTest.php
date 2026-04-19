@@ -137,8 +137,9 @@ class FieldLifecycleTest extends IntegrationTestCase {
 		]);
 
 		$called = false;
-		$handler = function ($hook, $type, $return, $params) use (&$called) {
+		$handler = function (\Elgg\Hook $hook) use (&$called) {
 			$called = true;
+			$return = $hook->getValue();
 			$status = $return instanceof ValidationStatus ? $return : new ValidationStatus();
 			$status->setFail('from-hook');
 			return $status;
