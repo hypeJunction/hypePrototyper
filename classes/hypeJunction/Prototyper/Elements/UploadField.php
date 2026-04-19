@@ -11,16 +11,14 @@ class UploadField extends Field
     /**
      * {@inheritdoc}
      */
-    public function getValues(ElggEntity $entity)
-    {
+    public function getValues(ElggEntity $entity) {
         $files = elgg_get_entities(array('type' => 'object', 'subtype' => 'file', 'container_guids' => (int) $entity->guid, 'metadata_name_value_pairs' => array('name' => 'prototyper_field', 'value' => $this->getShortname()), 'limit' => 1));
         return $files ? $files[0] : false;
     }
     /**
      * {@inheritdoc}
      */
-    public function validate(ElggEntity $entity)
-    {
+    public function validate(ElggEntity $entity) {
         $shortname = $this->getShortname();
         $validation = new ValidationStatus();
         $value = elgg_extract($shortname, $_FILES, array());
@@ -43,8 +41,7 @@ class UploadField extends Field
     /**
      * {@inheritdoc}
      */
-    public function handle(ElggEntity $entity)
-    {
+    public function handle(ElggEntity $entity) {
         $shortname = $this->getShortname();
         $future_value = $_FILES[$shortname];
         $value = $_FILES[$shortname];
@@ -102,8 +99,7 @@ class UploadField extends Field
     /**
      * {@inheritdoc}
      */
-    public static function getDataType()
-    {
+    public static function getDataType() {
         return 'file';
     }
 }

@@ -19,7 +19,7 @@ $required = $field->isRequired();
 $multiple = $field->isMultiple();
 
 if ($required) {
-	$label_attrs = elgg_format_attributes(array(
+$label_attrs = elgg_format_attributes(array(
 		'class' => 'required',
 		'title' => elgg_echo('prototyper:required')
 	));
@@ -63,16 +63,16 @@ if (($field->getValueType() == 'tags' || !$field->isMultiple()) && sizeof($annot
 echo elgg_view('prototyper/input/before', $vars);
 
 foreach ($annotations as $ann) {
-	$hidden = elgg_view('input/hidden', array(
+$hidden = elgg_view('input/hidden', array(
 		'name' => "{$name}[id][{$index}]",
 		'value' => $ann->id,
 		'data-reset' => true,
 	));
-	$hidden .= elgg_view('input/hidden', array(
+$hidden .= elgg_view('input/hidden', array(
 		'name' => "{$name}[name][{$index}]",
 		'value' => ($ann->name) ? $ann->name : $name,
 	));
-	$hidden .= elgg_view('input/hidden', array(
+$hidden .= elgg_view('input/hidden', array(
 		'name' => "{$name}[owner_guid][{$index}]",
 		'value' => ($ann->owner_guid) ? $ann->owner_guid : elgg_get_logged_in_user_guid(),
 	));
@@ -102,7 +102,7 @@ foreach ($annotations as $ann) {
 			$access_type = 'hidden';
 		}
 	}
-	$access .= elgg_view("input/$access_type", array(
+$access .= elgg_view("input/$access_type", array(
 		'name' => "{$name}[access_id][{$index}]",
 		'value' => $access_id,
 	));
@@ -121,13 +121,13 @@ foreach ($annotations as $ann) {
 					echo "<label $label_attrs>$label</label>";
 				}
 				if ($multiple) {
-					echo elgg_view('output/url', array(
+    echo elgg_view('output/url', array(
 						'text' => elgg_view_icon('prototyper-round-plus'),
 						'href' => 'javascript:void(0);',
 						'class' => 'prototyper-clone',
 						'is_trusted' => true,
 					));
-					echo elgg_view('output/url', array(
+    echo elgg_view('output/url', array(
 						'text' => elgg_view_icon('prototyper-round-minus'),
 						'href' => 'javascript:void(0);',
 						'class' => 'prototyper-remove',

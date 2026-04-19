@@ -342,7 +342,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 
 			foreach ($this->input_vars->options_values as $o_key => $o_value) {
 				if (is_array($o_value)) {
-					$o_value = elgg_extract($lang, $o_value, elgg_echo(implode(':', array_filter(array(
+    $o_value = elgg_extract($lang, $o_value, elgg_echo(implode(':', array_filter(array(
 						'option',
 						$this->entity_type,
 						$this->entity_subtype,
@@ -366,7 +366,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 			unset($vars[$key]);
 		}
 		
-		return elgg_trigger_plugin_hook('input_vars', 'prototyper', array(
+return elgg_trigger_plugin_hook('input_vars', 'prototyper', array(
 			'field' => $this,
 			'entity' => $entity,
 				), $vars);
@@ -385,7 +385,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	 */
 	public function getLabel($lang = '', $raw = false) {
 
-		$key = implode(':', array_filter(array(
+$key = implode(':', array_filter(array(
 			'label',
 			$this->entity_type,
 			$this->entity_subtype,
@@ -418,7 +418,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	 */
 	public function getHelp($lang = '', $raw = false) {
 
-		$key = implode(':', array_filter(array(
+$key = implode(':', array_filter(array(
 			'help',
 			$this->entity_type,
 			$this->entity_subtype,

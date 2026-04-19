@@ -17,7 +17,7 @@ $help = $field->getHelp();
 $required = $field->isRequired();
 
 if ($required) {
-	$label_attrs = elgg_format_attributes(array(
+$label_attrs = elgg_format_attributes(array(
 		'class' => 'required',
 		'title' => elgg_echo('prototyper:required')
 	));
@@ -50,7 +50,7 @@ echo elgg_view('prototyper/input/before', $vars);
 			if ($label) {
 				echo "<label $label_attrs>$label</label>";
 			}
-			echo elgg_view('prototyper/elements/help', array(
+echo elgg_view('prototyper/elements/help', array(
 				'value' => $help,
 				'field' => $field,
 			));

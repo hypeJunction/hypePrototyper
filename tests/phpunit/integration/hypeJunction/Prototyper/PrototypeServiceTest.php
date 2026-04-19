@@ -29,7 +29,7 @@ class PrototypeServiceTest extends IntegrationTestCase {
 
 	public function testFieldsReturnsCollectionForNewEntity(): void {
 		$prototype = \hypePrototyper()->prototype;
-		$collection = $prototype->fields([
+$collection = $prototype->fields([
 			'type' => 'object',
 			'subtype' => 'prototyper_test',
 		], 'create');
@@ -49,7 +49,7 @@ class PrototypeServiceTest extends IntegrationTestCase {
 		};
 		elgg_register_plugin_hook_handler('prototype', 'create', $handler);
 
-		$collection = $prototype->fields([
+$collection = $prototype->fields([
 			'type' => 'object',
 			'subtype' => 'prototyper_test',
 		], 'create');

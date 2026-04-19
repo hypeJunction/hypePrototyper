@@ -26,7 +26,7 @@ class MetadataField extends Field {
 				$values[$i] = $md;
 			}
 		} else if ($entity->guid) {
-			$values = elgg_get_metadata(array(
+$values = elgg_get_metadata(array(
 				'guids' => (int) $entity->guid,
 				'metadata_names' => $this->getShortname(),
 				'limit' => 0,
@@ -86,7 +86,7 @@ class MetadataField extends Field {
 		$shortname = $this->getShortname();
 
 		if ($entity->guid) {
-			$current_metadata = elgg_get_metadata(array(
+$current_metadata = elgg_get_metadata(array(
 				'guids' => (int) $entity->guid,
 				'metadata_names' => $shortname,
 				'limit' => 0,
@@ -122,7 +122,7 @@ class MetadataField extends Field {
 
 		$to_delete = array_diff($current_metadata_ids, $future_metadata_ids);
 		if (!empty($to_delete)) {
-			elgg_delete_metadata(array(
+elgg_delete_metadata(array(
 				'guids' => (int) $entity->guid,
 				'metadata_ids' => $to_delete,
 				'limit' => 0,

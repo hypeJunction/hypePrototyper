@@ -41,13 +41,13 @@ class FieldFactoryTest extends UnitTestCase {
 
 	public function testBuildMergesDefaultsWithOverrides(): void {
 		$config = $this->makeConfig();
-		$config->registerType('text', MetadataField::CLASSNAME, [
+$config->registerType('text', MetadataField::CLASSNAME, [
 			'value_type' => 'text',
 			'required' => true,
 		]);
 
 		$factory = new FieldFactory($config);
-		$field = $factory->build([
+$field = $factory->build([
 			'type' => 'text',
 			'shortname' => 'bio',
 		]);
@@ -67,12 +67,12 @@ class FieldFactoryTest extends UnitTestCase {
 
 	public function testBuildRespectsExplicitDataType(): void {
 		$config = $this->makeConfig();
-		$config->registerType('title', AttributeField::CLASSNAME, [
+$config->registerType('title', AttributeField::CLASSNAME, [
 			'shortname' => 'title',
 		]);
 
 		$factory = new FieldFactory($config);
-		$field = $factory->build([
+$field = $factory->build([
 			'type' => 'title',
 			'data_type' => 'attribute',
 		]);

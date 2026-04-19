@@ -66,7 +66,7 @@ class PluginBootTest extends IntegrationTestCase {
 
 	public function testFieldFactoryBuildsRelationshipUserpicker(): void {
 		$factory = \hypePrototyper()->fieldFactory;
-		$field = $factory->build([
+$field = $factory->build([
 			'type' => 'userpicker',
 			'data_type' => 'relationship',
 			'shortname' => 'friends',

@@ -29,7 +29,7 @@ class HookMockTest extends IntegrationTestCase {
 		// Mock the interface — do NOT pass onlyMethods on an interface mock.
 		$hook = $this->getMockBuilder(Hook::class)->getMock();
 		$hook->method('getValue')->willReturn(new ValidationStatus());
-		$hook->method('getParam')->willReturnMap([
+$hook->method('getParam')->willReturnMap([
 			['rule', null, 'type'],
 			['field', null, $field],
 			['value', null, 'hello'],

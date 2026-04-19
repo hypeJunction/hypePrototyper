@@ -29,7 +29,7 @@ class FieldTest extends UnitTestCase {
 	}
 
 	public function testConstructorAppliesOptions(): void {
-		$field = $this->makeField([
+$field = $this->makeField([
 			'shortname' => 'bio',
 			'type' => 'longtext',
 			'value_type' => 'text',
@@ -68,7 +68,7 @@ class FieldTest extends UnitTestCase {
 	}
 
 	public function testValidationRulesFromConstructorArray(): void {
-		$field = $this->makeField([
+$field = $this->makeField([
 			'validation_rules' => [
 				'required' => true,
 				'maxlen' => 200,
@@ -160,7 +160,7 @@ class FieldTest extends UnitTestCase {
 	}
 
 	public function testGetLabelRawReturnsKey(): void {
-		$field = $this->makeField([
+$field = $this->makeField([
 			'shortname' => 'bio',
 		]);
 		// entity_type / entity_subtype default empty, raw key collapses blanks

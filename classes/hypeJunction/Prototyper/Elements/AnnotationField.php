@@ -26,7 +26,7 @@ class AnnotationField extends Field {
 				$values[$i] = $ann;
 			}
 		} else if ($entity->guid) {
-			$values = elgg_get_annotations(array(
+$values = elgg_get_annotations(array(
 				'guids' => (int) $entity->guid,
 				'metadata_names' => $this->getShortname(),
 				'limit' => 0,
@@ -84,7 +84,7 @@ class AnnotationField extends Field {
 
 		$shortname = $this->getShortname();
 
-		$current_annotations = elgg_get_annotations(array(
+$current_annotations = elgg_get_annotations(array(
 			'guids' => (int) $entity->guid,
 			'annotation_names' => $shortname,
 		));

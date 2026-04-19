@@ -9,7 +9,7 @@ class FieldCollection extends \hypeJunction\Prototyper\Structs\ArrayCollection {
 	 * @return self
 	 */
 	public function sort() {
-		$this->uasort(function($a, $b) {
+$this->uasort(function($a, $b) {
 			$priority_a = (int) $a->get('priority') ? : 500;
 			$priority_b = (int) $b->get('priority') ? : 500;
 			if ($priority_a == $priority_b) {

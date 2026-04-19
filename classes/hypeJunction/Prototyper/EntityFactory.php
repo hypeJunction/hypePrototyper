@@ -13,8 +13,7 @@ class EntityFactory
      * @param int $guid GUID
      * @return \ElggEntity|false
      */
-    public function get($guid)
-    {
+    public function get($guid) {
         return get_entity($guid);
     }
     /**
@@ -23,8 +22,7 @@ class EntityFactory
      * @param mixed $attributes ElggEntity, GUID or entity attributes, including type and subtype
      * @return ElggEntity
      */
-    public function build($attributes = null)
-    {
+    public function build($attributes = null) {
         if ($attributes instanceof \ElggEntity) {
             return $attributes;
         }
@@ -71,8 +69,7 @@ class EntityFactory
      * @param ElggEntity $entity Entity
      * @return array
      */
-    public function getAttributeNames($entity)
-    {
+    public function getAttributeNames($entity) {
         if (!$entity instanceof \ElggEntity) {
             return array();
         }

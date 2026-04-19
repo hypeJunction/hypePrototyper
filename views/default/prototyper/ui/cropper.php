@@ -20,14 +20,14 @@ $ratios = array_unique($ratios);
 foreach ($ratios as $ratio) {
 	$mod = elgg_format_element('p', array('class' => 'elgg-text-help'), elgg_echo('prototyper:ui:cropper_instructions'));
 	foreach (array('x1', 'y1', 'x2', 'y2') as $coord) {
-		$mod .= elgg_view('input/hidden', array(
+$mod .= elgg_view('input/hidden', array(
 			'name' => "image_upload_crop_coords[{$name}][{$ratio}][{$coord}]",
 			'value' => (int) $entity->{"_coord_{$ratio}_{$coord}"},
 			"data-$coord" => true,
 			'data-ratio' => $ratio,
 		));
 	}
-	echo elgg_format_element('div', array(
+echo elgg_format_element('div', array(
 		'class' => 'prototyper-image-upload-cropper',
 		'data-ratio' => $ratio,
 			), $mod);

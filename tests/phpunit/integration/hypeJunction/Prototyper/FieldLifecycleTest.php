@@ -22,7 +22,7 @@ class FieldLifecycleTest extends IntegrationTestCase {
 
 	public function testAttributeFieldHandleSetsEntityAttribute(): void {
 		$owner = $this->createUser();
-		$entity = $this->createObject([
+$entity = $this->createObject([
 			'subtype' => 'prototyper_test',
 			'owner_guid' => $owner->guid,
 		]);
@@ -40,13 +40,13 @@ class FieldLifecycleTest extends IntegrationTestCase {
 
 	public function testAttributeFieldValidateFailsWhenRequiredMissing(): void {
 		$owner = $this->createUser();
-		$entity = $this->createObject([
+$entity = $this->createObject([
 			'subtype' => 'prototyper_test',
 			'owner_guid' => $owner->guid,
 		]);
 
 		set_input('title', '');
-		$field = new AttributeField([
+$field = new AttributeField([
 			'shortname' => 'title',
 			'required' => true,
 			'label' => 'Title',
@@ -63,13 +63,13 @@ class FieldLifecycleTest extends IntegrationTestCase {
 
 	public function testAttributeFieldValidatePassesWhenValuePresent(): void {
 		$owner = $this->createUser();
-		$entity = $this->createObject([
+$entity = $this->createObject([
 			'subtype' => 'prototyper_test',
 			'owner_guid' => $owner->guid,
 		]);
 
 		set_input('title', 'Some title');
-		$field = new AttributeField([
+$field = new AttributeField([
 			'shortname' => 'title',
 			'required' => true,
 		]);
@@ -82,12 +82,12 @@ class FieldLifecycleTest extends IntegrationTestCase {
 
 	public function testMetadataFieldHandlePersists(): void {
 		$owner = $this->createUser();
-		$entity = $this->createObject([
+$entity = $this->createObject([
 			'subtype' => 'prototyper_test',
 			'owner_guid' => $owner->guid,
 		]);
 
-		set_input('bio', [
+set_input('bio', [
 			'id' => [0 => ''],
 			'name' => [0 => 'bio'],
 			'value' => [0 => 'A short biography'],
@@ -98,7 +98,7 @@ class FieldLifecycleTest extends IntegrationTestCase {
 		$field = new MetadataField(['shortname' => 'bio']);
 		$field->handle($entity);
 
-		$mds = elgg_get_metadata([
+$mds = elgg_get_metadata([
 			'guids' => (int) $entity->guid,
 			'metadata_names' => 'bio',
 			'limit' => 0,
@@ -111,13 +111,13 @@ class FieldLifecycleTest extends IntegrationTestCase {
 
 	public function testMetadataFieldValidateFailsWhenRequiredEmpty(): void {
 		$owner = $this->createUser();
-		$entity = $this->createObject([
+$entity = $this->createObject([
 			'subtype' => 'prototyper_test',
 			'owner_guid' => $owner->guid,
 		]);
 
 		set_input('bio', []);
-		$field = new MetadataField([
+$field = new MetadataField([
 			'shortname' => 'bio',
 			'required' => true,
 			'label' => 'Bio',
@@ -131,7 +131,7 @@ class FieldLifecycleTest extends IntegrationTestCase {
 
 	public function testApplyValidationRulesTriggersHook(): void {
 		$owner = $this->createUser();
-		$entity = $this->createObject([
+$entity = $this->createObject([
 			'subtype' => 'prototyper_test',
 			'owner_guid' => $owner->guid,
 		]);
@@ -161,7 +161,7 @@ class FieldLifecycleTest extends IntegrationTestCase {
 
 	public function testMetadataFieldGetValuesReturnsFromEntity(): void {
 		$owner = $this->createUser();
-		$entity = $this->createObject([
+$entity = $this->createObject([
 			'subtype' => 'prototyper_test',
 			'owner_guid' => $owner->guid,
 		]);

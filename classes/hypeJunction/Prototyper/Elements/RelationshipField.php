@@ -19,15 +19,13 @@ class RelationshipField extends Field
      * Display access input
      * @return boolean
      */
-    public function hasAccessInput()
-    {
+    public function hasAccessInput() {
         return false;
     }
     /**
      * {@inheritdoc}
      */
-    public function getValues(\ElggEntity $entity)
-    {
+    public function getValues(\ElggEntity $entity) {
         $sticky = $this->getStickyValue();
         $values = array();
         if (!$sticky) {
@@ -47,8 +45,7 @@ class RelationshipField extends Field
     /**
      * {@inheritdoc}
      */
-    public function validate(\ElggEntity $entity)
-    {
+    public function validate(\ElggEntity $entity) {
         $validation = new ValidationStatus();
         $value = array_filter((array) get_input($this->getShortname(), array()));
         if ($this->isRequired() && (!$value || !count($value))) {
@@ -64,8 +61,7 @@ class RelationshipField extends Field
     /**
      * {@inheritdoc}
      */
-    public function handle(\ElggEntity $entity)
-    {
+    public function handle(\ElggEntity $entity) {
         $shortname = $this->getShortname();
         $current_relationships = elgg_get_entities(array('relationship_guid' => (int) $entity->guid, 'relationship' => $shortname, 'inverse_relationship' => $this->inverse_relationship, 'limit' => 0, 'callback' => false));
         $current_relationships_ids = array();
@@ -111,8 +107,7 @@ class RelationshipField extends Field
     /**
      * {@inheritdoc}
      */
-    public static function getDataType()
-    {
+    public static function getDataType() {
         return 'relationship';
     }
 }

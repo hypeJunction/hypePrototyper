@@ -81,7 +81,7 @@ class Form {
 				$field->setValidation($validation_status[$shortname]['status'], $validation_status[$shortname]['messages']);
 			}
 
-			$output .= $field->viewInput(array(
+$output .= $field->viewInput(array(
 				'index' => $i,
 				'entity' => $this->entity,
 			));
@@ -89,12 +89,12 @@ class Form {
 			$i++;
 		}
 
-		$submit = elgg_view('prototyper/input/submit', array(
+$submit = elgg_view('prototyper/input/submit', array(
 			'entity' => $this->entity,
 			'action' => $this->action,
 		));
 
-		$output .= elgg_format_element('div', array(
+$output .= elgg_format_element('div', array(
 			'class' => 'elgg-foot',
 				), $submit);
 
