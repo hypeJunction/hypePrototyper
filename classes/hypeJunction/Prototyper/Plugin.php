@@ -133,7 +133,7 @@ hypePrototyper()->config->registerType('description', Elements\AttributeField::C
 
 hypePrototyper()->config->registerType('access', Elements\AttributeField::CLASSNAME, array(
 			'shortname' => 'access_id',
-			'value' => get_default_access(),
+			'value' => elgg_get_config('default_access') ?? ACCESS_PUBLIC,
 			'input_view' => 'input/access',
 			'output_view' => 'output/access',
 			'value_type' => 'int',

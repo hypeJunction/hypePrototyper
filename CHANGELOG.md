@@ -1,3 +1,23 @@
+## [6.0.0] - 2026-04-28
+
+### Breaking Changes
+
+- Requires Elgg 5.x and PHP 8.2+
+- `elgg_trigger_plugin_hook()` hook system replaced with `elgg_trigger_event_results()` events
+- Language files must `return []` instead of calling `add_translation()`
+- `get_default_access()` removed — replaced with `elgg_get_config('default_access')`
+
+### Migration (4.x → 5.x)
+
+- All `elgg_trigger_plugin_hook()` calls → `elgg_trigger_event_results()` (12 call sites across 5 field classes)
+- `elgg_register_plugin_hook_handler()` → `elgg_register_event_handler()` in tests
+- `\Elgg\Hook` type hints → `\Elgg\Event` in test closures and mock builders
+- `languages/en.php`: `add_translation('en', $array)` → `return $array;`
+- `Plugin::init()` and input views: `get_default_access()` → `elgg_get_config('default_access') ?? ACCESS_PUBLIC`
+- Docker test stack: PHP 8.2-apache, MySQL 8.0, `ELGG_SITE_URL=http://elgg/`
+
+---
+
 <a name="5.0.0"></a>
 # 5.0.0 (2026-04-11)
 

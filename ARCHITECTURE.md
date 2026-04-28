@@ -1,103 +1,74 @@
-# hypePrototyper — Architecture (Elgg 4.x)
+# hypePrototyper — Architecture (Elgg 5.x)
 
 ## Summary
 
 hypePrototyper is a form-prototyping framework for Elgg. It lets developers
-declaratively register entity field schemas (text, file, icon, image upload,
-metadata, attribute fields) and renders Elgg forms from those schemas, while
-also handling validation and persistence on submit.
+declaratively register entity field schemas and renders forms from those schemas,
+handling validation and persistence on submit.
 
 ## Plugin metadata
 
 - Composer name: `hypejunction/hypeprototyper`
-- Plugin id (lowercase dir): `hypeprototyper`
-- Target: Elgg 4.x, PHP >= 7.4
+- Plugin id: `hypeprototyper`
+- Target: Elgg 5.x, PHP >= 8.2
 - Bootstrap: `\hypeJunction\Prototyper\Bootstrap`
-- No runtime dependency on hypeApps (removed in this migration step)
+- Dependencies: `hypeapps`, `hypelists`
 
 ## Directory layout
 
 ```
 classes/hypeJunction/Prototyper/
-  Bootstrap.php          Plugin bootstrap (init, ready hooks)
-  Plugin.php             Service container / facade
-  Config.php             Plugin config
-  Prototype.php          High-level field orchestration
+  Bootstrap.php          Loads autoloader, calls Plugin::boot()
+  Plugin.php             Service container (config, prototype, form, action, profile)
+  Config.php             Field type registry
+  Prototype.php          Field orchestration (dispatches prototype events)
   EntityFactory.php      Hydrates ElggEntity from input
   FieldFactory.php       Builds Field objects from config
   Form.php               Form rendering
-  UI.php                 View helpers
   ActionController.php   Shared action controller
-  Profile.php            Profile field shim
 
   Elements/              Field type implementations
-    Field.php            Base field
-    UploadField.php      File upload (uses elgg()->uploads + ElggFile)
-    IconField.php        Entity icon (uses saveIconFromUploadedFile)
-    ImageUploadField.php File upload + entity icon on uploaded ElggFile
-    MetadataField.php    Metadata-backed field
-    AttributeField.php   Entity-attribute-backed field
-    ...
-
-  Structs/               Value objects (InputVars, ValidationStatus, ...)
-  UI/                    UI widgets / templates
+    Field.php            Base field (input_vars / validate:<rule> events)
+    AnnotationField.php  Annotation-backed (handle:annotation:before/after events)
+    MetadataField.php    Metadata-backed (handle:metadata:before/after events)
+    RelationshipField.php Relationship-backed
+    UploadField.php      File upload (handle:upload:before/after events)
+    AttributeField.php   Entity-attribute field
+    CategoryField.php    Category field (requires hypeCategories)
+    IconField.php        Entity icon
+    ImageUploadField.php File upload + entity icon
+    ValidationStatus.php Validation result value object
+    FieldCollection.php  Collection of fields
 ```
 
-## Registered hooks/events
+## Registered Events (Elgg 5.x)
 
-Defined in `Bootstrap::init()` and `Bootstrap::ready()` (see source for the
-authoritative list). Key registrations:
+| Event | Type | Handler |
+|-------|------|---------|
+| `init` | `system` | `\hypeJunction\Prototyper\Plugin->init` |
 
-- `forms/prototyper/*` view registrations
-- `prototyper/*` form action handlers
-- `view_vars`/`view` filter chains for cropper UI
+Events dispatched for extension by other plugins:
 
-## Views and view extensions
-
-- Provides cropper CSS/JS via `vendors/jquery.cropper`
-- Extends `elgg.css`, `admin.css` with `css/framework/prototyper/stylesheet`
-- Extends `prototyper/input/before` with `prototyper/elements/js`
-- Extends `input/file` with `prototyper/ui/cropper`
-
-## Field upload pipeline (post-hypeApps refactor)
-
-`UploadField::handle()` now uses native Elgg 4 APIs:
-
-1. `elgg()->uploads->getFiles($shortname)` enumerates Symfony UploadedFile
-   instances from the request.
-2. For each valid uploaded file, a new `ElggFile` is created with
-   `container_guid`, `access_id`, `origin = 'prototyper'`, and
-   `prototyper_field = $shortname`. Subtype defaults to `file`.
-3. `acceptUploadedFile($uploadedFile)` writes bytes; mime/simpletype are
-   derived via `Elgg\Filesystem\MimeTypeDetector`.
-4. The previous file (if any) is deleted before save.
-
-`IconField::handle()` and `ImageUploadField::handle()` now call
-`$entity->saveIconFromUploadedFile($shortname, 'icon', $crop_coords)`
-directly. Custom icon size lookups use `elgg_get_icon_sizes($type, $subtype)`.
-The legacy `entity:icon:sizes` register/unregister dance is gone — Elgg 4
-generates only the master icon and lazily renders other sizes on request.
-
-Friendly upload error messages come from `elgg_get_friendly_upload_error()`
-(replaces `hypeApps()->uploader->getFriendlyUploadError()`).
+| Event | Type | Purpose |
+|-------|------|---------|
+| `prototype` | `<action>` | Gather field definitions for an entity type/action |
+| `input_vars` | `prototyper` | Filter input variables for a field |
+| `validate:<rule>` | `prototyper` | Validate a field value by rule |
+| `handle:annotation:before/after` | `prototyper` | Pre/post annotation save |
+| `handle:metadata:before/after` | `prototyper` | Pre/post metadata save |
+| `handle:relationship:before/after` | `prototyper` | Pre/post relationship save |
+| `handle:upload:before/after` | `prototyper` | Pre/post file upload |
 
 ## Dependencies (composer)
 
-- `php >= 7.4`
-- `composer/installers ~1.0`
-- No runtime hypeApps dependency
+- `php >= 8.2`, `elgg/elgg ^5.0`, `composer/installers ^2.0`
 
-## Migration notes (3.x → 4.x)
+## Migration notes (4.x → 5.x)
 
-- Plugin directory renamed `hypePrototyper` → `hypeprototyper` (lowercase) to
-  match `composer.json` `name`.
-- `start.php` and `manifest.xml` removed; metadata sourced from
-  `composer.json` and `elgg-plugin.php`.
-- All `hypeApps()->iconFactory` (6 calls in 2 files) and
-  `hypeApps()->uploader` (2 calls) replaced with native Elgg 4 APIs.
-- `getIconSizes()` callback hooks removed from IconField/ImageUploadField —
-  Elgg 4's icon service is single-master + lazy.
-- Pre-existing PHPUnit baseline: 85 tests, 554 assertions, 15 errors (see
-  beads `elgg-migrate-lpbf`). All 15 errors are unrelated to this refactor —
-  they stem from MetadataField/Field hook handler signatures still using the
-  3.x callable shape and from a removed `create_metadata()` helper.
+- `elgg_trigger_plugin_hook()` → `elgg_trigger_event_results()` (12 call sites in 5 files)
+- `elgg_register_plugin_hook_handler()` → `elgg_register_event_handler()` (tests)
+- `\Elgg\Hook` → `\Elgg\Event` in test closures and mock builders
+- `add_translation('en', $array)` → `return $array;` (Elgg 5.x drops procedural add_translation)
+- `get_default_access()` → `elgg_get_config('default_access') ?? ACCESS_PUBLIC` (3 call sites)
+- Docker: PHP 7.4 → PHP 8.2, MySQL 5.7 → MySQL 8.0, project `*-elgg5`
+- PHPUnit: 85 tests, 589 assertions

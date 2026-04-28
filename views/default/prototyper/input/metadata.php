@@ -96,7 +96,7 @@ $hidden .= elgg_view('input/hidden', array(
 		$access_id = $show_access;
 		$access_type = 'hidden';
 	} else {
-		$access_id = ($md->access_id) ? $md->access_id : (($entity->guid) ? $entity->access_id : get_default_access());
+		$access_id = ($md->access_id) ? $md->access_id : (($entity->guid) ? $entity->access_id : (elgg_get_config('default_access') ?? ACCESS_PUBLIC));
 		if ($show_access === true && $type !== 'hidden') {
 			$access_type = 'access';
 		} else {
