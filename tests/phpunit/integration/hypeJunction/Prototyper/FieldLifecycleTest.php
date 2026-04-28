@@ -137,15 +137,15 @@ $entity = $this->createObject([
 		]);
 
 		$called = false;
-		$handler = function (\Elgg\Hook $hook) use (&$called) {
+		$handler = function (\Elgg\Event $event) use (&$called) {
 			$called = true;
-			$return = $hook->getValue();
+			$return = $event->getValue();
 			$status = $return instanceof ValidationStatus ? $return : new ValidationStatus();
 			$status->setFail('from-hook');
 			return $status;
 		};
 
-		elgg_register_plugin_hook_handler('validate:type', 'prototyper', $handler);
+		elgg_register_event_handler('validate:type', 'prototyper', $handler);
 
 		$field = new MetadataField(['shortname' => 'bio']);
 		$field->addValidationRule('type', 'text');
@@ -156,7 +156,7 @@ $entity = $this->createObject([
 		$this->assertFalse($result->getStatus());
 		$this->assertContains('from-hook', $result->getMessages());
 
-		elgg_unregister_plugin_hook_handler('validate:type', 'prototyper', $handler);
+		elgg_unregister_event_handler('validate:type', 'prototyper', $handler);
 	}
 
 	public function testMetadataFieldGetValuesReturnsFromEntity(): void {

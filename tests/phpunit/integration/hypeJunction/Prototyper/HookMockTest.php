@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Prototyper;
 
-use Elgg\Hook;
+use Elgg\Event;
 use Elgg\IntegrationTestCase;
 use hypeJunction\Prototyper\Elements\MetadataField;
 use hypeJunction\Prototyper\Elements\ValidationStatus;
@@ -26,8 +26,7 @@ class HookMockTest extends IntegrationTestCase {
 	public function testHandlerReceivesHookMock(): void {
 		$field = new MetadataField(['shortname' => 'bio']);
 
-		// Mock the interface — do NOT pass onlyMethods on an interface mock.
-		$hook = $this->getMockBuilder(Hook::class)->getMock();
+		$hook = $this->getMockBuilder(Event::class)->disableOriginalConstructor()->getMock();
 		$hook->method('getValue')->willReturn(new ValidationStatus());
 $hook->method('getParam')->willReturnMap([
 			['rule', null, 'type'],
@@ -39,8 +38,7 @@ $hook->method('getParam')->willReturnMap([
 		$hook->method('getName')->willReturn('validate:type');
 		$hook->method('getType')->willReturn('prototyper');
 
-		// Define an inline handler that marks failure when value is 'hello'.
-		$handler = function (Hook $hook) {
+		$handler = function (Event $hook) {
 			$status = $hook->getValue();
 			if (!$status instanceof ValidationStatus) {
 				$status = new ValidationStatus();

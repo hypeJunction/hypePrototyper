@@ -366,7 +366,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 			unset($vars[$key]);
 		}
 		
-return elgg_trigger_plugin_hook('input_vars', 'prototyper', array(
+return elgg_trigger_event_results('input_vars', 'prototyper', array(
 			'field' => $this,
 			'entity' => $entity,
 				), $vars);
@@ -486,7 +486,7 @@ $key = implode(':', array_filter(array(
 		$validation_rules = $this->getValidationRules();
 		if (!empty($validation_rules)) {
 			foreach ($validation_rules as $rule => $expectation) {
-				$validation = elgg_trigger_plugin_hook("validate:$rule", 'prototyper', array(
+				$validation = elgg_trigger_event_results("validate:$rule", 'prototyper', array(
 					'rule' => $rule,
 					'field' => $this,
 					'value' => $value,

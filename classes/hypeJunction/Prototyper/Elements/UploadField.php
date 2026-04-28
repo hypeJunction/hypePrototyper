@@ -52,7 +52,7 @@ class UploadField extends Field
         }
         $params = array('field' => $this, 'entity' => $entity, 'upload_name' => $shortname, 'future_value' => $future_value);
         // Allow plugins to prevent files from being uploaded
-        if (!elgg_trigger_plugin_hook('handle:upload:before', 'prototyper', $params, true)) {
+        if (!elgg_trigger_event_results('handle:upload:before', 'prototyper', $params, true)) {
             return $entity;
         }
         $previous_upload = $this->getValues($entity);
@@ -93,7 +93,7 @@ class UploadField extends Field
         /* @var $result ElggFile[] */
         $future_value = $result[0];
         $params = array('field' => $this, 'entity' => $entity, 'upload_name' => $shortname, 'value' => $future_value);
-        elgg_trigger_plugin_hook('handle:upload:after', 'prototyper', $params, $result);
+        elgg_trigger_event_results('handle:upload:after', 'prototyper', $params, $result);
         return $entity;
     }
     /**

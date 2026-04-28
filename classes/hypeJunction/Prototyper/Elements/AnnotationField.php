@@ -110,7 +110,7 @@ $current_annotations = elgg_get_annotations(array(
 		);
 
 		// Allow plugins to prevent annotation from being changed
-		if (!elgg_trigger_plugin_hook('handle:annotation:before', 'prototyper', $params, true)) {
+		if (!elgg_trigger_event_results('handle:annotation:before', 'prototyper', $params, true)) {
 			return $entity;
 		}
 
@@ -160,7 +160,7 @@ $current_annotations = elgg_get_annotations(array(
 			'previous_value' => $current_annotations,
 		);
 
-		elgg_trigger_plugin_hook('handle:annotation:after', 'prototyper', $params, true);
+		elgg_trigger_event_results('handle:annotation:after', 'prototyper', $params, true);
 
 		return $entity;
 	}

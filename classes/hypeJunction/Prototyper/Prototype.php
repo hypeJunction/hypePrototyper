@@ -55,7 +55,7 @@ class Prototype {
 		$entity = $this->entityFactory->build($entity);
 		if ($entity instanceof \ElggEntity) {
 			$params['entity'] = $entity;
-			$fields = (array) elgg_trigger_plugin_hook('prototype', $action, $params, array());
+			$fields = (array) elgg_trigger_event_results('prototype', $action, $params, array());
 
 			$attribute_names = $this->entityFactory->getAttributeNames($entity);
 			if (!$entity->guid) {

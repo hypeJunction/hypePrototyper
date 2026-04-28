@@ -76,7 +76,7 @@ class RelationshipField extends Field
         }
         $params = array('field' => $this, 'entity' => $entity, 'relationship' => $shortname, 'value' => $current_relationships_ids, 'future_value' => $future_relationships_ids);
         // Allow plugins to prevent relationship from being changed
-        if (!elgg_trigger_plugin_hook('handle:relationship:before', 'prototyper', $params, true)) {
+        if (!elgg_trigger_event_results('handle:relationship:before', 'prototyper', $params, true)) {
             return $entity;
         }
         $to_delete = array_diff($current_relationships_ids, $future_relationships_ids);
@@ -101,7 +101,7 @@ class RelationshipField extends Field
             }
         }
         $params = array('field' => $this, 'entity' => $entity, 'relationship_name' => $shortname, 'value' => $future_relationships_ids, 'previous_value' => $current_relationships_ids);
-        elgg_trigger_plugin_hook('handle:relationship:after', 'prototyper', $params, true);
+        elgg_trigger_event_results('handle:relationship:after', 'prototyper', $params, true);
         return $entity;
     }
     /**

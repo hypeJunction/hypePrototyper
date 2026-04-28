@@ -114,7 +114,7 @@ $current_metadata = elgg_get_metadata(array(
 		);
 
 		// Allow plugins to prevent metadata from being changed
-		if (!elgg_trigger_plugin_hook('handle:metadata:before', 'prototyper', $params, true)) {
+		if (!elgg_trigger_event_results('handle:metadata:before', 'prototyper', $params, true)) {
 			return $entity;
 		}
 
@@ -188,7 +188,7 @@ elgg_delete_metadata(array(
 			'previous_value' => $current_metadata,
 		);
 
-		elgg_trigger_plugin_hook('handle:metadata:after', 'prototyper', $params, true);
+		elgg_trigger_event_results('handle:metadata:after', 'prototyper', $params, true);
 
 		return $entity;
 	}
