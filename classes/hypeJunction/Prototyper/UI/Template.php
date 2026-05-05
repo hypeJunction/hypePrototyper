@@ -4,10 +4,13 @@ namespace hypeJunction\Prototyper\UI;
 
 class Template {
 
-	protected $data_type;
-	protected $input_type;
+	/** @var mixed */
+    protected $data_type;
+	/** @var mixed */
+    protected $input_type;
 	
-	protected $sections = array(
+	/** @var mixed */
+    protected $sections = array(
 		'required' => true,
 		'adminonly' => true,
 		'access' => true,
@@ -20,7 +23,12 @@ class Template {
 		'value' => true,
 	);
 
-	public function __construct($data_type = 'metadata', $input_type = 'text', $params = array()) {
+	/**
+     * @param mixed $data_type
+     * @param mixed $input_type
+     * @param mixed $params
+     */
+    public function __construct($data_type = 'metadata', $input_type = 'text', $params = array()) {
 		$this->data_type = $data_type;
 		$this->input_type = $input_type;
 		$sections = (array) elgg_extract('ui_sections', $params, array());

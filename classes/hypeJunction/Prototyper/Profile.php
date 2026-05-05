@@ -4,9 +4,12 @@ namespace hypeJunction\Prototyper;
 
 class Profile {
 
-	private $config;
-	private $prototype;
-	private $entityFactory;
+	/** @var mixed */
+    private $config;
+	/** @var mixed */
+    private $prototype;
+	/** @var mixed */
+    private $entityFactory;
 
 	/**
 	 * Constructor

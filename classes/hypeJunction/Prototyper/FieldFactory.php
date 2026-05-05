@@ -4,7 +4,8 @@ namespace hypeJunction\Prototyper;
 
 class FieldFactory {
 
-	private $config;
+	/** @var mixed */
+    private $config;
 
 	/**
 	 * Constructor
