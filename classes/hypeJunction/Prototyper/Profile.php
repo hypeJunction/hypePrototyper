@@ -2,16 +2,23 @@
 
 namespace hypeJunction\Prototyper;
 
+/**
+ * Profile prototype.
+ */
 class Profile {
 
 	private $config;
+
 	private $prototype;
+
 	private $entityFactory;
 
 	/**
 	 * Constructor
 	 *
-	 * @param Config $config
+	 * @param Config        $config        Plugin config
+	 * @param Prototype     $prototype     Prototype service
+	 * @param EntityFactory $entityFactory Entity factory
 	 */
 	public function __construct(Config $config, Prototype $prototype, EntityFactory $entityFactory) {
 		$this->config = $config;
@@ -27,7 +34,7 @@ class Profile {
 	 * @param array  $params Additional context params to pass to the hook
 	 * @return Elements\Profile
 	 */
-	public function with($entity = array(), $action = 'all', array $params = array()) {
+	public function with($entity = [], $action = 'all', array $params = []) {
 
 		$entity = $this->entityFactory->build($entity);
 		$fields = $this->prototype->fields($entity, $action, $params)

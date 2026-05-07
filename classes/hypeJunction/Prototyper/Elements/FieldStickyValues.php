@@ -2,12 +2,15 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Sticky-form value contract.
+ */
 interface FieldStickyValues {
 
 	/**
 	 * Set a sticky value
 	 *
-	 * @param mixed $value
+	 * @param mixed $value Sticky value
 	 * @return self
 	 */
 	public function setStickyValue($value = '');

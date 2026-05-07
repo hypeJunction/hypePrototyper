@@ -17,10 +17,10 @@ $help = $field->getHelp();
 $required = $field->isRequired();
 
 if ($required) {
-$label_attrs = elgg_format_attributes(array(
+	$label_attrs = elgg_format_attributes([
 		'class' => 'required',
 		'title' => elgg_echo('prototyper:required')
-	));
+	]);
 }
 
 $input_vars = $field->getInputVars($entity);
@@ -40,10 +40,11 @@ echo elgg_view('prototyper/input/before', $vars);
 			if ($label) {
 				echo "<label $label_attrs>$label</label>";
 			}
-echo elgg_view('prototyper/elements/help', array(
+
+			echo elgg_view('prototyper/elements/help', [
 				'value' => $help,
 				'field' => $field,
-			));
+			]);
 			?>
 		</div>
 	</div>
@@ -54,20 +55,23 @@ echo elgg_view('prototyper/elements/help', array(
 			if ($entity->icontime) {
 				$icon = elgg_view_entity_icon($entity, 'small');
 			}
-echo elgg_view_image_block('', $input, array(
+
+			echo elgg_view_image_block('', $input, [
 				'image_alt' => $icon,
 				'class' => 'prototyper-upload-input prototyper-icon-input',
-			));
+			]);
 
 			if ($field->isValid() === false) {
 				echo '<ul class="prototyper-validation-error prototyper-col-12">';
 				$messages = $field->getValidationMessages();
 				if (!is_array($messages)) {
-					$messages = array($messages);
+					$messages = [$messages];
 				}
+
 				foreach ($messages as $m) {
 					echo '<li>' . $m . '</li>';
 				}
+
 				echo '</ul>';
 			}
 			?>

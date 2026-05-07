@@ -2,6 +2,9 @@
 
 namespace hypeJunction\Prototyper;
 
+/**
+ * Factory for Prototyper field elements.
+ */
 class FieldFactory {
 
 	private $config;
@@ -9,7 +12,7 @@ class FieldFactory {
 	/**
 	 * Constructor
 	 *
-	 * @param Config $config
+	 * @param Config $config Plugin config
 	 */
 	public function __construct(Config $config) {
 		$this->config = $config;
@@ -17,20 +20,20 @@ class FieldFactory {
 
 	/**
 	 * Builds a field from an array of options
-	 * 
+	 *
 	 * @param mixed $options Options
 	 * @return Elements\Field|false
 	 */
-	public function build($options = array()) {
+	public function build($options = []) {
 
 		if (is_string($options)) {
-			$options = array(
+			$options = [
 				'type' => $options,
-			);
+			];
 		} else if (!is_array($options)) {
-			$options = array(
+			$options = [
 				'type' => 'text',
-			);
+			];
 		}
 
 		if (empty($options['type'])) {
@@ -52,5 +55,4 @@ class FieldFactory {
 
 		return false;
 	}
-
 }

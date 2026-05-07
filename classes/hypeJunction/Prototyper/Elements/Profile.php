@@ -2,17 +2,20 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Profile prototype.
+ */
 class Profile {
 
 	/**
 	 * Elgg entity
-	 * @var \ElggEntity 
+	 * @var \ElggEntity
 	 */
 	private $entity;
 
 	/**
 	 * Action name
-	 * @var string 
+	 * @var string
 	 */
 	private $action;
 
@@ -37,8 +40,8 @@ class Profile {
 
 	/**
 	 * Filter fields
-	 * 
-	 * @param callable $filter
+	 *
+	 * @param callable $filter Filter callback
 	 * @return self
 	 */
 	public function filter(callable $filter) {
@@ -52,7 +55,7 @@ class Profile {
 	 * @param array $vars Vars to pass to teach field view
 	 * @return string HTML
 	 */
-	public function view($vars = array()) {
+	public function view($vars = []) {
 
 		$output = '';
 
@@ -62,9 +65,11 @@ class Profile {
 			if (!$field instanceof Field) {
 				continue;
 			}
+
 			if ($field->getOutputView() === false) {
 				continue;
 			}
+
 			if ($field->getType() == 'hidden' || $field->getValueType() == 'hidden') {
 				continue;
 			}
@@ -75,13 +80,12 @@ class Profile {
 
 			$field_view = $field->viewOutput($vars);
 			if ($field_view) {
-				$output .= elgg_format_element('div', array(
+				$output .= elgg_format_element('div', [
 					'class' => 'prototyper-output',
-						), $field_view);
+				], $field_view);
 			}
 		}
 
 		return $output;
 	}
-
 }

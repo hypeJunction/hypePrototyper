@@ -2,17 +2,20 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Prototyper form element.
+ */
 class Form {
 
 	/**
 	 * Elgg entity
-	 * @var \ElggEntity 
+	 * @var \ElggEntity
 	 */
 	private $entity;
 
 	/**
 	 * Action name
-	 * @var string 
+	 * @var string
 	 */
 	private $action;
 
@@ -38,7 +41,7 @@ class Form {
 	/**
 	 * Filter fields
 	 *
-	 * @param callable $filter
+	 * @param callable $filter Filter callback
 	 * @return self
 	 */
 	public function filter(callable $filter) {
@@ -63,7 +66,6 @@ class Form {
 		// Prepare fields
 		$i = 0;
 		foreach ($this->fields as $field) {
-
 			if (!$field instanceof Field) {
 				continue;
 			}
@@ -81,22 +83,22 @@ class Form {
 				$field->setValidation($validation_status[$shortname]['status'], $validation_status[$shortname]['messages']);
 			}
 
-$output .= $field->viewInput(array(
+			$output .= $field->viewInput([
 				'index' => $i,
 				'entity' => $this->entity,
-			));
+			]);
 
 			$i++;
 		}
 
-$submit = elgg_view('prototyper/input/submit', array(
+		$submit = elgg_view('prototyper/input/submit', [
 			'entity' => $this->entity,
 			'action' => $this->action,
-		));
+		]);
 
-$output .= elgg_format_element('div', array(
+		$output .= elgg_format_element('div', [
 			'class' => 'elgg-foot',
-				), $submit);
+		], $submit);
 
 		return $output;
 	}
@@ -107,7 +109,7 @@ $output .= elgg_format_element('div', array(
 	 * @param array $vars View vars
 	 * @return string
 	 */
-	function view(array $vars = array()) {
+	public function view(array $vars = []) {
 		$attrs = $this->getFormAttributes();
 		return elgg_view('input/form', array_merge($attrs, $vars));
 	}
@@ -117,11 +119,11 @@ $output .= elgg_format_element('div', array(
 	 * @return array
 	 */
 	public function getFormAttributes() {
-		return array(
+		return [
 			'body' => $this->viewBody(),
 			'enctype' => $this->getEncoding(),
 			'action' => "action/$this->action",
-		);
+		];
 	}
 
 	/**
@@ -132,6 +134,7 @@ $output .= elgg_format_element('div', array(
 		if ($this->isMultipart()) {
 			return 'multipart/form-data';
 		}
+
 		return 'application/x-www-form-urlencoded';
 	}
 
@@ -139,16 +142,17 @@ $output .= elgg_format_element('div', array(
 	 * Checks if the form contains file inputs
 	 * @return boolean
 	 */
-	function isMultipart() {
+	public function isMultipart() {
 		foreach ($this->fields as $field) {
 			if (!$field instanceof Field) {
 				continue;
 			}
+
 			if ($field->getType() == 'file' || $field->getValueType() == 'file' || $field->getDataType()) {
 				return true;
 			}
 		}
+
 		return false;
 	}
-
 }

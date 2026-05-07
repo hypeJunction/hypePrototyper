@@ -33,11 +33,11 @@ if (!$output) {
 	return;
 }
 
-echo <<<__HTML
+?>
 <div class="prototyper-output-annotation">
-	<label class="prototyper-label">$label</label>
-	<div class="elgg-output $class">$output</div>
+	<label class="prototyper-label"><?= $label ?></label>
+	<div class="elgg-output <?= $class ?>"><?= $output ?></div>
 </div>
-__HTML;
+<?php
 
 

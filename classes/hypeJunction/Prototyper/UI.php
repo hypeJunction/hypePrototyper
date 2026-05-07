@@ -2,6 +2,9 @@
 
 namespace hypeJunction\Prototyper;
 
+/**
+ * UI service for Prototyper.
+ */
 class UI {
 
 	/**
@@ -13,7 +16,7 @@ class UI {
 	/**
 	 * Constructor
 	 *
-	 * @param \hypeJunction\Prototyper\Config $config
+	 * @param Config $config Plugin config
 	 */
 	public function __construct(Config $config) {
 		$this->config = $config;
@@ -21,7 +24,7 @@ class UI {
 
 	/**
 	 * Returns a new template instance
-	 * 
+	 *
 	 * @param string $data_type Data type
 	 * @param string $type      Input type
 	 * @return \hypeJunction\Prototyper\UI\Template
@@ -36,13 +39,14 @@ class UI {
 	 * @return array
 	 */
 	public function getTemplates() {
-		$templates = array();
+		$templates = [];
 		$types = $this->config->getTypes();
 		foreach ($types as $type => $type_options) {
 			foreach ($type_options as $subtype => $subtype_options) {
 				$templates[$type][$subtype] = (array) $subtype_options;
 			}
 		}
+
 		return $templates;
 	}
 
@@ -53,15 +57,14 @@ class UI {
 	public function buildPrototypeFromInput() {
 		$language = $this->config->get('default_language', 'en');
 
-		$field = get_input('field', array());
-		$temp = array();
+		$field = get_input('field', []);
+		$temp = [];
 
 		$sort_priority = 10;
 
 		foreach ($field as $uid => $options) {
-
 			$shortname = elgg_extract('shortname', $options, $uid);
-			$shortname = preg_replace("/[^A-Za-z0-9_]/", "_", $shortname);
+			$shortname = preg_replace('/[^A-Za-z0-9_]/', '_', $shortname);
 			$shortname = strtolower($shortname);
 
 			list($data_type, $input_type) = explode('::', elgg_extract('dit', $options, ''));
@@ -73,7 +76,7 @@ class UI {
 			$hide_on_profile = (bool) elgg_extract('hide_on_profile', $options, false);
 			$show_access = (bool) elgg_extract('show_access', $options, false);
 
-			$relationship = elgg_extract('relationship', $options, array());
+			$relationship = elgg_extract('relationship', $options, []);
 			unset($options['relationship']);
 			
 			$inverse_relationship = (bool) elgg_extract('inverse_relationship', $relationship, false);
@@ -92,27 +95,27 @@ class UI {
 			$priority = elgg_extract('priority', $options, $sort_priority);
 			$sort_priority += 10;
 
-			$options_values = elgg_extract('options_values', $options, array());
+			$options_values = elgg_extract('options_values', $options, []);
 			unset($options['options_values']);
 
-			$options_values_config = array();
+			$options_values_config = [];
 			for ($i = 0; $i < count($options_values['value']); $i++) {
 				$o_value = (string) $options_values['value'][$i];
 				$o_label = (string) $options_values['label'][$language][$i];
-				$options_values_config[$o_value] = array($language => $o_label);
+				$options_values_config[$o_value] = [$language => $o_label];
 			}
 
-			$validation = elgg_extract('validation', $options, array());
+			$validation = elgg_extract('validation', $options, []);
 			unset($options['validation']);
 
-			$validation_rules = array();
+			$validation_rules = [];
 			for ($i = 0; $i < count($validation['rule']); $i++) {
 				$v_rule = $validation['rule'][$i];
 				$v_expectation = $validation['expectation'][$i];
 				$validation_rules[$v_rule] = $v_expectation;
 			}
 
-			$icon_sizes = array();
+			$icon_sizes = [];
 			$icon_sizes_conf = elgg_extract('icon_sizes', $options);
 			$system_icon_sizes = array_keys((array) $icon_sizes_conf);
 			if (is_array($icon_sizes_conf) && !empty($icon_sizes_conf)) {
@@ -124,7 +127,8 @@ class UI {
 					if (!$name || !$w || !$h || in_array($name, $system_icon_sizes)) {
 						continue;
 					}
-					$icon_sizes[$name] = array(
+
+					$icon_sizes[$name] = [
 						'name' => $name,
 						'w' => $w,
 						'h' => $h,
@@ -132,12 +136,13 @@ class UI {
 						'upscale' => true,
 						'croppable' => true,
 						'metadata_name' => "{$name}_icon",
-					);
+					];
 				}
 			}
+
 			unset($options['icon_sizes']);
 
-			$temp[$shortname] = array(
+			$temp[$shortname] = [
 				'type' => $input_type,
 				'data_type' => $data_type,
 				'required' => $required,
@@ -154,9 +159,9 @@ class UI {
 				'options_values' => (!empty($options_values_config)) ? $options_values_config : null,
 				'validation_rules' => array_filter($validation_rules),
 				'icon_sizes' => $icon_sizes,
-			);
+			];
 
-			if (in_array($input_type, array('checkboxes', 'radio'))) {
+			if (in_array($input_type, ['checkboxes', 'radio'])) {
 				$temp[$shortname]['options'] = array_flip($options_values_config);
 			}
 
@@ -164,7 +169,7 @@ class UI {
 			$temp[$shortname] = array_merge($options, $temp[$shortname]);
 		}
 
-		$fields = array();
+		$fields = [];
 
 		foreach ($temp as $shortname => $options) {
 			$fields[$shortname] = $options;
@@ -172,5 +177,4 @@ class UI {
 
 		return $fields;
 	}
-
 }

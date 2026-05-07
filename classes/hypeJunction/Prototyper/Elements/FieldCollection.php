@@ -2,6 +2,9 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Collection of fields.
+ */
 class FieldCollection extends \hypeJunction\Prototyper\Structs\ArrayCollection {
 
 	/**
@@ -9,15 +12,15 @@ class FieldCollection extends \hypeJunction\Prototyper\Structs\ArrayCollection {
 	 * @return self
 	 */
 	public function sort() {
-$this->uasort(function($a, $b) {
-			$priority_a = (int) $a->get('priority') ? : 500;
-			$priority_b = (int) $b->get('priority') ? : 500;
+		$this->uasort(function($a, $b) {
+			$priority_a = (int) $a->get('priority') ?: 500;
+			$priority_b = (int) $b->get('priority') ?: 500;
 			if ($priority_a == $priority_b) {
 				return 0;
 			}
+
 			return ($priority_a < $priority_b) ? -1 : 1;
 		});
 		return $this;
 	}
-
 }

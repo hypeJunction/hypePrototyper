@@ -2,6 +2,9 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Generic action controller for Prototyper-built forms.
+ */
 class ActionController {
 
 	/**
@@ -38,7 +41,7 @@ class ActionController {
 	/**
 	 * Filter fields
 	 *
-	 * @param callable $filter
+	 * @param callable $filter Filter callback
 	 * @return self
 	 */
 	public function filter(callable $filter) {
@@ -61,9 +64,9 @@ class ActionController {
 		} catch (\hypeJunction\Exceptions\ActionValidationException $ex) {
 			return elgg_error_response(elgg_echo('prototyper:validate:error'));
 		} catch (\Elgg\Exceptions\FileSystem\IOException $ex) {
-			return elgg_error_response(elgg_echo('prototyper:io:error', array($ex->getMessage())));
+			return elgg_error_response(elgg_echo('prototyper:io:error', [$ex->getMessage()]));
 		} catch (\Exception $ex) {
-			return elgg_error_response(elgg_echo('prototyper:handle:error', array($ex->getMessage())));
+			return elgg_error_response(elgg_echo('prototyper:handle:error', [$ex->getMessage()]));
 		}
 
 		if ($result) {
@@ -98,7 +101,7 @@ class ActionController {
 		}
 		
 		if (!$valid) {
-			throw new \hypeJunction\Exceptions\ActionValidationException("Invalid input");
+			throw new \hypeJunction\Exceptions\ActionValidationException('Invalid input');
 		}
 
 		hypePrototyper()->prototype->clearStickyValues($this->action);
@@ -137,5 +140,4 @@ class ActionController {
 		hypePrototyper()->prototype->clearStickyValues($this->action);
 		return $this->entity;
 	}
-
 }

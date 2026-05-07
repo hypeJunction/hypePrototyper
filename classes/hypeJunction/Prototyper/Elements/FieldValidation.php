@@ -2,6 +2,9 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Field validation contract.
+ */
 interface FieldValidation {
 
 	/**
@@ -48,11 +51,11 @@ interface FieldValidation {
 	/**
 	 * Set validation status
 	 *
-	 * @param boolean $status
-	 * @param boolean $messages
+	 * @param boolean $status   Pass/fail flag
+	 * @param array   $messages Validation messages
 	 * @return self
 	 */
-	public function setValidation($status = true, $messages = array());
+	public function setValidation($status = true, $messages = []);
 
 	/**
 	 * Get validation status object

@@ -18,10 +18,10 @@ $required = $field->isRequired();
 $multiple = $field->isMultiple();
 
 if ($required) {
-$label_attrs = elgg_format_attributes(array(
+	$label_attrs = elgg_format_attributes([
 		'class' => 'required',
 		'title' => elgg_echo('prototyper:required')
-	));
+	]);
 }
 
 $input_vars = $field->getInputVars($entity);
@@ -50,10 +50,11 @@ echo elgg_view('prototyper/input/before', $vars);
 			if ($label) {
 				echo "<label $label_attrs>$label</label>";
 			}
-echo elgg_view('prototyper/elements/help', array(
+
+			echo elgg_view('prototyper/elements/help', [
 				'value' => $help,
 				'field' => $field,
-			));
+			]);
 			?>
 		</div>
 	</div>
@@ -66,11 +67,13 @@ echo elgg_view('prototyper/elements/help', array(
 				echo '<ul class="prototyper-validation-error prototyper-col-12">';
 				$messages = $field->getValidationMessages();
 				if (!is_array($messages)) {
-					$messages = array($messages);
+					$messages = [$messages];
 				}
+
 				foreach ($messages as $m) {
 					echo '<li>' . $m . '</li>';
 				}
+
 				echo '</ul>';
 			}
 			?>

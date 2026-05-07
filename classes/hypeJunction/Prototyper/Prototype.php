@@ -30,9 +30,9 @@ class Prototype {
 	/**
 	 * Constructor
 	 *
-	 * @param \hypeJunction\Prototyper\Config $config
-	 * @param \hypeJunction\Prototyper\EntityFactory $entityFactory
-	 * @param \hypeJunction\Prototyper\FieldFactory $fieldFactory
+	 * @param Config        $config        Plugin config
+	 * @param EntityFactory $entityFactory Entity factory
+	 * @param FieldFactory  $fieldFactory  Field factory
 	 */
 	public function __construct(Config $config, EntityFactory $entityFactory, FieldFactory $fieldFactory) {
 		$this->config = $config;
@@ -48,23 +48,23 @@ class Prototype {
 	 * @param array  $params Additional context params to pass to the hook
 	 * @return \hypeJunction\Prototyper\Elements\FieldCollection
 	 */
-	public function fields($entity = array(), $action = 'all', array $params = array()) {
+	public function fields($entity = [], $action = 'all', array $params = []) {
 
-		$fieldCollection = array();
+		$fieldCollection = [];
 
 		$entity = $this->entityFactory->build($entity);
 		if ($entity instanceof \ElggEntity) {
 			$params['entity'] = $entity;
-			$fields = (array) elgg_trigger_event_results('prototype', $action, $params, array());
+			$fields = (array) elgg_trigger_event_results('prototype', $action, $params, []);
 
 			$attribute_names = $this->entityFactory->getAttributeNames($entity);
 			if (!$entity->guid) {
-				$fields['type'] = array('type' => 'hidden');
-				$fields['subtype'] = array('type' => 'hidden');
-				$fields['owner_guid'] = array('type' => 'hidden');
-				$fields['container_guid'] = array('type' => 'hidden');
+				$fields['type'] = ['type' => 'hidden'];
+				$fields['subtype'] = ['type' => 'hidden'];
+				$fields['owner_guid'] = ['type' => 'hidden'];
+				$fields['container_guid'] = ['type' => 'hidden'];
 			} else {
-				$fields['guid'] = array('type' => 'hidden');
+				$fields['guid'] = ['type' => 'hidden'];
 			}
 
 			foreach ($fields as $shortname => $field) {
@@ -147,13 +147,13 @@ class Prototype {
 	public function setFieldValidationStatus($action = '', $shortname = '', Elements\ValidationStatus $validation = null) {
 
 		if (!isset($_SESSION['prototyper_validation'][$action])) {
-			$_SESSION['prototyper_validation'][$action] = array();
+			$_SESSION['prototyper_validation'][$action] = [];
 		}
 
-		$_SESSION['prototyper_validation'][$action][$shortname] = array(
+		$_SESSION['prototyper_validation'][$action][$shortname] = [
 			'status' => $validation->getStatus(),
 			'messages' => $validation->getMessages()
-		);
+		];
 	}
 
 	/**
@@ -167,5 +167,4 @@ class Prototype {
 			unset($_SESSION['prototyper_validation'][$action]);
 		}
 	}
-
 }

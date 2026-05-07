@@ -11,38 +11,38 @@ class Config {
 	 * Input type definitions
 	 * @var array
 	 */
-	private $types = array();
+	private $types = [];
 
 	/**
 	 * Validation rule definitions
 	 * @var array
 	 */
-	private $validation_rules = array();
+	private $validation_rules = [];
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getDefaults() {
-		return array(
+		return [
 			'default_language' => 'en',
-		);
+		];
 	}
 
 	/**
 	 * Define an input type
-	 * 
+	 *
 	 * @param string $type      Input type
 	 * @param string $classname Class name
 	 * @param array  $options   Default options
 	 * @return void
 	 */
-	public function registerType($type, $classname, $options = array()) {
+	public function registerType($type, $classname, $options = []) {
 
-		if (!class_exists($classname) || !is_callable(array($classname, 'getDataType'))) {
+		if (!class_exists($classname) || !is_callable([$classname, 'getDataType'])) {
 			return;
 		}
 
-		$data_type = call_user_func(array($classname, 'getDataType'));
+		$data_type = call_user_func([$classname, 'getDataType']);
 
 		$options = (array) $options;
 		$options['type'] = $type;
@@ -50,7 +50,6 @@ class Config {
 		$options['data_type'] = $data_type;
 		
 		$this->types[$data_type][$type] = $options;
-		
 	}
 
 	/**
@@ -64,6 +63,7 @@ class Config {
 		if (isset($this->types[$data_type][$type])) {
 			return $this->types[$data_type][$type];
 		}
+
 		return false;
 	}
 
@@ -80,6 +80,7 @@ class Config {
 	 *
 	 * @param string $rule    Rule name
 	 * @param mixed  $options Available options
+	 * @return void
 	 */
 	public function registerValidationRule($rule, $options = '') {
 		$this->validation_rules[$rule] = $options;

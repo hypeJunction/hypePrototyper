@@ -11,10 +11,10 @@ robots.txt
 composer.lock
 Gemfile.lock
 tests/.phpunit.result.cache
+tests/coverage/
 docker/.env
 tests/deps.local.txt
 tests/playwright/node_modules/
 tests/playwright/test-results/
 tests/playwright/playwright-report/
-tests/.phpunit.result.cache
 tests/playwright/package-lock.json

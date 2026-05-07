@@ -2,6 +2,9 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Entity-attribute-backed field type.
+ */
 class AttributeField extends Field {
 
 	const CLASSNAME = __CLASS__;
@@ -18,13 +21,13 @@ class AttributeField extends Field {
 		
 		$name = $this->getShortname();
 		switch ($name) {
-			default :
+			default:
 				return ($entity->$name) ?: $this->getDefaultValue();
 
-			case 'type' :
+			case 'type':
 				return $entity->getType();
 
-			case 'subtype' :
+			case 'subtype':
 				return $entity->getSubtype();
 		}
 	}
@@ -54,9 +57,10 @@ class AttributeField extends Field {
 		if (is_string($value)) {
 			$value = strip_tags($value);
 		}
+
 		if (is_null($value) || $value == '') {
 			if ($this->isRequired()) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:required', array($this->getLabel())));
+				$validation->setFail(elgg_echo('prototyper:validate:error:required', [$this->getLabel()]));
 			}
 		} else {
 			$validation = $this->applyValidationRules($value, $validation, $entity);
@@ -80,5 +84,4 @@ class AttributeField extends Field {
 	public static function getDataType() {
 		return 'attribute';
 	}
-
 }

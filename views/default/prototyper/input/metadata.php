@@ -20,10 +20,10 @@ $multiple = $field->isMultiple();
 $type = $field->getType();
 
 if ($required) {
-$label_attrs = elgg_format_attributes(array(
+	$label_attrs = elgg_format_attributes([
 		'class' => 'required',
 		'title' => elgg_echo('prototyper:required')
-	));
+	]);
 }
 
 $metadata = $field->getValues($entity);
@@ -31,7 +31,7 @@ if (empty($metadata)) {
 	return;
 }
 
-if (($field->getValueType() == 'tags' || !$field->isMultiple()) && sizeof($metadata) > 1) {
+if (($field->getValueType() == 'tags' || !$field->isMultiple()) && count($metadata) > 1) {
 	$shortname = $field->getShortname();
 	$md = new \stdClass();
 	$md->id = $metadata[0]->id;
@@ -42,10 +42,11 @@ if (($field->getValueType() == 'tags' || !$field->isMultiple()) && sizeof($metad
 	} else {
 		$md->value = $value;
 	}
+
 	$md->access_id = $metadata[0]->access_id;
 	$md->owner_guid = $metadata[0]->owner_guid;
-	$metadata = array($md);
-} else if (in_array($field->getValueType(), array('checkboxes', 'radio'))) {
+	$metadata = [$md];
+} else if (in_array($field->getValueType(), ['checkboxes', 'radio'])) {
 	$shortname = $field->getShortname();
 	$md = new \stdClass();
 	$md->id = $metadata[0]->id;
@@ -54,29 +55,30 @@ if (($field->getValueType() == 'tags' || !$field->isMultiple()) && sizeof($metad
 	if (is_array($value)) {
 		$md->value = $value;
 	} else {
-		$md->value = array($value);
+		$md->value = [$value];
 	}
+
 	$md->access_id = $metadata[0]->access_id;
 	$md->owner_guid = $metadata[0]->owner_guid;
-	$metadata = array($md);
+	$metadata = [$md];
 }
 
 echo elgg_view('prototyper/input/before', $vars);
 
 foreach ($metadata as $md) {
-$hidden = elgg_view('input/hidden', array(
+	$hidden = elgg_view('input/hidden', [
 		'name' => "{$name}[id][{$index}]",
 		'value' => $md->id,
 		'data-reset' => true,
-	));
-$hidden .= elgg_view('input/hidden', array(
+	]);
+	$hidden .= elgg_view('input/hidden', [
 		'name' => "{$name}[name][{$index}]",
 		'value' => ($md->name) ? $md->name : $name,
-	));
-$hidden .= elgg_view('input/hidden', array(
+	]);
+	$hidden .= elgg_view('input/hidden', [
 		'name' => "{$name}[owner_guid][{$index}]",
 		'value' => ($md->owner_guid) ? $md->owner_guid : elgg_get_logged_in_user_guid(),
-	));
+	]);
 	$input_vars = $field->getInputVars($entity);
 	$input_vars['name'] = "{$name}[value][{$index}]";
 	$input_vars['value'] = $md->value;
@@ -103,10 +105,11 @@ $hidden .= elgg_view('input/hidden', array(
 			$access_type = 'hidden';
 		}
 	}
-$access .= elgg_view("input/$access_type", array(
+
+	$access .= elgg_view("input/$access_type", [
 		'name' => "{$name}[access_id][{$index}]",
 		'value' => $access_id,
-	));
+	]);
 
 	if ($type == 'hidden') {
 		echo $hidden . $access . $input;
@@ -121,24 +124,26 @@ $access .= elgg_view("input/$access_type", array(
 				if ($label) {
 					echo "<label $label_attrs>$label</label>";
 				}
+
 				if ($multiple) {
-    echo elgg_view('output/url', array(
+					echo elgg_view('output/url', [
 						'text' => elgg_view_icon('prototyper-round-plus'),
 						'href' => 'javascript:void(0);',
 						'class' => 'prototyper-clone',
 						'is_trusted' => true,
-					));
-    echo elgg_view('output/url', array(
+					]);
+					echo elgg_view('output/url', [
 						'text' => elgg_view_icon('prototyper-round-minus'),
 						'href' => 'javascript:void(0);',
 						'class' => 'prototyper-remove',
 						'is_trusted' => true,
-					));
+					]);
 				}
-				echo elgg_view('prototyper/elements/help', array(
+
+				echo elgg_view('prototyper/elements/help', [
 					'value' => $help,
 					'field' => $field,
-				));
+				]);
 				?>
 			</div>
 			<div class="prototyper-col-3 prototyper-access">
@@ -157,11 +162,13 @@ $access .= elgg_view("input/$access_type", array(
 					echo '<ul class="prototyper-validation-error prototyper-col-12">';
 					$messages = $field->getValidationMessages();
 					if (!is_array($messages)) {
-						$messages = array($messages);
+						$messages = [$messages];
 					}
+
 					foreach ($messages as $m) {
 						echo '<li>' . $m . '</li>';
 					}
+
 					echo '</ul>';
 				}
 				?>

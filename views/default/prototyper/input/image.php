@@ -18,10 +18,10 @@ $help = $field->getHelp();
 $required = $field->isRequired();
 
 if ($required) {
-$label_attrs = elgg_format_attributes(array(
+	$label_attrs = elgg_format_attributes([
 		'class' => 'required',
 		'title' => elgg_echo('prototyper:required')
-	));
+	]);
 }
 
 $input_vars = $field->getInputVars($entity);
@@ -34,11 +34,11 @@ $type = $field->getType();
 $view = $field->getInputView();
 $input = elgg_view($view, $input_vars);
 
-$image_data = array(
+$image_data = [
 	'data-crop' => $input_vars['crop'] ? 1 : 0,
 	'data-crop-w' => $input_vars['crop_ratio_w'],
 	'data-crop-h' => $input_vars['crop_ratio_h']
-);
+];
 
 echo elgg_view('prototyper/input/before', $vars);
 ?>
@@ -49,10 +49,11 @@ echo elgg_view('prototyper/input/before', $vars);
 			if ($label) {
 				echo "<label $label_attrs>$label</label>";
 			}
-echo elgg_view('prototyper/elements/help', array(
+
+			echo elgg_view('prototyper/elements/help', [
 				'value' => $help,
 				'field' => $field,
-			));
+			]);
 			?>
 		</div>
 	</div>
@@ -70,18 +71,19 @@ echo elgg_view('prototyper/elements/help', array(
 				if (!($file instanceof ElggFile)) {
 					continue;
 				}
+
 				echo '<div class="prototyper-image-preview elgg-col elgg-col-1of6">';
-				echo elgg_view('output/url', array(
+				echo elgg_view('output/url', [
 					'text' => elgg_view_icon('delete'),
 					'href' => 'javascript:void(0)'
-				));
-				echo elgg_view('output/img', array(
+				]);
+				echo elgg_view('output/img', [
 					'src' => $file->getIconURL('medium')
-				));
-				echo elgg_view('input/hidden', array(
+				]);
+				echo elgg_view('input/hidden', [
 					'name' => $name . '[]',
 					'value' => $g
-				));
+				]);
 				echo '</div>';
 			}
 			?>

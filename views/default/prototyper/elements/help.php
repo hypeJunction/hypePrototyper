@@ -11,6 +11,6 @@ if (empty($value)) {
 	return;
 }
 
-echo elgg_format_element('div', array(
+echo elgg_format_element('div', [
 	'class' => 'elgg-text-help',
-), $value);
+], $value);

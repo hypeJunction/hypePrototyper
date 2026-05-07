@@ -1,5 +1,5 @@
 <?php
 
-echo elgg_view('input/submit', array(
+echo elgg_view('input/submit', [
 	'value' => elgg_echo('save')
-));
+]);
