@@ -74,7 +74,12 @@ class AttributeField extends Field {
 	 */
 	public function handle(\ElggEntity $entity) {
 		$shortname = $this->getShortname();
-		$entity->$shortname = get_input($shortname, $entity->$shortname);
+		$value = get_input($shortname, $entity->$shortname);
+		if ($shortname === 'subtype') {
+			$entity->setSubtype($value ?: $entity->getSubtype());
+		} else {
+			$entity->$shortname = $value;
+		}
 		return $entity;
 	}
 

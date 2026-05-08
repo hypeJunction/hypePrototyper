@@ -18,7 +18,7 @@ $help = $field->getHelp();
 $required = $field->isRequired();
 
 if ($required) {
-	$label_attrs = elgg_format_attributes([
+	$label_attrs = _elgg_services()->html_formatter->formatAttributes([
 		'class' => 'required',
 		'title' => elgg_echo('prototyper:required')
 	]);
@@ -42,7 +42,7 @@ $image_data = [
 
 echo elgg_view('prototyper/input/before', $vars);
 ?>
-<fieldset class="prototyper-fieldset prototyper-fieldset-image" <?php echo elgg_format_attributes($image_data); ?>>
+<fieldset class="prototyper-fieldset prototyper-fieldset-image" <?php echo _elgg_services()->html_formatter->formatAttributes($image_data); ?>>
 	<div class="elgg-head">
 		<div class="prototyper-col-12">
 			<?php

@@ -17,7 +17,7 @@ $help = $field->getHelp();
 $required = $field->isRequired();
 
 if ($required) {
-	$label_attrs = elgg_format_attributes([
+	$label_attrs = _elgg_services()->html_formatter->formatAttributes([
 		'class' => 'required',
 		'title' => elgg_echo('prototyper:required')
 	]);

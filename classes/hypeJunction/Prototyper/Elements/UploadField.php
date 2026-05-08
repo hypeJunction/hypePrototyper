@@ -28,7 +28,7 @@ class UploadField extends Field {
 		$shortname = $this->getShortname();
 		$validation = new ValidationStatus();
 		$value = elgg_extract($shortname, $_FILES, []);
-		$error_type = elgg_extract('error', $value);
+		$error_type = (int) elgg_extract('error', $value, UPLOAD_ERR_NO_FILE);
 		$has_uploaded_file = $error_type != UPLOAD_ERR_NO_FILE;
 		if (!$has_uploaded_file) {
 			if ($this->isRequired() && empty($this->getValues($entity))) {
