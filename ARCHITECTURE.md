@@ -72,3 +72,7 @@ Events dispatched for extension by other plugins:
 - `get_default_access()` → `elgg_get_config('default_access') ?? ACCESS_PUBLIC` (3 call sites)
 - Docker: PHP 7.4 → PHP 8.2, MySQL 5.7 → MySQL 8.0, project `*-elgg5`
 - PHPUnit: 85 tests, 589 assertions
+
+## Seeding
+
+No seeder required. This plugin owns no entity types, subtypes, or persistent relationship schemas — it is a pure UI/utility/admin plugin with no persisted entity surface of its own.
