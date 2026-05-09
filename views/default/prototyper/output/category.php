@@ -13,7 +13,7 @@ if (!$entity || !$name) {
 	return;
 }
 
-elgg_require_js('framework/prototyper');
+elgg_import_esm('framework/prototyper');
 
 $label = $field->getLabel();
 $view = $field->getOutputView();

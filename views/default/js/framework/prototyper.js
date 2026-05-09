@@ -1,4 +1,4 @@
-import elgg from 'elgg';
+import i18n from 'elgg/i18n';
 import $ from 'jquery';
 
 $(document).on('click', '.prototyper-clone', function(e) {
@@ -9,7 +9,7 @@ $(document).on('click', '.prototyper-clone', function(e) {
 });
 
 $(document).on('click', '.prototyper-remove', function(e) {
-	var confirmText = $(this).attr('rel') || elgg.echo('question:areyousure');
+	var confirmText = $(this).attr('rel') || i18n.echo('question:areyousure');
 	if (confirm(confirmText)) {
 		var $parent = $(this).closest('.prototyper-fieldset');
 		$parent.fadeOut().remove();
