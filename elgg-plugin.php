@@ -11,7 +11,6 @@ return [
 	'views' => [
 		'default' => [
 			'jquery.cropper.css' => __DIR__ . '/vendors/jquery.cropper/cropper.min.css',
-			'jquery.cropper.js' => __DIR__ . '/vendors/jquery.cropper/cropper.min.js',
 		],
 	],
 	'view_extensions' => [

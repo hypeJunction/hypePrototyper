@@ -1,20 +1,21 @@
-## [6.0.0] - 2026-04-28
+## [6.0.0] - 2026-05-09
 
 ### Breaking Changes
 
-- Requires Elgg 5.x and PHP 8.2+
-- `elgg_trigger_plugin_hook()` hook system replaced with `elgg_trigger_event_results()` events
-- Language files must `return []` instead of calling `add_translation()`
-- `get_default_access()` removed — replaced with `elgg_get_config('default_access')`
+- Requires Elgg ^6.0 and PHP 8.2+
+- AMD `define()`/`require()` modules replaced with ES modules (`import`/`export`)
+- `elgg_require_js()` → `elgg_import_esm()` for ES module scripts
+- `jquery.cropper.js` removed from Elgg view system; registered as external file (UMD jQuery plugin)
+- `jquery.cropper.css` loaded on-demand via `elgg_load_external_file()` instead of `elgg_load_css()`
 
-### Migration (4.x → 5.x)
+### Migration (5.x → 6.x)
 
-- All `elgg_trigger_plugin_hook()` calls → `elgg_trigger_event_results()` (12 call sites across 5 field classes)
-- `elgg_register_plugin_hook_handler()` → `elgg_register_event_handler()` in tests
-- `\Elgg\Hook` type hints → `\Elgg\Event` in test closures and mock builders
-- `languages/en.php`: `add_translation('en', $array)` → `return $array;`
-- `Plugin::init()` and input views: `get_default_access()` → `elgg_get_config('default_access') ?? ACCESS_PUBLIC`
-- Docker test stack: PHP 8.2-apache, MySQL 8.0, `ELGG_SITE_URL=http://elgg/`
+- `views/default/js/framework/prototyper.js`: AMD `define()` → ESM `import`
+- `views/default/js/framework/prototyper_cropper.js`: AMD `define(['elgg', 'jquery', 'cropper'])` → ESM `import $ from 'jquery'`; cropper loaded as external file
+- `elgg-plugin.php`: removed `jquery.cropper.js` from `views.default` (no longer an Elgg view)
+- `Bootstrap::init()`: registers `jquery.cropper` JS and CSS as external files via `elgg_register_external_file()`
+- `prototyper/elements/js.php`: `elgg_require_js()` → `elgg_import_esm()`
+- `prototyper/ui/cropper.php`: `elgg_require_js()` → `elgg_import_esm()` + `elgg_load_css()` → `elgg_load_external_file()`
 
 ---
 

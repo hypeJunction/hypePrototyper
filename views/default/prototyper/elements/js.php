@@ -1,3 +1,3 @@
 <?php
 
-elgg_require_js('framework/prototyper');
+elgg_import_esm('framework/prototyper');

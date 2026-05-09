@@ -1,54 +1,54 @@
-define(['elgg', 'jquery', 'cropper'], function (elgg, $) {
+import $ from 'jquery';
 
-	$(document).on('change', '.prototyper-upload-input input[type="file"]', function (e) {
-		var $elem = $(this);
-		var $container = $elem.closest('.prototyper-upload-input');
-		var $croppers = $container.find('.prototyper-image-upload-cropper');
+// cropper.min.js is loaded as an external file (UMD jQuery plugin)
 
-		if (!$croppers.length) {
-			return;
-		}
+$(document).on('change', '.prototyper-upload-input input[type="file"]', function (e) {
+	var $elem = $(this);
+	var $container = $elem.closest('.prototyper-upload-input');
+	var $croppers = $container.find('.prototyper-image-upload-cropper');
 
-		var file = $elem[0].files[0];
+	if (!$croppers.length) {
+		return;
+	}
 
-		if (file && file.type.match(/image.*/)) {
-			$('body').addClass('elgg-state-loading');
-			var reader = new FileReader();
-			reader.onload = function (e) {
-				$croppers.each(function () {
-					var $cropper = $(this);
-					var ratio = $cropper.data('ratio');
+	var file = $elem[0].files[0];
 
-					$('img', $cropper).cropper('destroy');
-					$('img', $cropper).remove();
-					$cropper.removeClass('prototyper-has-preview');
+	if (file && file.type.match(/image.*/)) {
+		$('body').addClass('elgg-state-loading');
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$croppers.each(function () {
+				var $cropper = $(this);
+				var ratio = $cropper.data('ratio');
 
-					var img = new Image();
-					img.src = reader.result;
-					img.alt = file.name;
+				$('img', $cropper).cropper('destroy');
+				$('img', $cropper).remove();
+				$cropper.removeClass('prototyper-has-preview');
 
-					$cropper.addClass('prototyper-has-preview');
-					$(this).append($(img));
+				var img = new Image();
+				img.src = reader.result;
+				img.alt = file.name;
 
-					if (typeof $.fn.cropper !== 'undefined') {
-						$('img', $cropper).cropper({
-							aspectRatio: ratio,
-							autoCropArea: 0.90,
-							done: function (data) {
-								$('input[data-x1]', $cropper).val(data.x);
-								$('input[data-x2]', $cropper).val((data.x + data.width));
-								$('input[data-y1]', $cropper).val(data.y);
-								$('input[data-y2]', $cropper).val((data.y + data.height));
-							}
-						});
-					}
-				});
+				$cropper.addClass('prototyper-has-preview');
+				$(this).append($(img));
 
-				$('body').removeClass('elgg-state-loading');
-			};
+				if (typeof $.fn.cropper !== 'undefined') {
+					$('img', $cropper).cropper({
+						aspectRatio: ratio,
+						autoCropArea: 0.90,
+						done: function (data) {
+							$('input[data-x1]', $cropper).val(data.x);
+							$('input[data-x2]', $cropper).val((data.x + data.width));
+							$('input[data-y1]', $cropper).val(data.y);
+							$('input[data-y2]', $cropper).val((data.y + data.height));
+						}
+					});
+				}
+			});
 
-			reader.readAsDataURL(file);
-		}
-	});
+			$('body').removeClass('elgg-state-loading');
+		};
 
+		reader.readAsDataURL(file);
+	}
 });
