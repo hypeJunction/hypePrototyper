@@ -42,14 +42,10 @@ class EntityFactory {
 		unset($attributes['type']);
 		unset($attributes['subtype']);
 		$class = elgg_get_entity_class($type, $subtype);
-		if (class_exists($class)) {
+		if ($class && class_exists($class)) {
 			$entity = new $class();
 		} else {
 			switch ($type) {
-				case 'object':
-					$entity = new \ElggObject();
-					$entity->setSubtype($subtype);
-					break;
 				case 'user':
 					$entity = new \ElggUser();
 					$entity->setSubtype($subtype);
@@ -58,6 +54,14 @@ class EntityFactory {
 					$entity = new \ElggGroup();
 					$entity->setSubtype($subtype);
 					break;
+				case 'object':
+					// ElggObject is abstract in Elgg 7.x — a registered entity class is required
+					throw new \InvalidArgumentException(
+						"Cannot create entity of type '{$type}' with subtype '{$subtype}': no entity class registered. " .
+						"Register a class in elgg-plugin.php entities configuration."
+					);
+				default:
+					throw new \InvalidArgumentException("Unsupported entity type: '{$type}'");
 			}
 		}
 

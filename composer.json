@@ -1,6 +1,6 @@
 {
 	"name": "hypejunction/hypeprototyper",
-	"version": "6.0.0",
+	"version": "7.0.0",
 	"type": "elgg-plugin",
 	"description": "Entity prototyping",
 	"homepage": "https://github.com/hypeJunction/hypeprototyper",
@@ -23,9 +23,9 @@
 		}
 	},
 	"require": {
-		"php": ">=8.2",
+		"php": ">=8.3",
 		"composer/installers": "^2.0",
-		"elgg/elgg": "^6.0"
+		"elgg/elgg": "^7.0"
 	},
 	"autoload": {
 		"psr-0": {

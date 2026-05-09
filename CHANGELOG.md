@@ -1,3 +1,17 @@
+## [7.0.0] - 2026-05-09
+
+### Breaking Changes
+
+- Requires Elgg ^7.0 and PHP 8.3+
+- `ElggObject` is now abstract — entities must use registered subclasses
+
+### Migration (6.x → 7.x)
+
+- `EntityFactory::build()`: removed `new \ElggObject()` fallback; throws `\InvalidArgumentException` when `object` type has no registered entity class (required since `ElggObject` is abstract in 7.x)
+- Bumped `elgg/elgg: ^7.0`, `php: >=8.3`
+
+---
+
 ## [6.0.0] - 2026-05-09
 
 ### Breaking Changes
