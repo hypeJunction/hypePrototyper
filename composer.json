@@ -3,7 +3,7 @@
 	"version": "6.0.0",
 	"type": "elgg-plugin",
 	"description": "Entity prototyping",
-	"homepage": "http://hypejunction.com",
+	"homepage": "https://github.com/hypeJunction/hypeprototyper",
 	"keywords": [
 		"elgg",
 		"plugin",
@@ -13,8 +13,7 @@
 	"license": "GPL-2.0",
 	"authors": [
 		{
-			"name": "Ismayil Khayredinov",
-			"email": "ismayil@hypejunction.com"
+			"name": "hypeJunction"
 		}
 	],
 	"extra": {

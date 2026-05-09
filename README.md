@@ -1,15 +1,11 @@
 hypePrototyper
 ==============
-![Elgg 1.8](https://img.shields.io/badge/Elgg-1.8.x-orange.svg?style=flat-square)
-![Elgg 1.9](https://img.shields.io/badge/Elgg-1.9.x-orange.svg?style=flat-square)
-![Elgg 1.10](https://img.shields.io/badge/Elgg-1.10.x-orange.svg?style=flat-square)
-![Elgg 1.11](https://img.shields.io/badge/Elgg-1.11.x-orange.svg?style=flat-square)
+![Elgg 5.x](https://img.shields.io/badge/Elgg-5.x-orange.svg?style=flat-square)
 
 A set of developer and administrator tools for prototyping and handling
 entity forms.
 This plugin attempts to create an easy way to build forms, validate user input,
 and display entity profiles.
-
 
 ## Developer Notes
 
@@ -50,7 +46,6 @@ echo elgg_view('input/form', array(
 	'enctype' => 'multipart/form-data', // if we have file inputs
 ));
 ```
-
 
 ### Action
 
@@ -114,7 +109,6 @@ echo hypePrototyper()->profile->with($group, 'groups/edit')
 	->view($vars);
 
 ```
-
 
 ### Fields
 
@@ -244,7 +238,6 @@ The following options are available for ```relationship``` data type:
 * ```inverse_relationship``` - store as inverse relationship
 * ```bilateral``` - make it a bilateral relationship (two relationships will be added)
 
-
 ### Custom Fields
 
 To define a new field type, register it as so:
@@ -270,5 +263,4 @@ The above registers a new input type 'icon' with a handler class IconField that 
 The third parameter contains default key - value pairs (which can later be overridden in a hook).
 'ui_sections' parameter specifies which sections should be disabled in the admin interface provided by
 hypePrototyperUI.
-
 
