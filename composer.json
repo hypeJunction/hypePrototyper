@@ -1,40 +1,41 @@
 {
-	"name": "hypejunction/hypeprototyper",
-	"version": "7.0.0",
-	"type": "elgg-plugin",
-	"description": "Entity prototyping",
-	"homepage": "https://github.com/hypeJunction/hypeprototyper",
-	"keywords": [
-		"elgg",
-		"plugin",
-		"prototypes",
-		"forms"
-	],
-	"license": "GPL-2.0",
-	"authors": [
-		{
-			"name": "hypeJunction"
-		}
-	],
-	"extra": {
-		"installer-name": "hypePrototyper",
-		"elgg-plugin": {
-			"id": "hypeprototyper"
-		}
-	},
-	"require": {
-		"php": ">=8.3",
-		"composer/installers": "^2.0",
-		"elgg/elgg": "^7.0"
-	},
-	"autoload": {
-		"psr-0": {
-			"": "classes/"
-		}
-	},
-	"config": {
-		"allow-plugins": {
-			"composer/installers": true
-		}
-	}
+    "name": "hypejunction/hypeprototyper",
+    "version": "7.0.0",
+    "type": "elgg-plugin",
+    "description": "Entity prototyping",
+    "homepage": "https://github.com/hypeJunction/hypePrototyper",
+    "keywords": [
+        "elgg",
+        "plugin",
+        "prototypes",
+        "forms"
+    ],
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Ismayil Khayredinov",
+            "email": "ismayil.khayredinov@gmail.com"
+        }
+    ],
+    "extra": {
+        "installer-name": "hypeprototyper",
+        "elgg-plugin": {
+            "id": "hypeprototyper"
+        }
+    },
+    "require": {
+        "php": ">=8.3",
+        "composer/installers": "^2.0",
+        "elgg/elgg": "^7.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "": "classes/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
 }
