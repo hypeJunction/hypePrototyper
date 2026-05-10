@@ -2,6 +2,9 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Generic action controller for Prototyper-built forms.
+ */
 class ActionController {
 
 	/**
@@ -38,7 +41,7 @@ class ActionController {
 	/**
 	 * Filter fields
 	 *
-	 * @param callable $filter
+	 * @param callable $filter Filter callback
 	 * @return self
 	 */
 	public function filter(callable $filter) {
@@ -48,33 +51,29 @@ class ActionController {
 
 	/**
 	 * Full action script
-	 * Validates the input, updates the entity and forwards users with feedback
-	 * @return void
+	 * Validates the input, updates the entity and returns a response builder
+	 * @return \Elgg\Http\ResponseBuilder
 	 */
 	public function handle() {
+		$result = false;
 
 		try {
 			if ($this->validate()) {
 				$result = $this->update();
 			}
 		} catch (\hypeJunction\Exceptions\ActionValidationException $ex) {
-			register_error(elgg_echo('prototyper:validate:error'));
-			forward(REFERER);
-		} catch (\IOException $ex) {
-			register_error(elgg_echo('prototyper:io:error', array($ex->getMessage())));
-			forward(REFERER);
+			return elgg_error_response(elgg_echo('prototyper:validate:error'));
+		} catch (\Elgg\Exceptions\FileSystem\IOException $ex) {
+			return elgg_error_response(elgg_echo('prototyper:io:error', [$ex->getMessage()]));
 		} catch (\Exception $ex) {
-			register_error(elgg_echo('prototyper:handle:error', array($ex->getMessage())));
-			forward(REFERER);
+			return elgg_error_response(elgg_echo('prototyper:handle:error', [$ex->getMessage()]));
 		}
 
 		if ($result) {
-			system_message(elgg_echo('prototyper:action:success'));
-			forward($this->entity->getURL());
-		} else {
-			register_error(elgg_echo('prototyper:action:error'));
-			forward(REFERER);
+			return elgg_ok_response([], elgg_echo('prototyper:action:success'), $this->entity->getURL());
 		}
+
+		return elgg_error_response(elgg_echo('prototyper:action:error'));
 	}
 
 	/**
@@ -102,7 +101,7 @@ class ActionController {
 		}
 		
 		if (!$valid) {
-			throw new \hypeJunction\Exceptions\ActionValidationException("Invalid input");
+			throw new \hypeJunction\Exceptions\ActionValidationException('Invalid input');
 		}
 
 		hypePrototyper()->prototype->clearStickyValues($this->action);
@@ -141,5 +140,4 @@ class ActionController {
 		hypePrototyper()->prototype->clearStickyValues($this->action);
 		return $this->entity;
 	}
-
 }

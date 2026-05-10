@@ -9,7 +9,7 @@ class EntityFactory {
 
 	/**
 	 * Returns an entity from its guid
-	 * 
+	 *
 	 * @param int $guid GUID
 	 * @return \ElggEntity|false
 	 */
@@ -24,7 +24,6 @@ class EntityFactory {
 	 * @return ElggEntity
 	 */
 	public function build($attributes = null) {
-
 		if ($attributes instanceof \ElggEntity) {
 			return $attributes;
 		}
@@ -34,43 +33,41 @@ class EntityFactory {
 		}
 
 		$attributes = (array) $attributes;
-
 		if (!empty($attributes['guid'])) {
 			return $this->get($attributes['guid']);
 		}
 
-
 		$type = elgg_extract('type', $attributes, 'object');
 		$subtype = elgg_extract('subtype', $attributes, ELGG_ENTITIES_ANY_VALUE);
-
 		unset($attributes['type']);
 		unset($attributes['subtype']);
-
-		$class = get_subtype_class($type, $subtype);
-		if (class_exists($class)) {
+		$class = elgg_get_entity_class($type, $subtype);
+		if ($class && class_exists($class)) {
 			$entity = new $class();
 		} else {
 			switch ($type) {
-				case 'object' :
-					$entity = new \ElggObject();
-					$entity->subtype = $subtype;
-					break;
-
-				case 'user' :
+				case 'user':
 					$entity = new \ElggUser();
-					$entity->subtype = $subtype;
+					$entity->setSubtype($subtype);
 					break;
-
-				case 'group' :
+				case 'group':
 					$entity = new \ElggGroup();
-					$entity->subtype = $subtype;
+					$entity->setSubtype($subtype);
 					break;
+				case 'object':
+					// ElggObject is abstract in Elgg 7.x — a registered entity class is required
+					throw new \InvalidArgumentException(
+						"Cannot create entity of type '{$type}' with subtype '{$subtype}': no entity class registered. " .
+						"Register a class in elgg-plugin.php entities configuration."
+					);
+				default:
+					throw new \InvalidArgumentException("Unsupported entity type: '{$type}'");
 			}
 		}
 
 		foreach ($attributes as $key => $value) {
 			if (in_array($key, $this->getAttributeNames($entity))) {
-				$entity->$key = $value;
+				$entity->{$key} = $value;
 			}
 		}
 
@@ -84,55 +81,23 @@ class EntityFactory {
 	 * @return array
 	 */
 	public function getAttributeNames($entity) {
-		
 		if (!$entity instanceof \ElggEntity) {
-			return array();
+			return [];
 		}
 
-		$default = array(
-			'guid',
-			'type',
-			'subtype',
-			'owner_guid',
-			'container_guid',
-			'site_guid',
-			'access_id',
-			'time_created',
-			'time_updated',
-			'last_action',
-			'enabled',
-		);
-
+		$default = ['guid', 'type', 'subtype', 'owner_guid', 'container_guid', 'access_id', 'time_created', 'time_updated', 'last_action', 'enabled'];
 		switch ($entity->getType()) {
-			case 'user';
-				$attributes = array(
-					'name',
-					'username',
-					'email',
-					'language',
-					'banned',
-					'admin',
-					'password',
-					'salt'
-				);
+			case 'user':
+				$attributes = ['name', 'username', 'email', 'language', 'banned', 'admin', 'password', 'salt'];
 				break;
-
-			case 'group' :
-				$attributes = array(
-					'name',
-					'description',
-				);
+			case 'group':
+				$attributes = ['name', 'description'];
 				break;
-
-			case 'object' :
-				$attributes = array(
-					'title',
-					'description',
-				);
+			case 'object':
+				$attributes = ['title', 'description'];
 				break;
 		}
 
 		return array_merge($default, $attributes);
 	}
-
 }

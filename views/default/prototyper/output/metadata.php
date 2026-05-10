@@ -18,6 +18,7 @@ $view = $field->getOutputView();
 if (!elgg_view_exists($view)) {
 	$view = 'output/longtext';
 }
+
 $type = $field->getType();
 
 $vars = array_merge($field->getInputVars($entity), $vars);
@@ -50,10 +51,10 @@ if (!$output) {
 	return;
 }
 
-echo <<<__HTML
+?>
 <div class="prototyper-output-metadata">
-	<label class="prototyper-label">$label</label>
-	<div class="elgg-output $class">$output</div>
+	<label class="prototyper-label"><?= $label ?></label>
+	<div class="elgg-output <?= $class ?>"><?= $output ?></div>
 </div>
-__HTML;
+<?php
 

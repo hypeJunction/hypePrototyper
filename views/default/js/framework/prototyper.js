@@ -1,19 +1,17 @@
-define(['elgg', 'jquery'], function(elgg, $) {
+import i18n from 'elgg/i18n';
+import $ from 'jquery';
 
-	$(document).on('click', '.prototyper-clone', function(e) {
+$(document).on('click', '.prototyper-clone', function(e) {
+	var $parent = $(this).closest('.prototyper-fieldset');
+	var $clone = $parent.clone(true, false);
+	$('[data-reset]', $clone).val('').trigger('reset');
+	$parent.after($clone);
+});
+
+$(document).on('click', '.prototyper-remove', function(e) {
+	var confirmText = $(this).attr('rel') || i18n.echo('question:areyousure');
+	if (confirm(confirmText)) {
 		var $parent = $(this).closest('.prototyper-fieldset');
-		var $clone = $parent.clone(true, false);
-		$('[data-reset]', $clone).val('').trigger('reset');
-		$parent.after($clone);
-
-	});
-
-	$(document).on('click', '.prototyper-remove', function(e) {
-		var confirmText = $(this).attr('rel') || elgg.echo('question:areyousure');
-		if (confirm(confirmText)) {
-			var $parent = $(this).closest('.prototyper-fieldset');
-			$parent.fadeOut().remove();
-		}
-	});
-
+		$parent.fadeOut().remove();
+	}
 });

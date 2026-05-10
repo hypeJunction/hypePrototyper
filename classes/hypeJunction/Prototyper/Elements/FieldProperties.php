@@ -2,13 +2,17 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Field properties accessor contract.
+ */
 interface FieldProperties {
 
 	/**
 	 * Sets a protected property
-	 * 
+	 *
 	 * @param string $name  Prop name
 	 * @param mixed  $value Prop value
+	 * @return void
 	 */
 	public function set($name, $value = null);
 

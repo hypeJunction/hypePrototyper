@@ -2,6 +2,9 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Field data accessor contract.
+ */
 interface FieldData {
 
 	/**

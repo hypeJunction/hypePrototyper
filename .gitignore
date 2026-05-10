@@ -10,3 +10,12 @@ robots.txt
 /vendor/
 composer.lock
 Gemfile.lock
+.phpunit.result.cache
+tests/.phpunit.result.cache
+tests/coverage/
+docker/.env
+tests/deps.local.txt
+tests/playwright/node_modules/
+tests/playwright/test-results/
+tests/playwright/playwright-report/
+tests/playwright/package-lock.json

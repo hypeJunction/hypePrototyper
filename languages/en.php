@@ -1,7 +1,6 @@
 <?php
 
-$english = array(
-
+return [
 	'prototyper:required' => 'Required',
 
 	'prototyper:validate:error' => 'There were some problems with your submission. Please fix the errors and retry.',
@@ -14,6 +13,4 @@ $english = array(
 	'prototyper:settings:default_language' => 'Default language',
 
 	'prototyper:ui:cropper_instructions' => 'Select an area of your image to crop',
-);
-
-add_translation('en', $english);
+];

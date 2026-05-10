@@ -19,10 +19,10 @@ $required = $field->isRequired();
 $multiple = $field->isMultiple();
 
 if ($required) {
-	$label_attrs = elgg_format_attributes(array(
+	$label_attrs = _elgg_services()->html_formatter->formatAttributes([
 		'class' => 'required',
 		'title' => elgg_echo('prototyper:required')
-	));
+	]);
 }
 
 $annotations = $field->getValues($entity);
@@ -30,7 +30,7 @@ if (empty($annotations)) {
 	return;
 }
 
-if (($field->getValueType() == 'tags' || !$field->isMultiple()) && sizeof($annotations) > 1) {
+if (($field->getValueType() == 'tags' || !$field->isMultiple()) && count($annotations) > 1) {
 	$shortname = $field->getShortname();
 	$ann = new \stdClass();
 	$ann->id = $annotations[0]->id;
@@ -41,10 +41,11 @@ if (($field->getValueType() == 'tags' || !$field->isMultiple()) && sizeof($annot
 	} else {
 		$ann->value = $value;
 	}
+
 	$ann->access_id = $annotations[0]->access_id;
 	$ann->owner_guid = $annotations[0]->owner_guid;
-	$annotations = array($ann);
-} else if (in_array($field->getValueType(), array('checkboxes', 'radio'))) {
+	$annotations = [$ann];
+} else if (in_array($field->getValueType(), ['checkboxes', 'radio'])) {
 	$shortname = $field->getShortname();
 	$ann = new \stdClass();
 	$ann->id = $annotations[0]->id;
@@ -53,29 +54,30 @@ if (($field->getValueType() == 'tags' || !$field->isMultiple()) && sizeof($annot
 	if (is_array($value)) {
 		$ann->value = $value;
 	} else {
-		$ann->value = array($value);
+		$ann->value = [$value];
 	}
+
 	$ann->access_id = $annotations[0]->access_id;
 	$ann->owner_guid = $annotations[0]->owner_guid;
-	$annotations = array($ann);
+	$annotations = [$ann];
 }
 
 echo elgg_view('prototyper/input/before', $vars);
 
 foreach ($annotations as $ann) {
-	$hidden = elgg_view('input/hidden', array(
+	$hidden = elgg_view('input/hidden', [
 		'name' => "{$name}[id][{$index}]",
 		'value' => $ann->id,
 		'data-reset' => true,
-	));
-	$hidden .= elgg_view('input/hidden', array(
+	]);
+	$hidden .= elgg_view('input/hidden', [
 		'name' => "{$name}[name][{$index}]",
 		'value' => ($ann->name) ? $ann->name : $name,
-	));
-	$hidden .= elgg_view('input/hidden', array(
+	]);
+	$hidden .= elgg_view('input/hidden', [
 		'name' => "{$name}[owner_guid][{$index}]",
 		'value' => ($ann->owner_guid) ? $ann->owner_guid : elgg_get_logged_in_user_guid(),
-	));
+	]);
 	$input_vars = $field->getInputVars($entity);
 	$input_vars['name'] = "{$name}[value][{$index}]";
 	$input_vars['value'] = $ann->value;
@@ -95,17 +97,18 @@ foreach ($annotations as $ann) {
 		$access_id = $show_access;
 		$access_type = 'hidden';
 	} else {
-		$access_id = ($ann->access_id) ? $ann->access_id : ($entity->guid) ? $entity->access_id : get_default_access();
+		$access_id = ($ann->access_id) ? $ann->access_id : (($entity->guid) ? $entity->access_id : (elgg_get_config('default_access') ?? ACCESS_PUBLIC));
 		if ($show_access === true && $type !== 'hidden') {
 			$access_type = 'access';
 		} else {
 			$access_type = 'hidden';
 		}
 	}
-	$access .= elgg_view("input/$access_type", array(
+
+	$access .= elgg_view("input/$access_type", [
 		'name' => "{$name}[access_id][{$index}]",
 		'value' => $access_id,
-	));
+	]);
 
 	if ($type == 'hidden') {
 		echo $hidden . $access . $input;
@@ -120,24 +123,26 @@ foreach ($annotations as $ann) {
 				if ($label) {
 					echo "<label $label_attrs>$label</label>";
 				}
+
 				if ($multiple) {
-					echo elgg_view('output/url', array(
+					echo elgg_view('output/url', [
 						'text' => elgg_view_icon('prototyper-round-plus'),
 						'href' => 'javascript:void(0);',
 						'class' => 'prototyper-clone',
 						'is_trusted' => true,
-					));
-					echo elgg_view('output/url', array(
+					]);
+					echo elgg_view('output/url', [
 						'text' => elgg_view_icon('prototyper-round-minus'),
 						'href' => 'javascript:void(0);',
 						'class' => 'prototyper-remove',
 						'is_trusted' => true,
-					));
+					]);
 				}
-				echo elgg_view('prototyper/elements/help', array(
+
+				echo elgg_view('prototyper/elements/help', [
 					'value' => $help,
 					'field' => $field,
-				));
+				]);
 				?>
 			</div>
 			<div class="prototyper-col-3 prototyper-access">
@@ -156,11 +161,13 @@ foreach ($annotations as $ann) {
 					echo '<ul class="prototyper-validation-error prototyper-col-12">';
 					$messages = $field->getValidationMessages();
 					if (!is_array($messages)) {
-						$messages = array($messages);
+						$messages = [$messages];
 					}
+
 					foreach ($messages as $m) {
 						echo '<li>' . $m . '</li>';
 					}
+
 					echo '</ul>';
 				}
 				?>

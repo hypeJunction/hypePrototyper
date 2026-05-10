@@ -2,8 +2,10 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Field input rendering contract.
+ */
 interface FieldInput {
-
 
 	/**
 	 * Render input
@@ -11,7 +13,7 @@ interface FieldInput {
 	 * @param array $vars Input view vars
 	 * @return string
 	 */
-	public function viewInput($vars = array());
+	public function viewInput($vars = []);
 
 	/**
 	 * Get name of the input view
@@ -26,5 +28,4 @@ interface FieldInput {
 	 * @return array
 	 */
 	public function getInputVars(\ElggEntity $entity);
-
 }

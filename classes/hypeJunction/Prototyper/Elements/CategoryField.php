@@ -2,6 +2,9 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Category/relationship field type.
+ */
 class CategoryField extends RelationshipField {
 
 	const CLASSNAME = __CLASS__;
@@ -21,7 +24,8 @@ class CategoryField extends RelationshipField {
 		if ($sticky) {
 			return $sticky;
 		}
-		return hypeCategories()->model->getItemCategories($entity, array(), true);
+
+		return hypeCategories()->model->getItemCategories($entity, [], true);
 	}
 
 	/**
@@ -45,5 +49,4 @@ class CategoryField extends RelationshipField {
 	public static function getDataType() {
 		return 'category';
 	}
-
 }

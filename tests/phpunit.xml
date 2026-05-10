@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="bootstrap.php" colors="true">
+    <php>
+        <env name="ELGG_ENVIRONMENT" value="testing"/>
+    </php>
+    <testsuites>
+        <testsuite name="unit"><directory>phpunit/unit</directory></testsuite>
+        <testsuite name="integration"><directory>phpunit/integration</directory></testsuite>
+    </testsuites>
+</phpunit>

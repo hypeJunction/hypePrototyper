@@ -13,11 +13,7 @@ if (!$entity || !$name) {
 	return;
 }
 
-if (\hypeJunction\Integration::isElggVersionBelow('1.9.0')) {
-	elgg_load_js('prototyper');
-} else {
-	elgg_require_js('framework/prototyper');
-}
+elgg_import_esm('framework/prototyper');
 
 $label = $field->getLabel();
 $view = $field->getOutputView();
@@ -49,9 +45,9 @@ if (!$output) {
 	return;
 }
 
-echo <<<__HTML
+?>
 <div class="prototyper-output-relationship">
-	<label class="prototyper-label">$label</label>
-	<div class="elgg-output $class">$output</div>
+	<label class="prototyper-label"><?= $label ?></label>
+	<div class="elgg-output <?= $class ?>"><?= $output ?></div>
 </div>
-__HTML;
+<?php

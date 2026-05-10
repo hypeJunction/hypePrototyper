@@ -2,6 +2,9 @@
 
 namespace hypeJunction\Prototyper\Elements;
 
+/**
+ * Base field class.
+ */
 abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldData, FieldStickyValues, FieldValidation {
 
 	/**
@@ -30,7 +33,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 
 	/**
 	 * Class name
-	 * @var string 
+	 * @var string
 	 */
 	protected $class_name;
 
@@ -90,7 +93,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 
 	/**
 	 * Hide on profile
-	 * @var boolean 
+	 * @var boolean
 	 */
 	protected $hide_on_profile;
 
@@ -128,7 +131,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	 * Validation rules
 	 * @var array
 	 */
-	protected $validation_rules = array();
+	protected $validation_rules = [];
 
 	/**
 	 * Order of the field
@@ -140,14 +143,14 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	 * Flags used for filtering
 	 * @var array
 	 */
-	protected $flags = array();
+	protected $flags = [];
 
 	/**
 	 * Construct a new field
 	 *
 	 * @param array $options Options
 	 */
-	public function __construct(array $options = array()) {
+	public function __construct(array $options = []) {
 		$this->input_vars = new \stdClass();
 		$this->output_vars = new \stdClass();
 		foreach ($options as $key => $value) {
@@ -170,8 +173,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		$props = get_object_vars($this);
 
 		switch ($name) {
-
-			default :
+			default:
 				if (array_key_exists($name, $props)) {
 					$this->$name = $value;
 				} else {
@@ -179,26 +181,27 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 				}
 				break;
 
-			case 'type' :
+			case 'type':
 				$this->setType($value);
 				break;
 
-			case 'value_type' :
+			case 'value_type':
 				$this->setValueType($value);
 				break;
 
-			case 'validation' :
-			case 'validation_rules' :
+			case 'validation':
+			case 'validation_rules':
 				$value = (array) $value;
 				foreach ($value as $rule => $expectation) {
 					$this->addValidationRule($rule, $expectation);
 				}
 				break;
 
-			case 'flags' :
+			case 'flags':
 				if (is_string($value)) {
-					$value = string_to_tag_array($value);
+					$value = elgg_string_to_array($value);
 				}
+
 				$this->flags = $value;
 				break;
 
@@ -238,6 +241,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		if (!$this->getValidationRule('type')) {
 			$this->addValidationRule('type', $value_type);
 		}
+
 		return $this;
 	}
 
@@ -258,7 +262,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	/**
 	 * {@inheritdoc}
 	 */
-	public function viewInput($vars = array()) {
+	public function viewInput($vars = []) {
 		$vars['field'] = $this;
 		$data_type = $this->getDataType();
 		return elgg_view("prototyper/input/$data_type", $vars);
@@ -275,7 +279,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	/**
 	 * {@inheritdoc}
 	 */
-	public function viewOutput($vars = array()) {
+	public function viewOutput($vars = []) {
 		$vars['field'] = $this;
 		$data_type = $this->getDataType();
 		return elgg_view("prototyper/output/$data_type", $vars);
@@ -299,7 +303,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	 * {@inheritdoc}
 	 */
 	public function getFlags() {
-		return (is_array($this->flags)) ? $this->flags : array();
+		return (is_array($this->flags)) ? $this->flags : [];
 	}
 
 	/**
@@ -322,6 +326,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	public function isHiddenOnProfile() {
 		return ($this->hide_on_profile);
 	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -337,39 +342,41 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		$this->input_vars->required = $this->isRequired();
 
 		if (!empty($this->input_vars->options_values) && is_array($this->input_vars->options_values)) {
-			$lang = get_language();
-			$options_values = array();
+			$lang = elgg_get_current_language();
+			$options_values = [];
 
 			foreach ($this->input_vars->options_values as $o_key => $o_value) {
 				if (is_array($o_value)) {
-					$o_value = elgg_extract($lang, $o_value, elgg_echo(implode(':', array_filter(array(
+					$o_value = elgg_extract($lang, $o_value, elgg_echo(implode(':', array_filter([
 						'option',
 						$this->entity_type,
 						$this->entity_subtype,
 						$this->getShortname(),
 						$o_key,
-					)))));
+					]))));
 				}
+
 				$options_values[$o_key] = $o_value;
 			}
 
 			if ($this->type == 'checkboxes' || $this->type == 'radio') {
 				$this->input_vars->options = array_flip($options_values);
 			}
+
 			$this->input_vars->options_values = $options_values;
 		}
 
 		$vars = (array) $this->input_vars;
 
-		$clean = array('ui_sections', 'relationship', 'inverse_relationship', 'bilateral');
+		$clean = ['ui_sections', 'relationship', 'inverse_relationship', 'bilateral'];
 		foreach ($clean as $key) {
 			unset($vars[$key]);
 		}
 		
-		return elgg_trigger_plugin_hook('input_vars', 'prototyper', array(
+		return elgg_trigger_event_results('input_vars', 'prototyper', [
 			'field' => $this,
 			'entity' => $entity,
-				), $vars);
+		], $vars);
 	}
 
 	/**
@@ -385,12 +392,12 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	 */
 	public function getLabel($lang = '', $raw = false) {
 
-		$key = implode(':', array_filter(array(
+		$key = implode(':', array_filter([
 			'label',
 			$this->entity_type,
 			$this->entity_subtype,
 			$this->getShortname()
-		)));
+		]));
 
 		if ($raw) {
 			return $key;
@@ -401,7 +408,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		}
 
 		if (!$lang) {
-			$lang = get_language();
+			$lang = elgg_get_current_language();
 		}
 
 		if (is_string($this->label)) {
@@ -410,7 +417,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 			$translation = elgg_extract($lang, $this->label);
 		}
 
-		return ($translation) ? $translation : elgg_echo($key, array(), $lang);
+		return ($translation) ? $translation : elgg_echo($key, [], $lang);
 	}
 
 	/**
@@ -418,12 +425,12 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	 */
 	public function getHelp($lang = '', $raw = false) {
 
-		$key = implode(':', array_filter(array(
+		$key = implode(':', array_filter([
 			'help',
 			$this->entity_type,
 			$this->entity_subtype,
 			$this->getShortname()
-		)));
+		]));
 
 		if ($raw) {
 			return $key;
@@ -434,7 +441,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		}
 
 		if (!$lang) {
-			$lang = get_language();
+			$lang = elgg_get_current_language();
 		}
 
 		if (is_string($this->help)) {
@@ -444,7 +451,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		}
 
 
-		return ($translation) ? $translation : elgg_echo($key, array(), $lang);
+		return ($translation) ? $translation : elgg_echo($key, [], $lang);
 	}
 
 	/**
@@ -454,6 +461,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		if ($rule && $expectation) {
 			$this->validation_rules[$rule] = $expectation;
 		}
+
 		return $this;
 	}
 
@@ -464,6 +472,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		if (isset($this->validation_rules[$rule])) {
 			return $this->validation_rules[$rule];
 		}
+
 		return false;
 	}
 
@@ -486,13 +495,13 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		$validation_rules = $this->getValidationRules();
 		if (!empty($validation_rules)) {
 			foreach ($validation_rules as $rule => $expectation) {
-				$validation = elgg_trigger_plugin_hook("validate:$rule", 'prototyper', array(
+				$validation = elgg_trigger_event_results("validate:$rule", 'prototyper', [
 					'rule' => $rule,
 					'field' => $this,
 					'value' => $value,
 					'expectation' => $expectation,
 					'entity' => $entity,
-						), $validation);
+				], $validation);
 
 				if (!$validation instanceof ValidationStatus) {
 					elgg_log("'validate:$rule,'prototyper' hook must return an instance of ValidationStatus", 'ERROR');
@@ -500,13 +509,14 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 				}
 			}
 		}
+
 		return $validation;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setValidation($status = true, $messages = array()) {
+	public function setValidation($status = true, $messages = []) {
 		$this->validation = new ValidationStatus($status, $messages);
 		return $this;
 	}
@@ -546,5 +556,4 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	public function getStickyValue() {
 		return $this->sticky_value;
 	}
-
 }

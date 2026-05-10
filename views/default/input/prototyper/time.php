@@ -6,10 +6,10 @@
  * @uses $vars['format'] Date format to apply
  */
 
-$vars['options_values'] = array();
+$vars['options_values'] = [];
 
 $interval = (int) elgg_extract('interval', $vars, 900);
-$format = elgg_extract('format', $vars, "g:ia");
+$format = elgg_extract('format', $vars, 'g:ia');
 
 $options = range(0, 86400, $interval);
 foreach ($options as $option) {

@@ -2,16 +2,23 @@
 
 namespace hypeJunction\Prototyper;
 
+/**
+ * Prototyper form element.
+ */
 class Form {
 
 	private $config;
+
 	private $prototype;
+
 	private $entityFactory;
 
 	/**
 	 * Constructor
 	 *
-	 * @param Config $config
+	 * @param Config        $config        Plugin config
+	 * @param Prototype     $prototype     Prototype service
+	 * @param EntityFactory $entityFactory Entity factory
 	 */
 	public function __construct(Config $config, Prototype $prototype, EntityFactory $entityFactory) {
 		$this->config = $config;
@@ -27,7 +34,7 @@ class Form {
 	 * @param array  $params Additional context params to pass to the hook
 	 * @return Elements\Form
 	 */
-	public function with($entity = array(), $action = 'all', array $params = array()) {
+	public function with($entity = [], $action = 'all', array $params = []) {
 
 		$entity = $this->entityFactory->build($entity);
 		$fields = $this->prototype->fields($entity, $action, $params)
