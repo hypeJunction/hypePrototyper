@@ -1,6 +1,6 @@
 hypePrototyper
 ==============
-![Elgg 5.x](https://img.shields.io/badge/Elgg-5.x-orange.svg?style=flat-square)
+![Elgg 7.x](https://img.shields.io/badge/Elgg-7.x-orange.svg?style=flat-square)
 
 A set of developer and administrator tools for prototyping and handling
 entity forms.
@@ -264,3 +264,9 @@ The third parameter contains default key - value pairs (which can later be overr
 'ui_sections' parameter specifies which sections should be disabled in the admin interface provided by
 hypePrototyperUI.
 
+
+## Compatibility
+
+| Plugin version | Elgg version |
+|---|---|
+| current | 7.x |
