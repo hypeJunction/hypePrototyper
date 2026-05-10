@@ -264,7 +264,6 @@ The third parameter contains default key - value pairs (which can later be overr
 'ui_sections' parameter specifies which sections should be disabled in the admin interface provided by
 hypePrototyperUI.
 
-
 ## Compatibility
 
 | Plugin version | Elgg version |
