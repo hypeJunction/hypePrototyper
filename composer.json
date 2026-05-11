@@ -17,7 +17,7 @@
 		}
 	],
 	"extra": {
-		"installer-name": "hypePrototyper",
+		"installer-name": "hypeprototyper",
 		"elgg-plugin": {
 			"id": "hypeprototyper"
 		}
