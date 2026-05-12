@@ -5,7 +5,10 @@
 	"description": "Entity prototyping",
 	"homepage": "http://hypejunction.com",
 	"keywords": [
-		"elgg", "plugin", "prototypes", "forms"
+		"elgg",
+		"plugin",
+		"prototypes",
+		"forms"
 	],
 	"license": "GPL-2.0",
 	"authors": [
@@ -25,6 +28,9 @@
 		"psr-0": {
 			"": "classes/"
 		}
+	},
+	"require": {
+		"php": ">=7.2",
+		"elgg/elgg": "^3.0"
 	}
 }
-
