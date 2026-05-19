@@ -107,13 +107,13 @@ class RelationshipField extends Field {
 
 		foreach ($future_relationships_ids as $guid) {
 			if (!$this->inverse_relationship || $this->bilateral) {
-				if (!check_entity_relationship($entity->guid, $shortname, $guid)) {
+				if (!(get_entity($entity->guid)?->hasRelationship($guid, $shortname) ?? false)) {
 					add_entity_relationship($entity->guid, $shortname, $guid);
 				}
 			}
 
 			if ($this->inverse_relationship || $this->bilateral) {
-				if (!check_entity_relationship($guid, $shortname, $entity->guid)) {
+				if (!(get_entity($guid)?->hasRelationship($entity->guid, $shortname) ?? false)) {
 					add_entity_relationship($guid, $shortname, $entity->guid);
 				}
 			}
