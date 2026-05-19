@@ -342,7 +342,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		$this->input_vars->required = $this->isRequired();
 
 		if (!empty($this->input_vars->options_values) && is_array($this->input_vars->options_values)) {
-			$lang = elgg_get_current_language();
+			$lang = elgg_elgg_get_language();
 			$options_values = [];
 
 			foreach ($this->input_vars->options_values as $o_key => $o_value) {
@@ -408,7 +408,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		}
 
 		if (!$lang) {
-			$lang = elgg_get_current_language();
+			$lang = elgg_elgg_get_language();
 		}
 
 		if (is_string($this->label)) {
@@ -441,7 +441,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		}
 
 		if (!$lang) {
-			$lang = elgg_get_current_language();
+			$lang = elgg_elgg_get_language();
 		}
 
 		if (is_string($this->help)) {
