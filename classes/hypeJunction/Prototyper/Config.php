@@ -60,6 +60,11 @@ class Config {
 	 * @return boolean|array
 	 */
 	public function getType($data_type = 'metadata', $type = 'text') {
+		// Some callers (legacy plugin code on PHP 8.x strict) pass array values
+		// where strings are expected; isset() throws on array offsets.
+		if (!is_scalar($data_type) || !is_scalar($type)) {
+			return false;
+		}
 		if (isset($this->types[$data_type][$type])) {
 			return $this->types[$data_type][$type];
 		}
