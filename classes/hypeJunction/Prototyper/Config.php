@@ -65,6 +65,7 @@ class Config {
 		if (!is_scalar($data_type) || !is_scalar($type)) {
 			return false;
 		}
+
 		if (isset($this->types[$data_type][$type])) {
 			return $this->types[$data_type][$type];
 		}
