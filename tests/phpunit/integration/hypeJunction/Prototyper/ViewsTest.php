@@ -35,7 +35,7 @@ class ViewsTest extends IntegrationTestCase {
 	 * @dataProvider inputViewProvider
 	 */
 	public function testInputViewExists(string $view): void {
-		$this->assertTrue(elgg_view_exists($view), "Missing view: $view");
+		$this->assertTrue(\elgg_view_exists($view), "Missing view: $view");
 	}
 
 	public function outputViewProvider(): array {
@@ -53,10 +53,10 @@ class ViewsTest extends IntegrationTestCase {
 	 * @dataProvider outputViewProvider
 	 */
 	public function testOutputViewExists(string $view): void {
-		$this->assertTrue(elgg_view_exists($view), "Missing view: $view");
+		$this->assertTrue(\elgg_view_exists($view), "Missing view: $view");
 	}
 
 	public function testCssExtensionRegistered(): void {
-		$this->assertTrue(elgg_view_exists('css/framework/prototyper/stylesheet'));
+		$this->assertTrue(\elgg_view_exists('css/framework/prototyper/stylesheet'));
 	}
 }

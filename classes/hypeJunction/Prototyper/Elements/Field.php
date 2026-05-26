@@ -199,7 +199,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 
 			case 'flags':
 				if (is_string($value)) {
-					$value = elgg_string_to_array($value);
+					$value = \elgg_string_to_array($value);
 				}
 
 				$this->flags = $value;
@@ -265,7 +265,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	public function viewInput($vars = []) {
 		$vars['field'] = $this;
 		$data_type = $this->getDataType();
-		return elgg_view("prototyper/input/$data_type", $vars);
+		return \elgg_view("prototyper/input/$data_type", $vars);
 	}
 
 	/**
@@ -282,7 +282,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 	public function viewOutput($vars = []) {
 		$vars['field'] = $this;
 		$data_type = $this->getDataType();
-		return elgg_view("prototyper/output/$data_type", $vars);
+		return \elgg_view("prototyper/output/$data_type", $vars);
 	}
 
 	/**
@@ -342,12 +342,12 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		$this->input_vars->required = $this->isRequired();
 
 		if (!empty($this->input_vars->options_values) && is_array($this->input_vars->options_values)) {
-			$lang = elgg_get_current_language();
+			$lang = \elgg_get_current_language();
 			$options_values = [];
 
 			foreach ($this->input_vars->options_values as $o_key => $o_value) {
 				if (is_array($o_value)) {
-					$o_value = elgg_extract($lang, $o_value, elgg_echo(implode(':', array_filter([
+					$o_value = \elgg_extract($lang, $o_value, \elgg_echo(implode(':', array_filter([
 						'option',
 						$this->entity_type,
 						$this->entity_subtype,
@@ -373,7 +373,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 			unset($vars[$key]);
 		}
 		
-		return elgg_trigger_event_results('input_vars', 'prototyper', [
+		return \elgg_trigger_event_results('input_vars', 'prototyper', [
 			'field' => $this,
 			'entity' => $entity,
 		], $vars);
@@ -408,16 +408,16 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		}
 
 		if (!$lang) {
-			$lang = elgg_get_current_language();
+			$lang = \elgg_get_current_language();
 		}
 
 		if (is_string($this->label)) {
 			$translation = $this->label;
 		} else if (is_array($this->label)) {
-			$translation = elgg_extract($lang, $this->label);
+			$translation = \elgg_extract($lang, $this->label);
 		}
 
-		return ($translation) ? $translation : elgg_echo($key, [], $lang);
+		return ($translation) ? $translation : \elgg_echo($key, [], $lang);
 	}
 
 	/**
@@ -441,17 +441,17 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		}
 
 		if (!$lang) {
-			$lang = elgg_get_current_language();
+			$lang = \elgg_get_current_language();
 		}
 
 		if (is_string($this->help)) {
 			$translation = $this->help;
 		} else if (is_array($this->help)) {
-			$translation = elgg_extract($lang, $this->help);
+			$translation = \elgg_extract($lang, $this->help);
 		}
 
 
-		return ($translation) ? $translation : elgg_echo($key, [], $lang);
+		return ($translation) ? $translation : \elgg_echo($key, [], $lang);
 	}
 
 	/**
@@ -495,7 +495,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 		$validation_rules = $this->getValidationRules();
 		if (!empty($validation_rules)) {
 			foreach ($validation_rules as $rule => $expectation) {
-				$validation = elgg_trigger_event_results("validate:$rule", 'prototyper', [
+				$validation = \elgg_trigger_event_results("validate:$rule", 'prototyper', [
 					'rule' => $rule,
 					'field' => $this,
 					'value' => $value,
@@ -504,7 +504,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 				], $validation);
 
 				if (!$validation instanceof ValidationStatus) {
-					elgg_log("'validate:$rule,'prototyper' hook must return an instance of ValidationStatus", 'ERROR');
+					\elgg_log("'validate:$rule,'prototyper' hook must return an instance of ValidationStatus", 'ERROR');
 					$validation = new ValidationStatus();
 				}
 			}

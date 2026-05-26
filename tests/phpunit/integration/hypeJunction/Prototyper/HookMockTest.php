@@ -59,7 +59,7 @@ $hook->method('getParam')->willReturnMap([
 		// SKILL.md note: elgg_set_plugin_setting() was removed in Elgg 4 —
 		// use $plugin->setSetting()/->getSetting() instead. This test encodes
 		// that expectation so regressions surface loudly.
-		$plugin = elgg_get_plugin_from_id('hypeprototyper');
+		$plugin = \elgg_get_plugin_from_id('hypeprototyper');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeprototyper plugin entity not available in test DB');
 		}

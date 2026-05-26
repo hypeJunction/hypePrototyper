@@ -91,12 +91,12 @@ class Form {
 			$i++;
 		}
 
-		$submit = elgg_view('prototyper/input/submit', [
+		$submit = \elgg_view('prototyper/input/submit', [
 			'entity' => $this->entity,
 			'action' => $this->action,
 		]);
 
-		$output .= elgg_format_element('div', [
+		$output .= \elgg_format_element('div', [
 			'class' => 'elgg-foot',
 		], $submit);
 
@@ -111,7 +111,7 @@ class Form {
 	 */
 	public function view(array $vars = []) {
 		$attrs = $this->getFormAttributes();
-		return elgg_view('input/form', array_merge($attrs, $vars));
+		return \elgg_view('input/form', array_merge($attrs, $vars));
 	}
 
 	/**

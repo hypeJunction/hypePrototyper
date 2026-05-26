@@ -62,18 +62,18 @@ class ActionController {
 				$result = $this->update();
 			}
 		} catch (\hypeJunction\Exceptions\ActionValidationException $ex) {
-			return elgg_error_response(elgg_echo('prototyper:validate:error'));
+			return \elgg_error_response(\elgg_echo('prototyper:validate:error'));
 		} catch (\Elgg\Exceptions\FileSystem\IOException $ex) {
-			return elgg_error_response(elgg_echo('prototyper:io:error', [$ex->getMessage()]));
+			return \elgg_error_response(\elgg_echo('prototyper:io:error', [$ex->getMessage()]));
 		} catch (\Exception $ex) {
-			return elgg_error_response(elgg_echo('prototyper:handle:error', [$ex->getMessage()]));
+			return \elgg_error_response(\elgg_echo('prototyper:handle:error', [$ex->getMessage()]));
 		}
 
 		if ($result) {
-			return elgg_ok_response([], elgg_echo('prototyper:action:success'), $this->entity->getURL());
+			return \elgg_ok_response([], \elgg_echo('prototyper:action:success'), $this->entity->getURL());
 		}
 
-		return elgg_error_response(elgg_echo('prototyper:action:error'));
+		return \elgg_error_response(\elgg_echo('prototyper:action:error'));
 	}
 
 	/**

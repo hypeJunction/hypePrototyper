@@ -34,9 +34,9 @@ class Template {
 	public function __construct($data_type = 'metadata', $input_type = 'text', $params = []) {
 		$this->data_type = $data_type;
 		$this->input_type = $input_type;
-		$sections = (array) elgg_extract('ui_sections', $params, []);
+		$sections = (array) \elgg_extract('ui_sections', $params, []);
 		foreach ($this->sections as $name => $default) {
-			$show = elgg_extract($name, $sections, $default);
+			$show = \elgg_extract($name, $sections, $default);
 			$this->$name = ($show) ? 'visible' : 'hidden';
 		}
 	}

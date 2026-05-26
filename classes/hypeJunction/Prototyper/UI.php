@@ -63,39 +63,39 @@ class UI {
 		$sort_priority = 10;
 
 		foreach ($field as $uid => $options) {
-			$shortname = elgg_extract('shortname', $options, $uid);
+			$shortname = \elgg_extract('shortname', $options, $uid);
 			$shortname = preg_replace('/[^A-Za-z0-9_]/', '_', $shortname);
 			$shortname = strtolower($shortname);
 
-			list($data_type, $input_type) = explode('::', elgg_extract('dit', $options, ''));
+			list($data_type, $input_type) = explode('::', \elgg_extract('dit', $options, ''));
 			unset($options['dit']);
 			
-			$required = (bool) elgg_extract('required', $options, false);
-			$multiple = (bool) elgg_extract('multiple', $options, false);
-			$admin_only = (bool) elgg_extract('admin_only', $options, false);
-			$hide_on_profile = (bool) elgg_extract('hide_on_profile', $options, false);
-			$show_access = (bool) elgg_extract('show_access', $options, false);
+			$required = (bool) \elgg_extract('required', $options, false);
+			$multiple = (bool) \elgg_extract('multiple', $options, false);
+			$admin_only = (bool) \elgg_extract('admin_only', $options, false);
+			$hide_on_profile = (bool) \elgg_extract('hide_on_profile', $options, false);
+			$show_access = (bool) \elgg_extract('show_access', $options, false);
 
-			$relationship = elgg_extract('relationship', $options, []);
+			$relationship = \elgg_extract('relationship', $options, []);
 			unset($options['relationship']);
 			
-			$inverse_relationship = (bool) elgg_extract('inverse_relationship', $relationship, false);
-			$bilateral = (bool) elgg_extract('bileteral', $relationship, false);
+			$inverse_relationship = (bool) \elgg_extract('inverse_relationship', $relationship, false);
+			$bilateral = (bool) \elgg_extract('bileteral', $relationship, false);
 
-			$value = elgg_extract('value', $options);
+			$value = \elgg_extract('value', $options);
 
-			$hide_label = (bool) elgg_extract('hide_label', $options, false);
-			$label = ($hide_label) ? false : elgg_extract('label', $options, '');
+			$hide_label = (bool) \elgg_extract('hide_label', $options, false);
+			$label = ($hide_label) ? false : \elgg_extract('label', $options, '');
 			unset($options['hide_label']);
 
-			$hide_help = (bool) elgg_extract('hide_help', $options, false);
-			$help = ($hide_help) ? false : elgg_extract('help', $options, '');
+			$hide_help = (bool) \elgg_extract('hide_help', $options, false);
+			$help = ($hide_help) ? false : \elgg_extract('help', $options, '');
 			unset($options['hide_help']);
 			
-			$priority = elgg_extract('priority', $options, $sort_priority);
+			$priority = \elgg_extract('priority', $options, $sort_priority);
 			$sort_priority += 10;
 
-			$options_values = elgg_extract('options_values', $options, []);
+			$options_values = \elgg_extract('options_values', $options, []);
 			unset($options['options_values']);
 
 			$options_values_config = [];
@@ -105,7 +105,7 @@ class UI {
 				$options_values_config[$o_value] = [$language => $o_label];
 			}
 
-			$validation = elgg_extract('validation', $options, []);
+			$validation = \elgg_extract('validation', $options, []);
 			unset($options['validation']);
 
 			$validation_rules = [];
@@ -116,7 +116,7 @@ class UI {
 			}
 
 			$icon_sizes = [];
-			$icon_sizes_conf = elgg_extract('icon_sizes', $options);
+			$icon_sizes_conf = \elgg_extract('icon_sizes', $options);
 			$system_icon_sizes = array_keys((array) $icon_sizes_conf);
 			if (is_array($icon_sizes_conf) && !empty($icon_sizes_conf)) {
 				$keys = array_keys($icon_sizes_conf['name']);

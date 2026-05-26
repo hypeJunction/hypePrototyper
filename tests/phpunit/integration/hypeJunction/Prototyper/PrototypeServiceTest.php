@@ -47,14 +47,14 @@ $collection = $prototype->fields([
 			$return['title'] = ['type' => 'title', 'data_type' => 'attribute'];
 			return $return;
 		};
-		elgg_register_event_handler('prototype', 'create', $handler);
+		\elgg_register_event_handler('prototype', 'create', $handler);
 
 $collection = $prototype->fields([
 			'type' => 'object',
 			'subtype' => 'prototyper_test',
 		], 'create');
 
-		elgg_unregister_event_handler('prototype', 'create', $handler);
+		\elgg_unregister_event_handler('prototype', 'create', $handler);
 
 		$this->assertTrue($fired);
 		$this->assertInstanceOf(FieldCollection::class, $collection);

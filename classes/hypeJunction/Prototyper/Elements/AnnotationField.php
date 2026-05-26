@@ -29,7 +29,7 @@ class AnnotationField extends Field {
 				$values[$i] = $ann;
 			}
 		} else if ($entity->guid) {
-			$values = elgg_get_annotations([
+			$values = \elgg_get_annotations([
 				'guids' => (int) $entity->guid,
 				'metadata_names' => $this->getShortname(),
 				'limit' => 0,
@@ -53,11 +53,11 @@ class AnnotationField extends Field {
 		$validation = new ValidationStatus();
 
 		$annotation = get_input($this->getShortname(), []);
-		$keys = array_keys(elgg_extract('value', $annotation, []));
+		$keys = array_keys(\elgg_extract('value', $annotation, []));
 
 		if (empty($keys)) {
 			if ($this->isRequired()) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:required', [$this->getLabel()]));
+				$validation->setFail(\elgg_echo('prototyper:validate:error:required', [$this->getLabel()]));
 			}
 		} else {
 			foreach ($keys as $i) {
@@ -70,7 +70,7 @@ class AnnotationField extends Field {
 
 					if (is_null($value) || $value == '') {
 						if ($this->isRequired()) {
-							$validation->setFail(elgg_echo('prototyper:validate:error:required', [$this->getLabel()]));
+							$validation->setFail(\elgg_echo('prototyper:validate:error:required', [$this->getLabel()]));
 						}
 					} else {
 						$validation = $this->applyValidationRules($value, $validation, $entity);
@@ -89,7 +89,7 @@ class AnnotationField extends Field {
 
 		$shortname = $this->getShortname();
 
-		$current_annotations = elgg_get_annotations([
+		$current_annotations = \elgg_get_annotations([
 			'guids' => (int) $entity->guid,
 			'annotation_names' => $shortname,
 		]);
@@ -115,18 +115,18 @@ class AnnotationField extends Field {
 		];
 
 		// Allow plugins to prevent annotation from being changed
-		if (!elgg_trigger_event_results('handle:annotation:before', 'prototyper', $params, true)) {
+		if (!\elgg_trigger_event_results('handle:annotation:before', 'prototyper', $params, true)) {
 			return $entity;
 		}
 
-		$future_annotations_ids = elgg_extract('id', $future_annotations, []);
+		$future_annotations_ids = \elgg_extract('id', $future_annotations, []);
 
 		$to_delete = array_diff($current_annotations_ids, $future_annotations_ids);
 		foreach ($to_delete as $id) {
-			elgg_delete_annotation_by_id($id);
+			\elgg_delete_annotation_by_id($id);
 		}
 
-		$keys = array_keys(elgg_extract('name', $future_annotations, []));
+		$keys = array_keys(\elgg_extract('name', $future_annotations, []));
 
 		$ids = [];
 		foreach ($keys as $i) {
@@ -134,7 +134,7 @@ class AnnotationField extends Field {
 			$name = $future_annotations['name'][$i];
 			$value = $future_annotations['value'][$i];
 			if ($this->getValueType() == 'tags') {
-				$value = elgg_string_to_array($value);
+				$value = \elgg_string_to_array($value);
 			}
 
 			$access_id = $future_annotations['access_id'][$i];
@@ -150,7 +150,7 @@ class AnnotationField extends Field {
 				$ids[] = $id;
 			} else {
 				if ($id) {
-					elgg_delete_annotation_by_id($id);
+					\elgg_delete_annotation_by_id($id);
 				}
 
 				foreach ($value as $val) {
@@ -163,11 +163,11 @@ class AnnotationField extends Field {
 			'field' => $this,
 			'entity' => $entity,
 			'annotation_name' => $shortname,
-			'value' => (count($ids)) ? elgg_get_annotations(['annotation_ids' => $ids]) : [],
+			'value' => (count($ids)) ? \elgg_get_annotations(['annotation_ids' => $ids]) : [],
 			'previous_value' => $current_annotations,
 		];
 
-		elgg_trigger_event_results('handle:annotation:after', 'prototyper', $params, true);
+		\elgg_trigger_event_results('handle:annotation:after', 'prototyper', $params, true);
 
 		return $entity;
 	}

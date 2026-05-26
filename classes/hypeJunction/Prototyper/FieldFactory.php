@@ -48,7 +48,7 @@ class FieldFactory {
 
 		$options = array_merge($defaults, $options);
 
-		$classname = elgg_extract('class_name', $options);
+		$classname = \elgg_extract('class_name', $options);
 		if (class_exists($classname)) {
 			return new $classname($options);
 		}

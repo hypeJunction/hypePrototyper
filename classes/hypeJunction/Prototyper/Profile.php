@@ -39,7 +39,7 @@ class Profile {
 		$entity = $this->entityFactory->build($entity);
 		$fields = $this->prototype->fields($entity, $action, $params)
 				->filter(function(Elements\Field $field) {
-					return (!$field->isAdminOnly() || elgg_is_admin_logged_in());
+					return (!$field->isAdminOnly() || \elgg_is_admin_logged_in());
 				})
 				->sort();
 

@@ -69,7 +69,7 @@ final class Plugin extends \hypeJunction\Plugin {
 	 */
 	public static function factory() {
 		if (self::$instance === null) {
-			$plugin = elgg_get_plugin_from_id('hypeprototyper');
+			$plugin = \elgg_get_plugin_from_id('hypeprototyper');
 			self::$instance = new self($plugin);
 		}
 
@@ -136,7 +136,7 @@ final class Plugin extends \hypeJunction\Plugin {
 
 		hypePrototyper()->config->registerType('access', Elements\AttributeField::CLASSNAME, [
 			'shortname' => 'access_id',
-			'value' => elgg_get_config('default_access') ?? ACCESS_PUBLIC,
+			'value' => \elgg_get_config('default_access') ?? ACCESS_PUBLIC,
 			'input_view' => 'input/access',
 			'output_view' => 'output/access',
 			'value_type' => 'int',
@@ -255,7 +255,7 @@ final class Plugin extends \hypeJunction\Plugin {
 			]
 		]);
 
-		if (elgg_is_active_plugin('hypeCategories')) {
+		if (\elgg_is_active_plugin('hypeCategories')) {
 			hypePrototyper()->config->registerType('category', Elements\CategoryField::CLASSNAME, [
 				'value_type' => 'guid',
 				'inverse_relationship' => false,

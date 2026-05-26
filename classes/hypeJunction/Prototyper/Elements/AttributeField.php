@@ -60,7 +60,7 @@ class AttributeField extends Field {
 
 		if (is_null($value) || $value == '') {
 			if ($this->isRequired()) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:required', [$this->getLabel()]));
+				$validation->setFail(\elgg_echo('prototyper:validate:error:required', [$this->getLabel()]));
 			}
 		} else {
 			$validation = $this->applyValidationRules($value, $validation, $entity);

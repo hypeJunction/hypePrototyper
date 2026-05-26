@@ -17,7 +17,7 @@ class UploadField extends Field {
 	 * {@inheritdoc}
 	 */
 	public function getValues(ElggEntity $entity) {
-		$files = elgg_get_entities(['type' => 'object', 'subtype' => 'file', 'container_guids' => (int) $entity->guid, 'metadata_name_value_pairs' => ['name' => 'prototyper_field', 'value' => $this->getShortname()], 'limit' => 1]);
+		$files = \elgg_get_entities(['type' => 'object', 'subtype' => 'file', 'container_guids' => (int) $entity->guid, 'metadata_name_value_pairs' => ['name' => 'prototyper_field', 'value' => $this->getShortname()], 'limit' => 1]);
 		return $files ? $files[0] : false;
 	}
 
@@ -27,15 +27,15 @@ class UploadField extends Field {
 	public function validate(ElggEntity $entity) {
 		$shortname = $this->getShortname();
 		$validation = new ValidationStatus();
-		$value = elgg_extract($shortname, $_FILES, []);
-		$error_type = (int) elgg_extract('error', $value, UPLOAD_ERR_NO_FILE);
+		$value = \elgg_extract($shortname, $_FILES, []);
+		$error_type = (int) \elgg_extract('error', $value, UPLOAD_ERR_NO_FILE);
 		$has_uploaded_file = $error_type != UPLOAD_ERR_NO_FILE;
 		if (!$has_uploaded_file) {
 			if ($this->isRequired() && empty($this->getValues($entity))) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:required', [$this->getLabel()]));
+				$validation->setFail(\elgg_echo('prototyper:validate:error:required', [$this->getLabel()]));
 			}
 		} else {
-			$error = elgg_get_friendly_upload_error($error_type);
+			$error = \elgg_get_friendly_upload_error($error_type);
 			if ($error) {
 				$validation->setFail($error);
 			} else {
@@ -53,7 +53,7 @@ class UploadField extends Field {
 		$shortname = $this->getShortname();
 		$future_value = $_FILES[$shortname];
 		$value = $_FILES[$shortname];
-		$error_type = elgg_extract('error', $value);
+		$error_type = \elgg_extract('error', $value);
 		$has_uploaded_file = $error_type != UPLOAD_ERR_NO_FILE;
 		if (!$has_uploaded_file) {
 			return $entity;
@@ -61,7 +61,7 @@ class UploadField extends Field {
 
 		$params = ['field' => $this, 'entity' => $entity, 'upload_name' => $shortname, 'future_value' => $future_value];
 		// Allow plugins to prevent files from being uploaded
-		if (!elgg_trigger_event_results('handle:upload:before', 'prototyper', $params, true)) {
+		if (!\elgg_trigger_event_results('handle:upload:before', 'prototyper', $params, true)) {
 			return $entity;
 		}
 
@@ -90,7 +90,7 @@ class UploadField extends Field {
 
 			$mime = (new MimeTypeDetector())->getType($file->getFilenameOnFilestore(), $uploaded_file->getClientMimeType());
 			$file->setMimeType($mime);
-			$file->simpletype = elgg_get_file_simple_type($mime);
+			$file->simpletype = \elgg_get_file_simple_type($mime);
 
 			if ($file->save()) {
 				$result[] = $file;
@@ -104,7 +104,7 @@ class UploadField extends Field {
 		/* @var $result ElggFile[] */
 		$future_value = $result[0];
 		$params = ['field' => $this, 'entity' => $entity, 'upload_name' => $shortname, 'value' => $future_value];
-		elgg_trigger_event_results('handle:upload:after', 'prototyper', $params, $result);
+		\elgg_trigger_event_results('handle:upload:after', 'prototyper', $params, $result);
 		return $entity;
 	}
 
