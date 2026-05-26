@@ -75,7 +75,7 @@ class Profile {
 
 			$field_view = $field->viewOutput($vars);
 			if ($field_view) {
-				$output .= elgg_format_element('div', array(
+				$output .= \elgg_format_element('div', array(
 					'class' => 'prototyper-output',
 						), $field_view);
 			}

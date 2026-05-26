@@ -30,7 +30,7 @@ class RelationshipField extends Field
         $values = array();
         if (!$sticky) {
             if ($entity->guid) {
-                $entities = elgg_get_entities(array('relationship_guid' => $entity->guid, 'relationship' => $this->getShortname(), 'inverse_relationship' => $this->inverse_relationship, 'limit' => 0, 'callback' => false));
+                $entities = \elgg_get_entities(array('relationship_guid' => $entity->guid, 'relationship' => $this->getShortname(), 'inverse_relationship' => $this->inverse_relationship, 'limit' => 0, 'callback' => false));
                 if (is_array($entities) && count($entities)) {
                     foreach ($entities as $entity) {
                         $values[] = $entity->guid;
@@ -49,7 +49,7 @@ class RelationshipField extends Field
         $validation = new ValidationStatus();
         $value = array_filter((array) get_input($this->getShortname(), array()));
         if ($this->isRequired() && (!$value || !count($value))) {
-            $validation->setFail(elgg_echo('prototyper:validate:error:required', array($this->getLabel())));
+            $validation->setFail(\elgg_echo('prototyper:validate:error:required', array($this->getLabel())));
         }
         if (is_array($value)) {
             foreach ($value as $val) {
@@ -63,7 +63,7 @@ class RelationshipField extends Field
      */
     public function handle(\ElggEntity $entity) {
         $shortname = $this->getShortname();
-        $current_relationships = elgg_get_entities(array('relationship_guid' => (int) $entity->guid, 'relationship' => $shortname, 'inverse_relationship' => $this->inverse_relationship, 'limit' => 0, 'callback' => false));
+        $current_relationships = \elgg_get_entities(array('relationship_guid' => (int) $entity->guid, 'relationship' => $shortname, 'inverse_relationship' => $this->inverse_relationship, 'limit' => 0, 'callback' => false));
         $current_relationships_ids = array();
         if (is_array($current_relationships) && count($current_relationships)) {
             foreach ($current_relationships as $rel) {
@@ -76,7 +76,7 @@ class RelationshipField extends Field
         }
         $params = array('field' => $this, 'entity' => $entity, 'relationship' => $shortname, 'value' => $current_relationships_ids, 'future_value' => $future_relationships_ids);
         // Allow plugins to prevent relationship from being changed
-        if (!elgg_trigger_plugin_hook('handle:relationship:before', 'prototyper', $params, true)) {
+        if (!\elgg_trigger_plugin_hook('handle:relationship:before', 'prototyper', $params, true)) {
             return $entity;
         }
         $to_delete = array_diff($current_relationships_ids, $future_relationships_ids);
@@ -101,7 +101,7 @@ class RelationshipField extends Field
             }
         }
         $params = array('field' => $this, 'entity' => $entity, 'relationship_name' => $shortname, 'value' => $future_relationships_ids, 'previous_value' => $current_relationships_ids);
-        elgg_trigger_plugin_hook('handle:relationship:after', 'prototyper', $params, true);
+        \elgg_trigger_plugin_hook('handle:relationship:after', 'prototyper', $params, true);
         return $entity;
     }
     /**

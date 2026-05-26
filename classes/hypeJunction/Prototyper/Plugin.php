@@ -69,7 +69,7 @@ $this->setFactory('profile', function(Plugin $p) {
 	 */
 	public static function factory() {
 		if (null === self::$instance) {
-			$plugin = elgg_get_plugin_from_id('hypeprototyper');
+			$plugin = \elgg_get_plugin_from_id('hypeprototyper');
 			self::$instance = new self($plugin);
 		}
 		return self::$instance;
@@ -252,7 +252,7 @@ hypePrototyper()->config->registerType('friendspicker', Elements\RelationshipFie
 			)
 		));
 
-		if (elgg_is_active_plugin('hypeCategories')) {
+		if (\elgg_is_active_plugin('hypeCategories')) {
 hypePrototyper()->config->registerType('category', Elements\CategoryField::CLASSNAME, array(
 				'value_type' => 'guid',
 				'inverse_relationship' => false,

@@ -98,7 +98,7 @@ set_input('bio', [
 		$field = new MetadataField(['shortname' => 'bio']);
 		$field->handle($entity);
 
-$mds = elgg_get_metadata([
+$mds = \elgg_get_metadata([
 			'guids' => (int) $entity->guid,
 			'metadata_names' => 'bio',
 			'limit' => 0,
@@ -145,7 +145,7 @@ $entity = $this->createObject([
 			return $status;
 		};
 
-		elgg_register_plugin_hook_handler('validate:type', 'prototyper', $handler);
+		\elgg_register_plugin_hook_handler('validate:type', 'prototyper', $handler);
 
 		$field = new MetadataField(['shortname' => 'bio']);
 		$field->addValidationRule('type', 'text');
@@ -156,7 +156,7 @@ $entity = $this->createObject([
 		$this->assertFalse($result->getStatus());
 		$this->assertContains('from-hook', $result->getMessages());
 
-		elgg_unregister_plugin_hook_handler('validate:type', 'prototyper', $handler);
+		\elgg_unregister_plugin_hook_handler('validate:type', 'prototyper', $handler);
 	}
 
 	public function testMetadataFieldGetValuesReturnsFromEntity(): void {

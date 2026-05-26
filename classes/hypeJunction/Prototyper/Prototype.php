@@ -55,7 +55,7 @@ class Prototype {
 		$entity = $this->entityFactory->build($entity);
 		if ($entity instanceof \ElggEntity) {
 			$params['entity'] = $entity;
-			$fields = (array) elgg_trigger_plugin_hook('prototype', $action, $params, array());
+			$fields = (array) \elgg_trigger_plugin_hook('prototype', $action, $params, array());
 
 			$attribute_names = $this->entityFactory->getAttributeNames($entity);
 			if (!$entity->guid) {
@@ -96,7 +96,7 @@ class Prototype {
 	 * @return bool
 	 */
 	public function saveStickyValues($action = '') {
-		return elgg_make_sticky_form($action);
+		return \elgg_make_sticky_form($action);
 	}
 
 	/**
@@ -106,7 +106,7 @@ class Prototype {
 	 * @return type
 	 */
 	public function clearStickyValues($action = '') {
-		return elgg_clear_sticky_form($action);
+		return \elgg_clear_sticky_form($action);
 	}
 
 	/**
@@ -116,7 +116,7 @@ class Prototype {
 	 * @return mixed
 	 */
 	public function getStickyValues($action = '') {
-		return elgg_get_sticky_values($action);
+		return \elgg_get_sticky_values($action);
 	}
 
 	/**

@@ -26,7 +26,7 @@ class MetadataField extends Field {
 				$values[$i] = $md;
 			}
 		} else if ($entity->guid) {
-$values = elgg_get_metadata(array(
+$values = \elgg_get_metadata(array(
 				'guids' => (int) $entity->guid,
 				'metadata_names' => $this->getShortname(),
 				'limit' => 0,
@@ -50,11 +50,11 @@ $values = elgg_get_metadata(array(
 		$validation = new ValidationStatus();
 
 		$metadata = get_input($this->getShortname(), array());
-		$keys = array_keys(elgg_extract('value', $metadata, array()));
+		$keys = array_keys(\elgg_extract('value', $metadata, array()));
 
 		if (empty($keys)) {
 			if ($this->isRequired()) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:required', array($this->getLabel())));
+				$validation->setFail(\elgg_echo('prototyper:validate:error:required', array($this->getLabel())));
 			}
 		} else {
 			foreach ($keys as $i) {
@@ -66,7 +66,7 @@ $values = elgg_get_metadata(array(
 					}
 					if (is_null($value) || $value == '') {
 						if ($this->isRequired()) {
-							$validation->setFail(elgg_echo('prototyper:validate:error:required', array($this->getLabel())));
+							$validation->setFail(\elgg_echo('prototyper:validate:error:required', array($this->getLabel())));
 						}
 					} else {
 						$validation = $this->applyValidationRules($value, $validation, $entity);
@@ -86,7 +86,7 @@ $values = elgg_get_metadata(array(
 		$shortname = $this->getShortname();
 
 		if ($entity->guid) {
-$current_metadata = elgg_get_metadata(array(
+$current_metadata = \elgg_get_metadata(array(
 				'guids' => (int) $entity->guid,
 				'metadata_names' => $shortname,
 				'limit' => 0,
@@ -114,22 +114,22 @@ $current_metadata = elgg_get_metadata(array(
 		);
 
 		// Allow plugins to prevent metadata from being changed
-		if (!elgg_trigger_plugin_hook('handle:metadata:before', 'prototyper', $params, true)) {
+		if (!\elgg_trigger_plugin_hook('handle:metadata:before', 'prototyper', $params, true)) {
 			return $entity;
 		}
 
-		$future_metadata_ids = elgg_extract('id', $future_metadata, array());
+		$future_metadata_ids = \elgg_extract('id', $future_metadata, array());
 
 		$to_delete = array_diff($current_metadata_ids, $future_metadata_ids);
 		if (!empty($to_delete)) {
-elgg_delete_metadata(array(
+\elgg_delete_metadata(array(
 				'guids' => (int) $entity->guid,
 				'metadata_ids' => $to_delete,
 				'limit' => 0,
 			));
 		}
 
-		$keys = array_keys(elgg_extract('name', $future_metadata, array()));
+		$keys = array_keys(\elgg_extract('name', $future_metadata, array()));
 
 		$ids = array();
 		foreach ($keys as $i) {
@@ -140,14 +140,14 @@ elgg_delete_metadata(array(
 			$value_type = $this->getValueType();
 			$input_type = $this->getType();
 			if ($value_type == 'tags' || (!$value_type && $input_type == 'tags')) {
-				$value = elgg_string_to_array($value);
+				$value = \elgg_string_to_array($value);
 			}
 			$access_id = $future_metadata['access_id'][$i];
 			$owner_guid = $future_metadata['owner_guid'][$i];
 
 			if (!is_array($value)) {
 				if ($id) {
-					$md = _elgg_services()->metadataTable->get((int) $id);
+					$md = \_elgg_services()->metadataTable->get((int) $id);
 					if ($md) {
 						$md->value = $value;
 						$md->owner_guid = (int) $owner_guid;
@@ -161,12 +161,12 @@ elgg_delete_metadata(array(
 					$md->value = $value;
 					$md->owner_guid = (int) $owner_guid;
 					$md->access_id = (int) $access_id;
-					$id = _elgg_services()->metadataTable->create($md, true);
+					$id = \_elgg_services()->metadataTable->create($md, true);
 				}
 				$ids[] = $id;
 			} else {
 				if ($id) {
-					elgg_delete_metadata_by_id($id);
+					\elgg_delete_metadata_by_id($id);
 				}
 				foreach ($value as $val) {
 					$md = new \ElggMetadata();
@@ -175,7 +175,7 @@ elgg_delete_metadata(array(
 					$md->value = $val;
 					$md->owner_guid = (int) $owner_guid;
 					$md->access_id = (int) $access_id;
-					$ids[] = _elgg_services()->metadataTable->create($md, true);
+					$ids[] = \_elgg_services()->metadataTable->create($md, true);
 				}
 			}
 		}
@@ -184,11 +184,11 @@ elgg_delete_metadata(array(
 			'field' => $this,
 			'entity' => $entity,
 			'metadata_name' => $shortname,
-			'value' => (count($ids)) ? elgg_get_metadata(array('metadata_ids' => $ids)) : array(),
+			'value' => (count($ids)) ? \elgg_get_metadata(array('metadata_ids' => $ids)) : array(),
 			'previous_value' => $current_metadata,
 		);
 
-		elgg_trigger_plugin_hook('handle:metadata:after', 'prototyper', $params, true);
+		\elgg_trigger_plugin_hook('handle:metadata:after', 'prototyper', $params, true);
 
 		return $entity;
 	}

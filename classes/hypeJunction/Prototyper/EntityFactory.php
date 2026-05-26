@@ -33,11 +33,11 @@ class EntityFactory
         if (!empty($attributes['guid'])) {
             return $this->get($attributes['guid']);
         }
-        $type = elgg_extract('type', $attributes, 'object');
-        $subtype = elgg_extract('subtype', $attributes, ELGG_ENTITIES_ANY_VALUE);
+        $type = \elgg_extract('type', $attributes, 'object');
+        $subtype = \elgg_extract('subtype', $attributes, ELGG_ENTITIES_ANY_VALUE);
         unset($attributes['type']);
         unset($attributes['subtype']);
-        $class = elgg_get_entity_class($type, $subtype);
+        $class = \elgg_get_entity_class($type, $subtype);
         if (class_exists($class)) {
             $entity = new $class();
         } else {
