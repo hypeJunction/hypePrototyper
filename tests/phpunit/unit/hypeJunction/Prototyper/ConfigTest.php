@@ -17,11 +17,17 @@ class ConfigTest extends UnitTestCase {
 	public function up() {}
 	public function down() {}
 
-	private function makeConfig(): Config {
+	/**
+     * @return Config
+     */
+    private function makeConfig(): Config {
 		return (new \ReflectionClass(Config::class))->newInstanceWithoutConstructor();
 	}
 
-	public function testRegisterTypeStoresByDataType(): void {
+	/**
+     * @return void
+     */
+    public function testRegisterTypeStoresByDataType(): void {
 		$config = $this->makeConfig();
 
 		$config->registerType('text', MetadataField::CLASSNAME, ['value_type' => 'text']);
@@ -34,18 +40,27 @@ class ConfigTest extends UnitTestCase {
 		$this->assertSame('text', $definition['value_type']);
 	}
 
-	public function testRegisterTypeIgnoresUnknownClass(): void {
+	/**
+     * @return void
+     */
+    public function testRegisterTypeIgnoresUnknownClass(): void {
 		$config = $this->makeConfig();
 		$config->registerType('ghost', '\\No\\Such\\Class');
 		$this->assertFalse($config->getType('metadata', 'ghost'));
 	}
 
-	public function testGetTypeReturnsFalseForMissing(): void {
+	/**
+     * @return void
+     */
+    public function testGetTypeReturnsFalseForMissing(): void {
 		$config = $this->makeConfig();
 		$this->assertFalse($config->getType('metadata', 'nope'));
 	}
 
-	public function testRegisterSameTypeOnDifferentDataTypesCoexists(): void {
+	/**
+     * @return void
+     */
+    public function testRegisterSameTypeOnDifferentDataTypesCoexists(): void {
 		$config = $this->makeConfig();
 		$config->registerType('stars', MetadataField::CLASSNAME);
 		$config->registerType('stars', AnnotationField::CLASSNAME);
@@ -57,7 +72,10 @@ class ConfigTest extends UnitTestCase {
 		$this->assertSame(AnnotationField::CLASSNAME, $ann['class_name']);
 	}
 
-	public function testGetTypesReturnsAllRegistered(): void {
+	/**
+     * @return void
+     */
+    public function testGetTypesReturnsAllRegistered(): void {
 		$config = $this->makeConfig();
 		$config->registerType('title', AttributeField::CLASSNAME);
 		$config->registerType('text', MetadataField::CLASSNAME);
@@ -69,7 +87,10 @@ class ConfigTest extends UnitTestCase {
 		$this->assertArrayHasKey('text', $types['metadata']);
 	}
 
-	public function testValidationRuleRegistrationRoundTrip(): void {
+	/**
+     * @return void
+     */
+    public function testValidationRuleRegistrationRoundTrip(): void {
 		$config = $this->makeConfig();
 		$config->registerValidationRule('type', ['text', 'int']);
 		$config->registerValidationRule('required');
@@ -80,7 +101,10 @@ class ConfigTest extends UnitTestCase {
 		$this->assertSame(['text', 'int'], $rules['type']);
 	}
 
-	public function testGetDefaultsContainsDefaultLanguage(): void {
+	/**
+     * @return void
+     */
+    public function testGetDefaultsContainsDefaultLanguage(): void {
 		$config = $this->makeConfig();
 		$defaults = $config->getDefaults();
 		$this->assertIsArray($defaults);

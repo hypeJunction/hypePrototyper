@@ -19,11 +19,17 @@ class HookMockTest extends IntegrationTestCase {
 	public function up() {}
 	public function down() {}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return 'hypeprototyper';
 	}
 
-	public function testHandlerReceivesHookMock(): void {
+	/**
+     * @return void
+     */
+    public function testHandlerReceivesHookMock(): void {
 		$field = new MetadataField(['shortname' => 'bio']);
 
 		// Mock the interface — do NOT pass onlyMethods on an interface mock.
@@ -57,8 +63,11 @@ $hook->method('getParam')->willReturnMap([
 		$this->assertContains('rejected', $result->getMessages());
 	}
 
-	public function testPluginSettingRoundTripViaElggPluginApi(): void {
-		// SKILL.md note: elgg_set_plugin_setting() was removed in Elgg 4 —
+	/**
+     * @return void
+     */
+    public function testPluginSettingRoundTripViaElggPluginApi(): void {
+		// SKILL.md note: the removed-in-4.x procedural plugin-setting helper —
 		// use $plugin->setSetting()/->getSetting() instead. This test encodes
 		// that expectation so regressions surface loudly.
 		$plugin = \elgg_get_plugin_from_id('hypeprototyper');

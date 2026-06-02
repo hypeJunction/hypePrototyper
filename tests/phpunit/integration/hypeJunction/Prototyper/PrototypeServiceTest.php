@@ -23,11 +23,17 @@ class PrototypeServiceTest extends IntegrationTestCase {
 		unset($_SESSION['prototyper_validation']);
 	}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return 'hypeprototyper';
 	}
 
-	public function testFieldsReturnsCollectionForNewEntity(): void {
+	/**
+     * @return void
+     */
+    public function testFieldsReturnsCollectionForNewEntity(): void {
 		$prototype = \hypePrototyper()->prototype;
 $collection = $prototype->fields([
 			'type' => 'object',
@@ -37,7 +43,10 @@ $collection = $prototype->fields([
 		$this->assertInstanceOf(FieldCollection::class, $collection);
 	}
 
-	public function testFieldsIncludesHiddenAttributeFieldsForNewEntity(): void {
+	/**
+     * @return void
+     */
+    public function testFieldsIncludesHiddenAttributeFieldsForNewEntity(): void {
 		$prototype = \hypePrototyper()->prototype;
 
 		$fired = false;
@@ -60,7 +69,10 @@ $collection = $prototype->fields([
 		$this->assertInstanceOf(FieldCollection::class, $collection);
 	}
 
-	public function testFieldValidationStatusRoundTrip(): void {
+	/**
+     * @return void
+     */
+    public function testFieldValidationStatusRoundTrip(): void {
 		$prototype = \hypePrototyper()->prototype;
 
 		$status = new ValidationStatus(false, ['required']);

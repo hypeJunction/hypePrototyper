@@ -20,7 +20,7 @@ $multiple = $field->isMultiple();
 $type = $field->getType();
 
 if ($required) {
-$label_attrs = elgg_format_attributes(array(
+$label_attrs = _elgg_services()->html_formatter->formatAttributes(array(
 		'class' => 'required',
 		'title' => elgg_echo('prototyper:required')
 	));

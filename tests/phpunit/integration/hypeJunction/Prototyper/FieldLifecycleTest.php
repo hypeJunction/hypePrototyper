@@ -16,11 +16,17 @@ class FieldLifecycleTest extends IntegrationTestCase {
 	public function up() {}
 	public function down() {}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return 'hypeprototyper';
 	}
 
-	public function testAttributeFieldHandleSetsEntityAttribute(): void {
+	/**
+     * @return void
+     */
+    public function testAttributeFieldHandleSetsEntityAttribute(): void {
 		$owner = $this->createUser();
 $entity = $this->createObject([
 			'subtype' => 'prototyper_test',
@@ -38,7 +44,10 @@ $entity = $this->createObject([
 		set_input('title', null);
 	}
 
-	public function testAttributeFieldValidateFailsWhenRequiredMissing(): void {
+	/**
+     * @return void
+     */
+    public function testAttributeFieldValidateFailsWhenRequiredMissing(): void {
 		$owner = $this->createUser();
 $entity = $this->createObject([
 			'subtype' => 'prototyper_test',
@@ -61,7 +70,10 @@ $field = new AttributeField([
 		set_input('title', null);
 	}
 
-	public function testAttributeFieldValidatePassesWhenValuePresent(): void {
+	/**
+     * @return void
+     */
+    public function testAttributeFieldValidatePassesWhenValuePresent(): void {
 		$owner = $this->createUser();
 $entity = $this->createObject([
 			'subtype' => 'prototyper_test',
@@ -80,7 +92,10 @@ $field = new AttributeField([
 		set_input('title', null);
 	}
 
-	public function testMetadataFieldHandlePersists(): void {
+	/**
+     * @return void
+     */
+    public function testMetadataFieldHandlePersists(): void {
 		$owner = $this->createUser();
 $entity = $this->createObject([
 			'subtype' => 'prototyper_test',
@@ -109,7 +124,10 @@ $mds = \elgg_get_metadata([
 		set_input('bio', null);
 	}
 
-	public function testMetadataFieldValidateFailsWhenRequiredEmpty(): void {
+	/**
+     * @return void
+     */
+    public function testMetadataFieldValidateFailsWhenRequiredEmpty(): void {
 		$owner = $this->createUser();
 $entity = $this->createObject([
 			'subtype' => 'prototyper_test',
@@ -129,7 +147,10 @@ $field = new MetadataField([
 		set_input('bio', null);
 	}
 
-	public function testApplyValidationRulesTriggersHook(): void {
+	/**
+     * @return void
+     */
+    public function testApplyValidationRulesTriggersHook(): void {
 		$owner = $this->createUser();
 $entity = $this->createObject([
 			'subtype' => 'prototyper_test',
@@ -159,7 +180,10 @@ $entity = $this->createObject([
 		\elgg_unregister_plugin_hook_handler('validate:type', 'prototyper', $handler);
 	}
 
-	public function testMetadataFieldGetValuesReturnsFromEntity(): void {
+	/**
+     * @return void
+     */
+    public function testMetadataFieldGetValuesReturnsFromEntity(): void {
 		$owner = $this->createUser();
 $entity = $this->createObject([
 			'subtype' => 'prototyper_test',
