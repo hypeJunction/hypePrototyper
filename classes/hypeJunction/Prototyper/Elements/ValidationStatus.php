@@ -7,9 +7,11 @@ namespace hypeJunction\Prototyper\Elements;
  */
 class ValidationStatus {
 
-	protected $status;
+	/** @var mixed */
+    protected $status;
 
-	protected $messages = [];
+	/** @var mixed */
+    protected $messages = [];
 
 	/**
 	 * Constructor

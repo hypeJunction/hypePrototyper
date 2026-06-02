@@ -7,11 +7,14 @@ namespace hypeJunction\Prototyper;
  */
 class Form {
 
-	private $config;
+	/** @var mixed */
+    private $config;
 
-	private $prototype;
+	/** @var mixed */
+    private $prototype;
 
-	private $entityFactory;
+	/** @var mixed */
+    private $entityFactory;
 
 	/**
 	 * Constructor

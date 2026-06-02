@@ -16,7 +16,11 @@ class FieldTest extends UnitTestCase {
 	public function up() {}
 	public function down() {}
 
-	private function makeField(array $options = []): Field {
+	/**
+     * @param array $options
+     * @return Field
+     */
+    private function makeField(array $options = []): Field {
 		// Abstract mock: auto-stubs interface methods. DO NOT pass onlyMethods
 		// unless we need to stub CONCRETE methods on the parent.
 		$mock = $this->getMockBuilder(Field::class)
@@ -28,7 +32,10 @@ class FieldTest extends UnitTestCase {
 		return $mock;
 	}
 
-	public function testConstructorAppliesOptions(): void {
+	/**
+     * @return void
+     */
+    public function testConstructorAppliesOptions(): void {
 $field = $this->makeField([
 			'shortname' => 'bio',
 			'type' => 'longtext',
@@ -40,12 +47,18 @@ $field = $this->makeField([
 		$this->assertSame('text', $field->getValueType());
 	}
 
-	public function testGetTypeDefaultsToText(): void {
+	/**
+     * @return void
+     */
+    public function testGetTypeDefaultsToText(): void {
 		$field = $this->makeField();
 		$this->assertSame('text', $field->getType());
 	}
 
-	public function testSetValueTypeSeedsTypeValidationRule(): void {
+	/**
+     * @return void
+     */
+    public function testSetValueTypeSeedsTypeValidationRule(): void {
 		$field = $this->makeField();
 		$field->setValueType('int');
 		$rules = $field->getValidationRules();
@@ -53,21 +66,30 @@ $field = $this->makeField([
 		$this->assertSame('int', $rules['type']);
 	}
 
-	public function testAddValidationRuleIgnoresEmpty(): void {
+	/**
+     * @return void
+     */
+    public function testAddValidationRuleIgnoresEmpty(): void {
 		$field = $this->makeField();
 		$field->addValidationRule('', 'whatever');
 		$field->addValidationRule('maxlen', '');
 		$this->assertSame([], $field->getValidationRules());
 	}
 
-	public function testAddValidationRuleStores(): void {
+	/**
+     * @return void
+     */
+    public function testAddValidationRuleStores(): void {
 		$field = $this->makeField();
 		$field->addValidationRule('maxlen', 50);
 		$this->assertSame(50, $field->getValidationRule('maxlen'));
 		$this->assertFalse($field->getValidationRule('minlen'));
 	}
 
-	public function testValidationRulesFromConstructorArray(): void {
+	/**
+     * @return void
+     */
+    public function testValidationRulesFromConstructorArray(): void {
 $field = $this->makeField([
 			'validation_rules' => [
 				'required' => true,
@@ -78,7 +100,10 @@ $field = $this->makeField([
 		$this->assertSame(200, $field->getValidationRule('maxlen'));
 	}
 
-	public function testSetValidationStoresStatus(): void {
+	/**
+     * @return void
+     */
+    public function testSetValidationStoresStatus(): void {
 		$field = $this->makeField();
 		$field->setValidation(false, ['boom']);
 		$status = $field->getValidation();
@@ -89,20 +114,29 @@ $field = $this->makeField([
 		$this->assertSame(['boom'], $field->getValidationMessages());
 	}
 
-	public function testGetValidationReturnsEmptyWhenUnset(): void {
+	/**
+     * @return void
+     */
+    public function testGetValidationReturnsEmptyWhenUnset(): void {
 		$field = $this->makeField();
 		$this->assertInstanceOf(ValidationStatus::class, $field->getValidation());
 		$this->assertTrue($field->isValid());
 	}
 
-	public function testStickyValueRoundTrip(): void {
+	/**
+     * @return void
+     */
+    public function testStickyValueRoundTrip(): void {
 		$field = $this->makeField();
 		$this->assertNull($field->getStickyValue());
 		$field->setStickyValue(['name' => ['x'], 'value' => ['y']]);
 		$this->assertSame(['name' => ['x'], 'value' => ['y']], $field->getStickyValue());
 	}
 
-	public function testFlagsFromStringSplit(): void {
+	/**
+     * @return void
+     */
+    public function testFlagsFromStringSplit(): void {
 		$field = $this->makeField(['flags' => 'a, b, c']);
 		$flags = $field->getFlags();
 		$this->assertContains('a', $flags);
@@ -110,56 +144,86 @@ $field = $this->makeField([
 		$this->assertContains('c', $flags);
 	}
 
-	public function testFlagsFromArray(): void {
+	/**
+     * @return void
+     */
+    public function testFlagsFromArray(): void {
 		$field = $this->makeField(['flags' => ['foo', 'bar']]);
 		$this->assertSame(['foo', 'bar'], $field->getFlags());
 	}
 
-	public function testUnknownOptionGoesToInputVars(): void {
+	/**
+     * @return void
+     */
+    public function testUnknownOptionGoesToInputVars(): void {
 		$field = $this->makeField(['placeholder' => 'type here']);
 		$inputVars = $field->get('input_vars');
 		$this->assertSame('type here', $inputVars->placeholder);
 	}
 
-	public function testBcDataIconSizesMapsToInputVars(): void {
+	/**
+     * @return void
+     */
+    public function testBcDataIconSizesMapsToInputVars(): void {
 		$field = $this->makeField(['data-icon-sizes' => '100x100']);
 		$inputVars = $field->get('input_vars');
 		$this->assertSame('100x100', $inputVars->icon_sizes);
 	}
 
-	public function testIsRequiredReadsInputVars(): void {
+	/**
+     * @return void
+     */
+    public function testIsRequiredReadsInputVars(): void {
 		$field = $this->makeField(['required' => true]);
 		$this->assertTrue((bool) $field->isRequired());
 	}
 
-	public function testAdminOnlyHiddenOnProfileMultipleDefaults(): void {
+	/**
+     * @return void
+     */
+    public function testAdminOnlyHiddenOnProfileMultipleDefaults(): void {
 		$field = $this->makeField();
 		$this->assertNotTrue($field->isAdminOnly());
 		$this->assertNotTrue($field->isHiddenOnProfile());
 		$this->assertNotTrue($field->isMultiple());
 	}
 
-	public function testHasAccessInputDefaultFalse(): void {
+	/**
+     * @return void
+     */
+    public function testHasAccessInputDefaultFalse(): void {
 		$field = $this->makeField();
 		$this->assertFalse($field->hasAccessInput());
 	}
 
-	public function testInputViewFallsBackToTypeConvention(): void {
+	/**
+     * @return void
+     */
+    public function testInputViewFallsBackToTypeConvention(): void {
 		$field = $this->makeField(['type' => 'text']);
 		$this->assertSame('input/text', $field->getInputView());
 	}
 
-	public function testInputViewHonoursOverride(): void {
+	/**
+     * @return void
+     */
+    public function testInputViewHonoursOverride(): void {
 		$field = $this->makeField(['type' => 'text', 'input_view' => 'custom/input']);
 		$this->assertSame('custom/input', $field->getInputView());
 	}
 
-	public function testOutputViewFallsBackToTypeConvention(): void {
+	/**
+     * @return void
+     */
+    public function testOutputViewFallsBackToTypeConvention(): void {
 		$field = $this->makeField(['type' => 'longtext']);
 		$this->assertSame('output/longtext', $field->getOutputView());
 	}
 
-	public function testGetLabelRawReturnsKey(): void {
+	/**
+     * @return void
+     */
+    public function testGetLabelRawReturnsKey(): void {
 $field = $this->makeField([
 			'shortname' => 'bio',
 		]);
@@ -169,22 +233,34 @@ $field = $this->makeField([
 		$this->assertStringContainsString('bio', $key);
 	}
 
-	public function testGetLabelReturnsFalseWhenDisabled(): void {
+	/**
+     * @return void
+     */
+    public function testGetLabelReturnsFalseWhenDisabled(): void {
 		$field = $this->makeField(['label' => false]);
 		$this->assertFalse($field->getLabel('en'));
 	}
 
-	public function testGetHelpReturnsFalseWhenDisabled(): void {
+	/**
+     * @return void
+     */
+    public function testGetHelpReturnsFalseWhenDisabled(): void {
 		$field = $this->makeField(['help' => false]);
 		$this->assertFalse($field->getHelp('en'));
 	}
 
-	public function testGetLabelRespectsStringOverride(): void {
+	/**
+     * @return void
+     */
+    public function testGetLabelRespectsStringOverride(): void {
 		$field = $this->makeField(['label' => 'Biography']);
 		$this->assertSame('Biography', $field->getLabel('en'));
 	}
 
-	public function testMockWithOnlyMethodsOverridesConcreteLabel(): void {
+	/**
+     * @return void
+     */
+    public function testMockWithOnlyMethodsOverridesConcreteLabel(): void {
 		// Demonstrates the SKILL.md pattern: when you need to stub a concrete
 		// method on the abstract class, pass it via onlyMethods. Without it,
 		// getMockForAbstractClass would only stub abstract methods and trying
@@ -204,7 +280,10 @@ $field = $this->makeField([
 		$this->assertSame('stub', $mock->getShortname());
 	}
 
-	public function testGetSetRoundTripOnKnownProperty(): void {
+	/**
+     * @return void
+     */
+    public function testGetSetRoundTripOnKnownProperty(): void {
 		$field = $this->makeField();
 		$field->set('priority', 123);
 		$this->assertSame(123, $field->get('priority'));

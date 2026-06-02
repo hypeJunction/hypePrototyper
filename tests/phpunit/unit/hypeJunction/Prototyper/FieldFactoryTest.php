@@ -14,11 +14,17 @@ class FieldFactoryTest extends UnitTestCase {
 	public function up() {}
 	public function down() {}
 
-	private function makeConfig(): Config {
+	/**
+     * @return Config
+     */
+    private function makeConfig(): Config {
 		return (new \ReflectionClass(Config::class))->newInstanceWithoutConstructor();
 	}
 
-	public function testBuildFromStringShortcutResolvesDefaultDataType(): void {
+	/**
+     * @return void
+     */
+    public function testBuildFromStringShortcutResolvesDefaultDataType(): void {
 		$config = $this->makeConfig();
 		$config->registerType('text', MetadataField::CLASSNAME);
 
@@ -29,7 +35,10 @@ class FieldFactoryTest extends UnitTestCase {
 		$this->assertSame('text', $field->getType());
 	}
 
-	public function testBuildFallsBackToTextWhenInvalidArgument(): void {
+	/**
+     * @return void
+     */
+    public function testBuildFallsBackToTextWhenInvalidArgument(): void {
 		$config = $this->makeConfig();
 		$config->registerType('text', MetadataField::CLASSNAME);
 
@@ -39,7 +48,10 @@ class FieldFactoryTest extends UnitTestCase {
 		$this->assertInstanceOf(MetadataField::class, $field);
 	}
 
-	public function testBuildMergesDefaultsWithOverrides(): void {
+	/**
+     * @return void
+     */
+    public function testBuildMergesDefaultsWithOverrides(): void {
 		$config = $this->makeConfig();
 $config->registerType('text', MetadataField::CLASSNAME, [
 			'value_type' => 'text',
@@ -57,7 +69,10 @@ $field = $factory->build([
 		$this->assertSame('text', $field->getValueType());
 	}
 
-	public function testBuildReturnsFalseWhenClassNotRegistered(): void {
+	/**
+     * @return void
+     */
+    public function testBuildReturnsFalseWhenClassNotRegistered(): void {
 		$config = $this->makeConfig();
 		$factory = new FieldFactory($config);
 
@@ -65,7 +80,10 @@ $field = $factory->build([
 		$this->assertFalse($field);
 	}
 
-	public function testBuildRespectsExplicitDataType(): void {
+	/**
+     * @return void
+     */
+    public function testBuildRespectsExplicitDataType(): void {
 		$config = $this->makeConfig();
 $config->registerType('title', AttributeField::CLASSNAME, [
 			'shortname' => 'title',

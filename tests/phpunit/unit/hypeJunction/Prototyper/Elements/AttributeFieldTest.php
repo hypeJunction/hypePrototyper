@@ -15,32 +15,50 @@ class AttributeFieldTest extends UnitTestCase {
 	public function up() {}
 	public function down() {}
 
-	public function testDataTypeIsAttribute(): void {
+	/**
+     * @return void
+     */
+    public function testDataTypeIsAttribute(): void {
 		$this->assertSame('attribute', AttributeField::getDataType());
 	}
 
-	public function testIsMultipleIsAlwaysFalse(): void {
+	/**
+     * @return void
+     */
+    public function testIsMultipleIsAlwaysFalse(): void {
 		$f = new AttributeField(['multiple' => true]);
 		$this->assertFalse($f->isMultiple());
 	}
 
-	public function testHasAccessInputIsFalse(): void {
+	/**
+     * @return void
+     */
+    public function testHasAccessInputIsFalse(): void {
 		$f = new AttributeField();
 		$this->assertFalse($f->hasAccessInput());
 	}
 
-	public function testShortnameRoundTrip(): void {
+	/**
+     * @return void
+     */
+    public function testShortnameRoundTrip(): void {
 		$f = new AttributeField(['shortname' => 'title']);
 		$this->assertSame('title', $f->getShortname());
 	}
 
-	public function testStickyValueOverridesLookup(): void {
+	/**
+     * @return void
+     */
+    public function testStickyValueOverridesLookup(): void {
 		$f = new AttributeField(['shortname' => 'title']);
 		$f->setStickyValue('from-sticky');
 		$this->assertSame('from-sticky', $f->getStickyValue());
 	}
 
-	public function testDataTypesAreDistinctAcrossSubclasses(): void {
+	/**
+     * @return void
+     */
+    public function testDataTypesAreDistinctAcrossSubclasses(): void {
 		$this->assertSame('attribute', AttributeField::getDataType());
 		$this->assertSame('metadata', MetadataField::getDataType());
 		$this->assertSame('annotation', AnnotationField::getDataType());

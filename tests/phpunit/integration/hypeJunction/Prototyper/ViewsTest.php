@@ -13,11 +13,17 @@ class ViewsTest extends IntegrationTestCase {
 	public function up() {}
 	public function down() {}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return 'hypeprototyper';
 	}
 
-	public function inputViewProvider(): array {
+	/**
+     * @return array
+     */
+    public function inputViewProvider(): array {
 		return [
 			['prototyper/input/attribute'],
 			['prototyper/input/metadata'],
@@ -38,7 +44,10 @@ class ViewsTest extends IntegrationTestCase {
 		$this->assertTrue(\elgg_view_exists($view), "Missing view: $view");
 	}
 
-	public function outputViewProvider(): array {
+	/**
+     * @return array
+     */
+    public function outputViewProvider(): array {
 		return [
 			['prototyper/output/attribute'],
 			['prototyper/output/metadata'],
@@ -56,7 +65,10 @@ class ViewsTest extends IntegrationTestCase {
 		$this->assertTrue(\elgg_view_exists($view), "Missing view: $view");
 	}
 
-	public function testCssExtensionRegistered(): void {
+	/**
+     * @return void
+     */
+    public function testCssExtensionRegistered(): void {
 		$this->assertTrue(\elgg_view_exists('css/framework/prototyper/stylesheet'));
 	}
 }

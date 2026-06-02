@@ -7,11 +7,14 @@ namespace hypeJunction\Prototyper\UI;
  */
 class Template {
 
-	protected $data_type;
+	/** @var mixed */
+    protected $data_type;
 
-	protected $input_type;
+	/** @var mixed */
+    protected $input_type;
 	
-	protected $sections = [
+	/** @var mixed */
+    protected $sections = [
 		'required' => true,
 		'adminonly' => true,
 		'access' => true,
