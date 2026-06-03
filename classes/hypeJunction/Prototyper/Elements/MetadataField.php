@@ -171,7 +171,7 @@ class MetadataField extends Field {
 				$ids[] = $id;
 			} else {
 				if ($id) {
-					elgg_delete_metadata_by_id($id);
+					elgg_delete_metadata(['metadata_id' => $id]);
 				}
 
 				foreach ($value as $val) {
