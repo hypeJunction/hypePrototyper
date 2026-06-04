@@ -90,8 +90,7 @@ class UploadField extends Field {
 
 			$mime = (new MimeTypeDetector())->getType($file->getFilenameOnFilestore(), $uploaded_file->getClientMimeType());
 			$file->setMimeType($mime);
-			// TODO(6.x): elgg_get_file_simple_type removed; replace with ElggFile simpletype derivation
-			$file->simpletype = elgg_get_file_simple_type($mime);
+			$file->simpletype = _elgg_services()->mimetype->getSimpleType($mime);
 
 			if ($file->save()) {
 				$result[] = $file;
