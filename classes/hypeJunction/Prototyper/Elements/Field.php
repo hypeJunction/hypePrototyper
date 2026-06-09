@@ -504,7 +504,7 @@ abstract class Field implements FieldProperties, FieldInput, FieldOutput, FieldD
 				], $validation);
 
 				if (!$validation instanceof ValidationStatus) {
-					elgg_log("'validate:$rule,'prototyper' hook must return an instance of ValidationStatus", 'ERROR');
+					elgg_log("'validate:$rule,'prototyper' hook must return an instance of ValidationStatus", 'error');
 					$validation = new ValidationStatus();
 				}
 			}

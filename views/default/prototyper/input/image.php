@@ -67,7 +67,7 @@ echo elgg_view('prototyper/input/before', $vars);
 			<?php
 			$guids = (array) $entity->$name;
 			foreach ($guids as $g) {
-				$file = get_entity($g);
+				$file = $g ? get_entity((int) $g) : null;
 				if (!($file instanceof ElggFile)) {
 					continue;
 				}

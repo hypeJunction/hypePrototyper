@@ -97,24 +97,24 @@ class RelationshipField extends Field {
 		$to_delete = array_diff($current_relationships_ids, $future_relationships_ids);
 		foreach ($to_delete as $guid) {
 			if (!$this->inverse_relationship || $this->bilateral) {
-				remove_entity_relationship($entity->guid, $shortname, $guid);
+				get_entity((int) $entity->guid)?->removeRelationship((int) $guid, $shortname);
 			}
 
 			if ($this->inverse_relationship || $this->bilateral) {
-				remove_entity_relationship($guid, $shortname, $entity->guid);
+				get_entity((int) $guid)?->removeRelationship((int) $entity->guid, $shortname);
 			}
 		}
 
 		foreach ($future_relationships_ids as $guid) {
 			if (!$this->inverse_relationship || $this->bilateral) {
-				if (!(get_entity($entity->guid)?->getRelationship($guid, $shortname) ?? null)) {
-					add_entity_relationship($entity->guid, $shortname, $guid);
+				if (!(get_entity((int) $entity->guid)?->getRelationship((int) $guid, $shortname) ?? null)) {
+					get_entity((int) $entity->guid)?->addRelationship((int) $guid, $shortname);
 				}
 			}
 
 			if ($this->inverse_relationship || $this->bilateral) {
-				if (!(get_entity($guid)?->getRelationship($entity->guid, $shortname) ?? null)) {
-					add_entity_relationship($guid, $shortname, $entity->guid);
+				if (!(get_entity((int) $guid)?->getRelationship((int) $entity->guid, $shortname) ?? null)) {
+					get_entity((int) $guid)?->addRelationship((int) $entity->guid, $shortname);
 				}
 			}
 		}

@@ -14,7 +14,7 @@ class EntityFactory {
 	 * @return \ElggEntity|false
 	 */
 	public function get($guid) {
-		return get_entity($guid);
+		return $guid ? get_entity((int) $guid) : false;
 	}
 
 	/**

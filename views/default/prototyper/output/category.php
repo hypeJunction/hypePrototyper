@@ -25,9 +25,9 @@ if (!count($relationships)) {
 
 if ($relationships) {
 	foreach ($relationships as $guid) {
-		$entity = get_entity($guid);
+		$entity = $guid ? get_entity((int) $guid) : null;
 		if ($entity) {
-			$entities[] = get_entity($guid);
+			$entities[] = $entity;
 		}
 	}
 }
