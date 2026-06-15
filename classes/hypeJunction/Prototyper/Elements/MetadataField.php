@@ -16,18 +16,25 @@ class MetadataField extends Field {
 		$values = [];
 		$sticky = $this->getStickyValue();
 
-		if ($sticky) {
+		if (is_array($sticky) && isset($sticky['value']) && is_array($sticky['value'])) {
+			// Structured metadata sticky shape: parallel arrays keyed by index.
 			$keys = array_keys($sticky['value']);
 			foreach ($keys as $i) {
 				$md = new \stdClass();
-				$md->id = $sticky['id'][$i];
-				$md->name = $sticky['name'][$i];
+				$md->id = $sticky['id'][$i] ?? null;
+				$md->name = $sticky['name'][$i] ?? $this->getShortname();
 				$md->value = $sticky['value'][$i];
-				$md->access_id = $sticky['access_id'][$i];
-				$md->owner_guid = $sticky['owner_guid'][$i];
+				$md->access_id = $sticky['access_id'][$i] ?? ACCESS_DEFAULT;
+				$md->owner_guid = $sticky['owner_guid'][$i] ?? 0;
 
 				$values[$i] = $md;
 			}
+		} else if ($sticky !== null && $sticky !== '' && !is_array($sticky)) {
+			// Scalar sticky value (a single submitted field) — PHP 8 fatals on
+			// $sticky['value'] when $sticky is a string, so handle it explicitly.
+			$md = new \stdClass();
+			$md->value = $sticky;
+			$values[] = $md;
 		} else if ($entity->guid) {
 			$values = elgg_get_metadata([
 				'guids' => (int) $entity->guid,
