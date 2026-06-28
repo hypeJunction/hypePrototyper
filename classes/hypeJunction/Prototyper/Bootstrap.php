@@ -27,7 +27,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 		// importmap alias so the bare import resolves on Elgg 7.
 		elgg_register_esm('framework/prototyper', elgg_get_simplecache_url('js/framework/prototyper.mjs'));
 		// cropper.min.js is a UMD jQuery plugin — load as external files, not ESM
-		elgg_register_external_file('js', 'jquery.cropper', '/mod/hypePrototyper/vendors/jquery.cropper/cropper.min.js');
+		elgg_register_external_file('js', 'jquery.cropper', '/mod/hypeprototyper/vendors/jquery.cropper/cropper.min.js');
 		elgg_register_external_file('css', 'jquery.cropper', elgg_get_simplecache_url('jquery.cropper.css'));
 	}
 }
