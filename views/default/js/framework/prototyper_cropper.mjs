@@ -1,6 +1,10 @@
 import $ from 'jquery';
 
-// cropper.min.js is loaded as an external file (UMD jQuery plugin)
+// cropper.min.js is a UMD jQuery plugin registered as an ESM (see Bootstrap).
+// Elgg 7 jQuery is a deferred module, not a global, so expose it before the UMD
+// wrapper runs — it then resolves $.fn.cropper onto this same jQuery instance.
+window.jQuery = window.$ = $;
+await import('jquery.cropper');
 
 $(document).on('change', '.prototyper-upload-input input[type="file"]', function (e) {
 	var $elem = $(this);
