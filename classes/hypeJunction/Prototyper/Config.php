@@ -29,6 +29,22 @@ class Config {
 	}
 
 	/**
+	 * Returns a config value by name, falling back to a default.
+	 *
+	 * UI::buildPrototypeFromInput() calls $this->config->get('default_language',
+	 * 'en'); the method was missing, which fataled the prototyper save flow.
+	 *
+	 * @param string $name    Config key
+	 * @param mixed  $default Value to return when the key is not set
+	 * @return mixed
+	 */
+	public function get($name, $default = null) {
+		$defaults = $this->getDefaults();
+
+		return array_key_exists($name, $defaults) ? $defaults[$name] : $default;
+	}
+
+	/**
 	 * Define an input type
 	 *
 	 * @param string $type      Input type
@@ -60,6 +76,12 @@ class Config {
 	 * @return boolean|array
 	 */
 	public function getType($data_type = 'metadata', $type = 'text') {
+		// Some callers (legacy plugin code on PHP 8.x strict) pass array values
+		// where strings are expected; isset() throws on array offsets.
+		if (!is_scalar($data_type) || !is_scalar($type)) {
+			return false;
+		}
+
 		if (isset($this->types[$data_type][$type])) {
 			return $this->types[$data_type][$type];
 		}

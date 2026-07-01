@@ -80,6 +80,7 @@ class AttributeField extends Field {
 		} else {
 			$entity->$shortname = $value;
 		}
+
 		return $entity;
 	}
 

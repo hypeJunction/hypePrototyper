@@ -14,7 +14,7 @@ class EntityFactory {
 	 * @return \ElggEntity|false
 	 */
 	public function get($guid) {
-		return get_entity($guid);
+		return $guid ? get_entity((int) $guid) : false;
 	}
 
 	/**
@@ -58,7 +58,7 @@ class EntityFactory {
 					// ElggObject is abstract in Elgg 7.x — a registered entity class is required
 					throw new \InvalidArgumentException(
 						"Cannot create entity of type '{$type}' with subtype '{$subtype}': no entity class registered. " .
-						"Register a class in elgg-plugin.php entities configuration."
+						'Register a class in elgg-plugin.php entities configuration.'
 					);
 				default:
 					throw new \InvalidArgumentException("Unsupported entity type: '{$type}'");

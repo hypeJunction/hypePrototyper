@@ -11,7 +11,7 @@ if (empty($icon_sizes)) {
 elgg_load_external_file('css', 'jquery.cropper');
 elgg_load_external_file('js', 'jquery.cropper');
 
-elgg_import_esm('framework/prototyper_cropper');
+elgg_import_esm('js/framework/prototyper_cropper');
 
 $ratios = [];
 foreach ($icon_sizes as $icon_size) {
